@@ -2,6 +2,18 @@
 // CAMPUSRECOVER - MAIN JAVASCRIPT
 // ============================================================
 
+
+// ============================================================
+// BACKEND API
+// ============================================================
+
+const API_BASE_URL = "http://localhost:3000";
+
+
+// ============================================================
+// PAGE INITIALIZATION
+// ============================================================
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // Common functions
@@ -20,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     displayItemDetails();
     displayClaimItem();
     setupClaimForm();
+
 });
 
 
@@ -33,9 +46,12 @@ function setCurrentYear() {
         document.querySelectorAll(".current-year");
 
     yearElements.forEach(element => {
+
         element.textContent =
             new Date().getFullYear();
+
     });
+
 }
 
 
@@ -57,6 +73,7 @@ function setupLogout() {
         });
 
     });
+
 }
 
 
@@ -73,96 +90,174 @@ function setupFoundForm() {
         return;
     }
 
-    form.addEventListener("submit", function (event) {
 
-        event.preventDefault();
+    form.addEventListener(
+        "submit",
+        async function (event) {
 
-        const itemName =
-            document.getElementById("itemName")?.value.trim();
-
-        const category =
-            document.getElementById("category")?.value;
-
-        const description =
-            document.getElementById("description")?.value.trim();
-
-        const location =
-            document.getElementById("location")?.value.trim();
-
-        const dateFound =
-            document.getElementById("dateFound")?.value;
-
-        const timeFound =
-            document.getElementById("timeFound")?.value;
-
-        const additionalInfo =
-            document.getElementById("additionalInfo")?.value.trim();
+            event.preventDefault();
 
 
-        if (
-            !itemName ||
-            !category ||
-            !description ||
-            !location ||
-            !dateFound
-        ) {
+            const itemName =
+                document
+                    .getElementById("itemName")
+                    ?.value
+                    .trim();
 
-            alert(
-                "Please fill in all required fields."
-            );
 
-            return;
+            const category =
+                document
+                    .getElementById("category")
+                    ?.value;
+
+
+            const description =
+                document
+                    .getElementById("description")
+                    ?.value
+                    .trim();
+
+
+            const location =
+                document
+                    .getElementById("location")
+                    ?.value
+                    .trim();
+
+
+            const dateFound =
+                document
+                    .getElementById("dateFound")
+                    ?.value;
+
+
+            const timeFound =
+                document
+                    .getElementById("timeFound")
+                    ?.value;
+
+
+            const additionalInfo =
+                document
+                    .getElementById("additionalInfo")
+                    ?.value
+                    .trim();
+
+
+            // ------------------------------------------------
+            // VALIDATION
+            // ------------------------------------------------
+
+            if (
+                !itemName ||
+                !category ||
+                !description ||
+                !location ||
+                !dateFound
+            ) {
+
+                alert(
+                    "Please fill in all required fields."
+                );
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // DATA FOR BACKEND
+            // ------------------------------------------------
+
+            const itemData = {
+
+                itemName: itemName,
+
+                category: category,
+
+                description: additionalInfo
+                    ? `${description} Additional information: ${additionalInfo}`
+                    : description,
+
+                location: location,
+
+                date: dateFound,
+
+                time: timeFound || ""
+
+            };
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/found-items`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(itemData)
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Backend error:",
+                        result
+                    );
+
+                    alert(
+                        result.message ||
+                        "Failed to report found item."
+                    );
+
+                    return;
+                }
+
+
+                console.log(
+                    "Found item saved:",
+                    result
+                );
+
+
+                alert(
+                    "Found item reported successfully!"
+                );
+
+
+                window.location.href =
+                    "found-items.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error connecting to backend:",
+                    error
+                );
+
+
+                alert(
+                    "Could not connect to the backend. Please make sure the backend server is running on port 3000."
+                );
+
+            }
+
         }
+    );
 
-
-        const newItem = {
-
-            id: Date.now(),
-
-            itemName: itemName,
-
-            category: category,
-
-            description: description,
-
-            location: location,
-
-            dateFound: dateFound,
-
-            timeFound: timeFound,
-
-            additionalInfo: additionalInfo,
-
-            status: "FOUND",
-
-            createdAt:
-                new Date().toISOString()
-        };
-
-
-        let foundItems =
-            JSON.parse(
-                localStorage.getItem("foundItems")
-            ) || [];
-
-
-        foundItems.push(newItem);
-
-
-        localStorage.setItem(
-            "foundItems",
-            JSON.stringify(foundItems)
-        );
-
-
-        alert(
-            "Found item reported successfully!"
-        );
-
-
-        window.location.href =
-            "found-items.html";
-    });
 }
 
 
@@ -179,97 +274,174 @@ function setupLostForm() {
         return;
     }
 
-    form.addEventListener("submit", function (event) {
 
-        event.preventDefault();
+    form.addEventListener(
+        "submit",
+        async function (event) {
 
-
-        const itemName =
-            document.getElementById("itemName")?.value.trim();
-
-        const category =
-            document.getElementById("category")?.value;
-
-        const description =
-            document.getElementById("description")?.value.trim();
-
-        const location =
-            document.getElementById("location")?.value.trim();
-
-        const lostDate =
-            document.getElementById("lostDate")?.value;
-
-        const lostTime =
-            document.getElementById("lostTime")?.value;
-
-        const additionalInfo =
-            document.getElementById("additionalInfo")?.value.trim();
+            event.preventDefault();
 
 
-        if (
-            !itemName ||
-            !category ||
-            !description ||
-            !location ||
-            !lostDate
-        ) {
+            const itemName =
+                document
+                    .getElementById("itemName")
+                    ?.value
+                    .trim();
 
-            alert(
-                "Please fill in all required fields."
-            );
 
-            return;
+            const category =
+                document
+                    .getElementById("category")
+                    ?.value;
+
+
+            const description =
+                document
+                    .getElementById("description")
+                    ?.value
+                    .trim();
+
+
+            const location =
+                document
+                    .getElementById("location")
+                    ?.value
+                    .trim();
+
+
+            const lostDate =
+                document
+                    .getElementById("lostDate")
+                    ?.value;
+
+
+            const lostTime =
+                document
+                    .getElementById("lostTime")
+                    ?.value;
+
+
+            const additionalInfo =
+                document
+                    .getElementById("additionalInfo")
+                    ?.value
+                    .trim();
+
+
+            // ------------------------------------------------
+            // VALIDATION
+            // ------------------------------------------------
+
+            if (
+                !itemName ||
+                !category ||
+                !description ||
+                !location ||
+                !lostDate
+            ) {
+
+                alert(
+                    "Please fill in all required fields."
+                );
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // DATA FOR BACKEND
+            // ------------------------------------------------
+
+            const itemData = {
+
+                itemName: itemName,
+
+                category: category,
+
+                description: additionalInfo
+                    ? `${description} Additional information: ${additionalInfo}`
+                    : description,
+
+                location: location,
+
+                date: lostDate,
+
+                time: lostTime || ""
+
+            };
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/lost-items`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(itemData)
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Backend error:",
+                        result
+                    );
+
+                    alert(
+                        result.message ||
+                        "Failed to report lost item."
+                    );
+
+                    return;
+                }
+
+
+                console.log(
+                    "Lost item saved:",
+                    result
+                );
+
+
+                alert(
+                    "Lost item reported successfully!"
+                );
+
+
+                window.location.href =
+                    "lost-items.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error connecting to backend:",
+                    error
+                );
+
+
+                alert(
+                    "Could not connect to the backend. Please make sure the backend server is running on port 3000."
+                );
+
+            }
+
         }
+    );
 
-
-        const newItem = {
-
-            id: Date.now(),
-
-            itemName: itemName,
-
-            category: category,
-
-            description: description,
-
-            location: location,
-
-            lostDate: lostDate,
-
-            lostTime: lostTime,
-
-            additionalInfo: additionalInfo,
-
-            status: "LOST",
-
-            createdAt:
-                new Date().toISOString()
-        };
-
-
-        let lostItems =
-            JSON.parse(
-                localStorage.getItem("lostItems")
-            ) || [];
-
-
-        lostItems.push(newItem);
-
-
-        localStorage.setItem(
-            "lostItems",
-            JSON.stringify(lostItems)
-        );
-
-
-        alert(
-            "Lost item reported successfully!"
-        );
-
-
-        window.location.href =
-            "lost-items.html";
-    });
 }
 
 
@@ -277,7 +449,7 @@ function setupLostForm() {
 // DISPLAY FOUND ITEMS
 // ============================================================
 
-function displayFoundItems() {
+async function displayFoundItems() {
 
     const grid =
         document.getElementById("foundItemsGrid");
@@ -290,20 +462,100 @@ function displayFoundItems() {
     const searchInput =
         document.getElementById("foundSearch");
 
+
     const categoryFilter =
         document.getElementById(
             "foundCategoryFilter"
         );
 
+
     const noResults =
         document.getElementById("noFoundItems");
 
 
-    let foundItems =
-        JSON.parse(
-            localStorage.getItem("foundItems")
-        ) || [];
+    let foundItems = [];
 
+
+    // --------------------------------------------------------
+    // GET DATA FROM BACKEND
+    // --------------------------------------------------------
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/found-items`
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to load found items."
+            );
+
+        }
+
+
+        foundItems =
+            result.items ||
+            result.data ||
+            result ||
+            [];
+
+
+        if (!Array.isArray(foundItems)) {
+            foundItems = [];
+        }
+
+
+        foundItems =
+            foundItems.map(
+                normalizeItem
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load found items:",
+            error
+        );
+
+
+        grid.innerHTML = `
+
+            <div class="empty-state">
+
+                <div style="font-size:55px;">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Unable to Load Items
+                </h2>
+
+                <p>
+                    Please make sure the CampusRecover
+                    backend is running.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // RENDER ITEMS
+    // --------------------------------------------------------
 
     function renderItems() {
 
@@ -325,16 +577,24 @@ function displayFoundItems() {
             foundItems.filter(item => {
 
                 const itemName =
-                    String(item.itemName || "")
-                        .toLowerCase();
+                    String(
+                        item.itemName || ""
+                    )
+                    .toLowerCase();
+
 
                 const description =
-                    String(item.description || "")
-                        .toLowerCase();
+                    String(
+                        item.description || ""
+                    )
+                    .toLowerCase();
+
 
                 const location =
-                    String(item.location || "")
-                        .toLowerCase();
+                    String(
+                        item.location || ""
+                    )
+                    .toLowerCase();
 
 
                 const matchesSearch =
@@ -352,6 +612,7 @@ function displayFoundItems() {
                     matchesSearch &&
                     matchesCategory
                 );
+
             });
 
 
@@ -361,8 +622,10 @@ function displayFoundItems() {
         if (filteredItems.length === 0) {
 
             if (noResults) {
+
                 noResults.style.display =
                     "block";
+
             }
 
             return;
@@ -370,8 +633,10 @@ function displayFoundItems() {
 
 
         if (noResults) {
+
             noResults.style.display =
                 "none";
+
         }
 
 
@@ -389,7 +654,9 @@ function displayFoundItems() {
 
                 <div class="item-card-top">
 
-                    ${getItemIcon(item.category)}
+                    ${getItemIcon(
+                        item.category
+                    )}
 
                 </div>
 
@@ -479,6 +746,7 @@ function displayFoundItems() {
 
 
                 </div>
+
             `;
 
 
@@ -518,7 +786,7 @@ function displayFoundItems() {
 // DISPLAY LOST ITEMS
 // ============================================================
 
-function displayLostItems() {
+async function displayLostItems() {
 
     const grid =
         document.getElementById("lostItemsGrid");
@@ -531,10 +799,12 @@ function displayLostItems() {
     const searchInput =
         document.getElementById("lostSearch");
 
+
     const categoryFilter =
         document.getElementById(
             "lostCategoryFilter"
         );
+
 
     const noResults =
         document.getElementById(
@@ -542,11 +812,89 @@ function displayLostItems() {
         );
 
 
-    let lostItems =
-        JSON.parse(
-            localStorage.getItem("lostItems")
-        ) || [];
+    let lostItems = [];
 
+
+    // --------------------------------------------------------
+    // GET DATA FROM BACKEND
+    // --------------------------------------------------------
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/lost-items`
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to load lost items."
+            );
+
+        }
+
+
+        lostItems =
+            result.items ||
+            result.data ||
+            result ||
+            [];
+
+
+        if (!Array.isArray(lostItems)) {
+            lostItems = [];
+        }
+
+
+        lostItems =
+            lostItems.map(
+                normalizeItem
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load lost items:",
+            error
+        );
+
+
+        grid.innerHTML = `
+
+            <div class="empty-state">
+
+                <div style="font-size:55px;">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Unable to Load Items
+                </h2>
+
+                <p>
+                    Please make sure the CampusRecover
+                    backend is running.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // RENDER ITEMS
+    // --------------------------------------------------------
 
     function renderItems() {
 
@@ -568,16 +916,24 @@ function displayLostItems() {
             lostItems.filter(item => {
 
                 const itemName =
-                    String(item.itemName || "")
-                        .toLowerCase();
+                    String(
+                        item.itemName || ""
+                    )
+                    .toLowerCase();
+
 
                 const description =
-                    String(item.description || "")
-                        .toLowerCase();
+                    String(
+                        item.description || ""
+                    )
+                    .toLowerCase();
+
 
                 const location =
-                    String(item.location || "")
-                        .toLowerCase();
+                    String(
+                        item.location || ""
+                    )
+                    .toLowerCase();
 
 
                 const matchesSearch =
@@ -595,6 +951,7 @@ function displayLostItems() {
                     matchesSearch &&
                     matchesCategory
                 );
+
             });
 
 
@@ -604,8 +961,10 @@ function displayLostItems() {
         if (filteredItems.length === 0) {
 
             if (noResults) {
+
                 noResults.style.display =
                     "block";
+
             }
 
             return;
@@ -613,8 +972,10 @@ function displayLostItems() {
 
 
         if (noResults) {
+
             noResults.style.display =
                 "none";
+
         }
 
 
@@ -632,7 +993,9 @@ function displayLostItems() {
 
                 <div class="item-card-top">
 
-                    ${getItemIcon(item.category)}
+                    ${getItemIcon(
+                        item.category
+                    )}
 
                 </div>
 
@@ -722,6 +1085,7 @@ function displayLostItems() {
 
 
                 </div>
+
             `;
 
 
@@ -761,7 +1125,7 @@ function displayLostItems() {
 // ITEM DETAILS PAGE
 // ============================================================
 
-function displayItemDetails() {
+async function displayItemDetails() {
 
     const detailsCard =
         document.getElementById(
@@ -831,6 +1195,7 @@ function displayItemDetails() {
                 </a>
 
             </div>
+
         `;
 
         return;
@@ -838,54 +1203,53 @@ function displayItemDetails() {
 
 
     // --------------------------------------------------------
-    // GET ITEMS
+    // GET ITEM FROM BACKEND
     // --------------------------------------------------------
 
-    let items = [];
+    let item;
 
 
-    if (itemType === "found") {
+    try {
 
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "foundItems"
-                )
-            ) || [];
-
-    }
+        const response =
+            await fetch(
+                `${API_BASE_URL}/items/${encodeURIComponent(
+                    itemId
+                )}`
+            );
 
 
-    else if (itemType === "lost") {
-
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "lostItems"
-                )
-            ) || [];
-
-    }
+        const result =
+            await response.json();
 
 
-    // --------------------------------------------------------
-    // FIND ITEM
-    // --------------------------------------------------------
+        if (!response.ok) {
 
-    const item =
-        items.find(
-            currentItem =>
-                String(
-                    currentItem.id
-                ) === String(itemId)
+            throw new Error(
+                result.message ||
+                "Item not found."
+            );
+
+        }
+
+
+        item =
+            result.item ||
+            result.data ||
+            result;
+
+
+        item =
+            normalizeItem(item);
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load item:",
+            error
         );
 
-
-    // --------------------------------------------------------
-    // ITEM NOT FOUND
-    // --------------------------------------------------------
-
-    if (!item) {
 
         detailsCard.innerHTML = `
 
@@ -900,8 +1264,45 @@ function displayItemDetails() {
                 </h2>
 
                 <p>
-                    This item could not be found
-                    in your saved reports.
+                    This item could not be loaded
+                    from the backend.
+                </p>
+
+                <a
+                    href="${
+                        itemType === "lost"
+                            ? "lost-items.html"
+                            : "found-items.html"
+                    }"
+                    class="primary-action-btn"
+                >
+                    Back to Items
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    if (!item || !item.id) {
+
+        detailsCard.innerHTML = `
+
+            <div class="empty-state">
+
+                <div style="font-size:55px;">
+                    📦
+                </div>
+
+                <h2>
+                    Item Not Found
+                </h2>
+
+                <p>
+                    This item could not be found.
                 </p>
 
                 <a
@@ -940,9 +1341,12 @@ function displayItemDetails() {
 
 
     const status =
-        itemType === "found"
-            ? "FOUND"
-            : "LOST";
+        item.status ||
+        (
+            itemType === "found"
+                ? "FOUND"
+                : "LOST"
+        );
 
 
     const backPage =
@@ -972,7 +1376,7 @@ function displayItemDetails() {
 
                 <span class="section-label">
 
-                    ${status}
+                    ${escapeHTML(status)}
 
                 </span>
 
@@ -1080,66 +1484,6 @@ function displayItemDetails() {
         </div>
 
 
-        ${
-            item.additionalInfo
-                ? `
-
-                    <div class="additional-info">
-
-                        <h3>
-                            Additional Information
-                        </h3>
-
-                        <p>
-
-                            ${escapeHTML(
-                                item.additionalInfo
-                            )}
-
-                        </p>
-
-                    </div>
-
-                `
-                : ""
-        }
-
-
-        ${
-            itemType === "found"
-                ? `
-
-                    <div class="possible-match-box">
-
-                        <div class="match-icon">
-                            🔐
-                        </div>
-
-                        <div>
-
-                            <span class="section-label">
-                                POSSIBLE MATCH
-                            </span>
-
-                            <h3>
-                                Think this item is yours?
-                            </h3>
-
-                            <p>
-                                Submit private ownership
-                                evidence for campus
-                                verification.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                `
-                : ""
-        }
-
-
         <div class="details-actions">
 
 
@@ -1172,6 +1516,7 @@ function displayItemDetails() {
         </div>
 
     `;
+
 }
 
 
@@ -1179,7 +1524,7 @@ function displayItemDetails() {
 // CLAIM PAGE
 // ============================================================
 
-function displayClaimItem() {
+async function displayClaimItem() {
 
     const claimForm =
         document.getElementById(
@@ -1220,12 +1565,6 @@ function displayClaimItem() {
     console.log(
         "Claim Item Type:",
         itemType
-    );
-
-
-    console.log(
-        "Current URL:",
-        window.location.href
     );
 
 
@@ -1295,117 +1634,97 @@ function displayClaimItem() {
         }
 
 
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // GET ITEM FROM BACKEND
+    // --------------------------------------------------------
+
+    let item;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/items/${encodeURIComponent(
+                    itemId
+                )}`
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Item not found."
+            );
+
+        }
+
+
+        item =
+            result.item ||
+            result.data ||
+            result;
+
+
+        item =
+            normalizeItem(item);
+
+
+    } catch (error) {
+
         console.error(
-            "Claim page opened without item ID or item type."
+            "Failed to load claim item:",
+            error
         );
 
 
-        return;
-    }
-
-
-    // --------------------------------------------------------
-    // GET DATA
-    // --------------------------------------------------------
-
-    let items = [];
-
-
-    if (itemType === "found") {
-
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "foundItems"
-                )
-            ) || [];
-
-    }
-
-
-    else if (itemType === "lost") {
-
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "lostItems"
-                )
-            ) || [];
-
-    }
-
-
-    else {
-
         if (claimItemName) {
-            claimItemName.textContent =
-                "Invalid Claim";
-        }
 
-
-        if (claimStatus) {
-            claimStatus.textContent =
-                "INVALID";
-        }
-
-
-        return;
-    }
-
-
-    // --------------------------------------------------------
-    // FIND ITEM
-    // --------------------------------------------------------
-
-    const item =
-        items.find(
-            currentItem =>
-                String(
-                    currentItem.id
-                ) === String(itemId)
-        );
-
-
-    // --------------------------------------------------------
-    // ITEM NOT FOUND
-    // --------------------------------------------------------
-
-    if (!item) {
-
-        if (claimItemName) {
             claimItemName.textContent =
                 "Item Not Found";
+
         }
 
 
         if (claimCategory) {
+
             claimCategory.textContent =
                 "-";
+
         }
 
 
         if (claimLocation) {
+
             claimLocation.textContent =
                 "-";
+
         }
 
 
         if (claimDate) {
+
             claimDate.textContent =
                 "-";
+
         }
 
 
         if (claimStatus) {
+
             claimStatus.textContent =
                 "NOT FOUND";
+
         }
-
-
-        console.error(
-            "Item does not exist in localStorage:",
-            itemId
-        );
 
 
         return;
@@ -1444,14 +1763,11 @@ function displayClaimItem() {
 
     if (claimDate) {
 
-        const date =
-            itemType === "found"
-                ? item.dateFound
-                : item.lostDate;
-
-
         claimDate.textContent =
-            formatDate(date);
+            formatDate(
+                item.dateFound ||
+                item.lostDate
+            );
 
     }
 
@@ -1459,9 +1775,8 @@ function displayClaimItem() {
     if (claimStatus) {
 
         claimStatus.textContent =
-            itemType === "found"
-                ? "FOUND"
-                : "LOST";
+            item.status ||
+            "FOUND";
 
     }
 
@@ -1480,6 +1795,7 @@ function displayClaimItem() {
         "Claim item successfully loaded:",
         item
     );
+
 }
 
 
@@ -1502,7 +1818,7 @@ function setupClaimForm() {
 
     form.addEventListener(
         "submit",
-        function (event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -1595,76 +1911,197 @@ function setupClaimForm() {
 
 
             // ------------------------------------------------
-            // CREATE CLAIM
+            // BACKEND CLAIM DATA
+            // ------------------------------------------------
+            //
+            // Current backend API accepts:
+            //
+            // {
+            //     itemId: "...",
+            //     reason: "..."
+            // }
+            //
+            // So we combine the claim information
+            // into the reason field.
+            //
+            // Contact/proof are not currently stored by
+            // the backend because they are not in the
+            // current API contract.
             // ------------------------------------------------
 
-            const newClaim = {
+            const reason =
 
-                id: Date.now(),
+                `Claim reason: ${claimReason}\n\n` +
+
+                `Ownership details: ${ownershipDetails}\n\n` +
+
+                `Contact: ${contact}`;
+
+
+            const claimData = {
 
                 itemId: itemId,
 
-                itemType: itemType,
-
-                claimReason:
-                    claimReason,
-
-                ownershipDetails:
-                    ownershipDetails,
-
-                contact:
-                    contact,
-
-                proofFileName:
-                    proofInput &&
-                    proofInput.files.length > 0
-                        ? proofInput.files[0].name
-                        : "",
-
-                status:
-                    "CLAIM_PENDING",
-
-                submittedAt:
-                    new Date().toISOString()
+                reason: reason
 
             };
 
 
-            // ------------------------------------------------
-            // SAVE CLAIM
-            // ------------------------------------------------
+            try {
 
-            let claims =
-                JSON.parse(
-                    localStorage.getItem(
-                        "claims"
-                    )
-                ) || [];
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/claims`,
+                        {
+                            method: "POST",
 
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-            claims.push(newClaim);
-
-
-            localStorage.setItem(
-                "claims",
-                JSON.stringify(claims)
-            );
-
-
-            // ------------------------------------------------
-            // SUCCESS
-            // ------------------------------------------------
-
-            alert(
-                "Claim submitted successfully! Your claim is pending campus verification."
-            );
+                            body:
+                                JSON.stringify(
+                                    claimData
+                                )
+                        }
+                    );
 
 
-            window.location.href =
-                "my-claims.html";
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Claim backend error:",
+                        result
+                    );
+
+
+                    alert(
+                        result.message ||
+                        "Failed to submit claim."
+                    );
+
+
+                    return;
+                }
+
+
+                console.log(
+                    "Claim saved:",
+                    result
+                );
+
+
+                alert(
+                    "Claim submitted successfully! Your claim is pending campus verification."
+                );
+
+
+                window.location.href =
+                    "my-claims.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Claim connection error:",
+                    error
+                );
+
+
+                alert(
+                    "Could not connect to the backend. Please make sure the backend server is running."
+                );
+
+            }
 
         }
     );
+
+}
+
+
+// ============================================================
+// NORMALIZE BACKEND ITEM
+// ============================================================
+
+function normalizeItem(item) {
+
+    if (!item) {
+        return null;
+    }
+
+
+    return {
+
+        // Backend uses itemId
+        // Frontend uses id
+        id:
+            item.itemId ??
+            item.id,
+
+
+        itemId:
+            item.itemId ??
+            item.id,
+
+
+        itemName:
+            item.itemName || "",
+
+
+        category:
+            item.category || "",
+
+
+        description:
+            item.description || "",
+
+
+        location:
+            item.location || "",
+
+
+        // Backend uses date
+        // Frontend previously used dateFound/lostDate
+
+        dateFound:
+            item.dateFound ??
+            item.date ??
+            "",
+
+
+        lostDate:
+            item.lostDate ??
+            item.date ??
+            "",
+
+
+        timeFound:
+            item.timeFound ??
+            item.time ??
+            "",
+
+
+        lostTime:
+            item.lostTime ??
+            item.time ??
+            "",
+
+
+        status:
+            item.status || "",
+
+
+        createdAt:
+            item.createdAt || ""
+
+    };
+
 }
 
 
@@ -1680,8 +2117,7 @@ function getItemIcon(category) {
 
 
     const value =
-        category
-            .toLowerCase();
+        category.toLowerCase();
 
 
     if (
@@ -1785,6 +2221,7 @@ function getItemIcon(category) {
 
 
     return "📦";
+
 }
 
 
@@ -1800,12 +2237,16 @@ function formatCategory(category) {
 
 
     return String(category)
-        .replace(/[-_]/g, " ")
+        .replace(
+            /[-_]/g,
+            " "
+        )
         .replace(
             /\b\w/g,
             letter =>
                 letter.toUpperCase()
         );
+
 }
 
 
@@ -1821,6 +2262,7 @@ function formatLocation(location) {
 
 
     return String(location);
+
 }
 
 
@@ -1858,6 +2300,7 @@ function formatDate(dateString) {
             year: "numeric"
         }
     );
+
 }
 
 
@@ -1903,4 +2346,5 @@ function escapeHTML(value) {
             /'/g,
             "&#039;"
         );
+
 }
