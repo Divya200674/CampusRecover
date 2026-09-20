@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Multiple Claims - CampusRecover</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .admin-label {
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .item-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .item-card h2 {
+            margin-bottom: 8px;
+        }
+
+        .item-status {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .claims {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .claim-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .claim-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .detail {
+            margin-bottom: 12px;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .evidence {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        .review-btn {
+            margin-top: 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .review-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 700px) {
+            .claims {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="admin-label">
+            Admin / Verification Panel
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <h1>Multiple Claims</h1>
+
+        <p class="subtitle">
+            Compare claims and ownership evidence for the same item.
+        </p>
+
+
+        <div class="item-card">
+
+            <h2>Black Laptop</h2>
+
+            <p class="item-status">
+                Item ID: ITEM-101 &nbsp; | &nbsp; Status: CLAIM_PENDING
+            </p>
+
+
+            <div class="claims">
+
+
+                <!-- Claim 1 -->
+
+                <div class="claim-card">
+
+                    <h3>Claim 1</h3>
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Claim ID
+                        </div>
+
+                        <div class="value">
+                            CR-001
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Student
+                        </div>
+
+                        <div class="value">
+                            Student A
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Submitted
+                        </div>
+
+                        <div class="value">
+                            18 Sep 2026
+                        </div>
+
+                    </div>
+
+
+                    <div class="evidence">
+
+                        <strong>Ownership Evidence</strong>
+
+                        <br><br>
+
+                        Unique sticker on the back of the laptop and
+                        approximate purchase details provided.
+
+                    </div>
+
+
+                    <button class="review-btn"
+                        onclick="window.location.href='claim-details.html'">
+
+                        Review Claim
+
+                    </button>
+
+                </div>
+
+
+                <!-- Claim 2 -->
+
+                <div class="claim-card">
+
+                    <h3>Claim 2</h3>
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Claim ID
+                        </div>
+
+                        <div class="value">
+                            CR-004
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Student
+                        </div>
+
+                        <div class="value">
+                            Student B
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="label">
+                            Submitted
+                        </div>
+
+                        <div class="value">
+                            18 Sep 2026
+                        </div>
+
+                    </div>
+
+
+                    <div class="evidence">
+
+                        <strong>Ownership Evidence</strong>
+
+                        <br><br>
+
+                        Student provided the laptop serial number
+                        and described the protective cover.
+
+                    </div>
+
+
+                    <button class="review-btn"
+                        onclick="window.location.href='claim-details.html'">
+
+                        Review Claim
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

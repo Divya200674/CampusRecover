@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Handover - CampusRecover</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .admin-label {
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .label {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .generate-btn,
+        .verify-btn,
+        .return-btn {
+            border: none;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .generate-btn {
+            background: #2563eb;
+        }
+
+        .verify-btn {
+            background: #16a34a;
+        }
+
+        .return-btn {
+            background: #7c3aed;
+        }
+
+        .code-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .code {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        #verificationResult {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="admin-label">
+            Admin / Verification Panel
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <h1>Handover Management</h1>
+
+        <p class="subtitle">
+            Manage approved claims and verify item handover.
+        </p>
+
+
+        <!-- Approved Claim -->
+
+        <div class="card">
+
+            <h2>Approved Claim</h2>
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="label">Claim ID</div>
+                    <div class="value" id="claimId">Loading...</div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Student</div>
+                    <div class="value">-</div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Item</div>
+                    <div class="value" id="itemId">Loading...</div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Status</div>
+                    <div class="value" id="claimStatus">Loading...</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Generate Code -->
+
+        <div class="card">
+
+            <h2>One-Time Handover Code</h2>
+
+            <p>
+                Generate a code that the student must provide during pickup.
+            </p>
+
+            <button class="generate-btn" onclick="generateCode()">
+                Generate Handover Code
+            </button>
+
+
+            <div class="code-box" id="codeBox">
+
+                <div>Handover Code</div>
+
+                <div class="code" id="handoverCode"></div>
+
+                <p style="margin-top:10px;">
+                    This code should be used only once.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Verify Code -->
+
+        <div class="card">
+
+            <h2>Verify Handover</h2>
+
+            <p>
+                Enter the code provided by the student.
+            </p>
+
+            <input
+                type="text"
+                id="enteredCode"
+                placeholder="Enter handover code"
+            >
+
+            <button class="verify-btn" onclick="verifyCode()">
+                Verify Code
+            </button>
+
+            <div id="verificationResult"></div>
+
+        </div>
+
+
+        <!-- Return Item -->
+
+        <div class="card">
+
+            <h2>Complete Handover</h2>
+
+            <p>
+                After successful code verification, mark the item as returned.
+            </p>
+
+            <button class="return-btn" onclick="markReturned()">
+                Mark as RETURNED
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        
+
+    const API_URL = "http://localhost:3000";
+
+    let generatedCode = "";
+    let codeVerified = false;
+
+    const params = new URLSearchParams(window.location.search);
+
+    const claimId = params.get("claimId");
+
+
+    async function loadClaim() {
+
+        if (!claimId) {
+            alert("No claim ID provided.");
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/claims/${claimId}`);
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            const claim = data.claim;
+
+            document.getElementById("claimId").textContent =
+                claim.claimId;
+
+            document.getElementById("itemId").textContent =
+                claim.itemId;
+
+            document.getElementById("claimStatus").textContent =
+                claim.status;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load claim.");
+        }
+    }
+
+
+    function generateCode() {
+
+        generatedCode =
+            "CR-" +
+            Math.floor(100000 + Math.random() * 900000);
+
+        document.getElementById("handoverCode").textContent =
+            generatedCode;
+
+        document.getElementById("codeBox").style.display =
+            "block";
+
+        codeVerified = false;
+    }
+
+
+    function verifyCode() {
+
+        const enteredCode =
+            document.getElementById("enteredCode").value.trim();
+
+        const result =
+            document.getElementById("verificationResult");
+
+
+        if (
+            enteredCode === generatedCode &&
+            generatedCode !== ""
+        ) {
+
+            result.textContent =
+                "Handover code verified successfully.";
+
+            result.style.color = "green";
+
+            codeVerified = true;
+
+        } else {
+
+            result.textContent =
+                "Invalid handover code.";
+
+            result.style.color = "red";
+
+            codeVerified = false;
+        }
+    }
+
+
+    async function markReturned() {
+
+        if (!codeVerified) {
+
+            alert("Please verify the handover code first.");
+
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/items/${claimItemId}`, {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        status: "RETURNED"
+                    })
+                });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            alert("Item successfully marked as RETURNED.");
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to update item status.");
+        }
+    }
+
+
+    let claimItemId = null;
+
+
+    async function initializePage() {
+
+        if (!claimId) {
+            alert("No claim ID provided.");
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/claims/${claimId}`);
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            const claim = data.claim;
+
+            claimItemId = claim.itemId;
+
+            document.getElementById("claimId").textContent =
+                claim.claimId;
+
+            document.getElementById("itemId").textContent =
+                claim.itemId;
+
+            document.getElementById("claimStatus").textContent =
+                claim.status;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load claim.");
+        }
+    }
+
+
+    initializePage();
+
+</script>
+
+</body>
+
+</html>
