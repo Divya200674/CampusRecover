@@ -11,6 +11,7 @@ app.use(express.json());
 const lostItems = [];
 const foundItems = [];
 const claims = [];
+const { findPossibleMatches } = require("./matching/match-service");
 
 app.get("/", (req, res) => {
     res.json({
@@ -51,12 +52,27 @@ app.post("/lost-items", (req, res) => {
 
     lostItems.push(item);
 
-    res.status(201).json({
-        success: true,
-        message: "Lost item reported successfully",
-        itemId: item.itemId,
-        item: item
-    });
+// Check this lost item against all existing found items
+const possibleMatches = findPossibleMatches(
+    {
+        lostItemId: item.itemId,
+        itemName: item.itemName,
+        category: item.category,
+        description: item.description,
+        location: item.location,
+        date: item.date,
+        time: item.time
+    },
+    foundItems
+);
+
+res.status(201).json({
+    success: true,
+    message: "Lost item reported successfully",
+    itemId: item.itemId,
+    item: item,
+    possibleMatches: possibleMatches
+});
 });
 // POST /found-items
 app.post("/found-items", (req, res) => {
@@ -303,8 +319,8 @@ app.patch("/items/:id", (req, res) => {
         item: item
     });
 });
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT,"0.0.0.0", () => {
-    console.log(`CampusRecover backend running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`CampusRecover backend running on port ${PORT}`);
 });
