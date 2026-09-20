@@ -305,6 +305,6 @@ app.patch("/items/:id", (req, res) => {
 });
 const PORT = 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
     console.log(`CampusRecover backend running on http://localhost:${PORT}`);
 });
