@@ -1,105 +1,159 @@
+const { differenceInMinutes, parse } = require("date-fns");
+
+
+// Compare two text values
 function textSimilarity(text1, text2) {
-    text1 = text1.toLowerCase();
-    text2 = text2.toLowerCase();
+    if (!text1 || !text2) {
+        return 0;
+    }
 
-    let same = 0;
+    text1 = text1.toLowerCase().trim();
+    text2 = text2.toLowerCase().trim();
 
-    let words1 = text1.split(" ");
-    let words2 = text2.split(" ");
+    if (text1 === text2) {
+        return 1;
+    }
+
+    if (text1.includes(text2) || text2.includes(text1)) {
+        return 0.8;
+    }
+
+    const words1 = text1.split(" ");
+    const words2 = text2.split(" ");
+
+    let commonWords = 0;
 
     for (let i = 0; i < words1.length; i++) {
         for (let j = 0; j < words2.length; j++) {
             if (words1[i] === words2[j]) {
-                same++;
+                commonWords++;
                 break;
             }
         }
     }
 
-    let total = Math.max(words1.length, words2.length);
+    const totalWords = Math.max(words1.length, words2.length);
 
-    if (total === 0) {
+    if (totalWords === 0) {
         return 0;
     }
 
-    return same / total;
+    return commonWords / totalWords;
 }
 
 
-function timeDifferenceMinutes(time1, time2) {
-    let parts1 = time1.split(":");
-    let parts2 = time2.split(":");
+// Calculate time difference in minutes
+function getTimeDifference(time1, time2) {
+    const date1 = parse(time1, "HH:mm", new Date());
+    const date2 = parse(time2, "HH:mm", new Date());
 
-    let hour1 = parseInt(parts1[0]);
-    let minute1 = parseInt(parts1[1]);
-
-    let hour2 = parseInt(parts2[0]);
-    let minute2 = parseInt(parts2[1]);
-
-    let total1 = hour1 * 60 + minute1;
-    let total2 = hour2 * 60 + minute2;
-
-    return Math.abs(total1 - total2);
+    return Math.abs(differenceInMinutes(date1, date2));
 }
 
 
-function calculateScore(lost, found) {
+// Main scoring function
+function calculateScore(lostItem, foundItem) {
 
     let score = 0;
     let reasons = [];
 
-    // Category - 25 points
-    if (lost.category.toLowerCase() === found.category.toLowerCase()) {
+    // --------------------------------
+    // 1. CATEGORY - 25 POINTS
+    // --------------------------------
+
+    if (
+        lostItem.category &&
+        foundItem.category &&
+        lostItem.category.toLowerCase() === foundItem.category.toLowerCase()
+    ) {
         score += 25;
         reasons.push("Same category");
     }
 
-    // Location - 25 points
-    if (lost.location.toLowerCase() === found.location.toLowerCase()) {
+
+    // --------------------------------
+    // 2. LOCATION - 25 POINTS
+    // --------------------------------
+
+    if (
+        lostItem.location &&
+        foundItem.location &&
+        lostItem.location.toLowerCase() === foundItem.location.toLowerCase()
+    ) {
         score += 25;
         reasons.push("Same location");
     }
 
-    // Date - 15 points
-    if (lost.date === found.date) {
+
+    // --------------------------------
+    // 3. DATE - 15 POINTS
+    // --------------------------------
+
+    if (
+        lostItem.date &&
+        foundItem.date &&
+        lostItem.date === foundItem.date
+    ) {
         score += 15;
         reasons.push("Same date");
     }
 
-    // Time - 10 points
-    let timeDifference = timeDifferenceMinutes(
-        lost.time,
-        found.time
-    );
 
-    if (timeDifference <= 30) {
-        score += 10;
-        reasons.push(
-            "Found within " + timeDifference + " minutes of reported loss"
+    // --------------------------------
+    // 4. TIME - 10 POINTS
+    // --------------------------------
+
+    if (lostItem.time && foundItem.time) {
+
+        const timeDifference = getTimeDifference(
+            lostItem.time,
+            foundItem.time
         );
+
+        if (timeDifference <= 30) {
+
+            score += 10;
+
+            reasons.push(
+                `Found within ${timeDifference} minutes of reported loss`
+            );
+        }
     }
 
-    // Item name - 10 points
-    let nameSimilarity = textSimilarity(
-        lost.itemName,
-        found.itemName
+
+    // --------------------------------
+    // 5. ITEM NAME - 10 POINTS
+    // --------------------------------
+
+    const nameSimilarity = textSimilarity(
+        lostItem.itemName,
+        foundItem.itemName
     );
 
     if (nameSimilarity >= 0.5) {
+
         score += 10;
+
         reasons.push("Similar item name");
     }
 
-    // Description - 15 points
-    let descriptionSimilarity = textSimilarity(
-        lost.description,
-        found.description
+
+    // --------------------------------
+    // 6. DESCRIPTION - 15 POINTS
+    // --------------------------------
+
+    const descriptionSimilarity = textSimilarity(
+        lostItem.description,
+        foundItem.description
     );
 
     if (descriptionSimilarity >= 0.5) {
+
         score += 15;
+
         reasons.push("Similar description");
     }
+
 
     return {
         score: score,

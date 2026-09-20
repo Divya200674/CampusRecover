@@ -1,32 +1,52 @@
 const { calculateScore } = require("./scorer");
 
+
+// Minimum score required to create a possible match
 const MATCH_THRESHOLD = 60;
 
 
-function findPossibleMatch(lostItem, foundItem) {
+// Compare one lost item with one found item
+function findMatch(lostItem, foundItem) {
 
-    let result = calculateScore(
+    const result = calculateScore(
         lostItem,
         foundItem
     );
 
-    if (result.score >= MATCH_THRESHOLD) {
 
-        return {
-            matchId: "M-" + Date.now(),
-            lostItemId: lostItem.lostItemId,
-            foundItemId: foundItem.foundItemId,
-            score: result.score,
-            reasons: result.reasons,
-            status: "POSSIBLE"
-        };
-
+    // If score is below threshold,
+    // do not create a match
+    if (result.score < MATCH_THRESHOLD) {
+        return null;
     }
 
-    return null;
+
+    // Create possible match
+    const match = {
+
+        matchId:
+            "M-" +
+            lostItem.lostItemId +
+            "-" +
+            foundItem.foundItemId,
+
+        lostItemId: lostItem.lostItemId,
+
+        foundItemId: foundItem.foundItemId,
+
+        score: result.score,
+
+        reasons: result.reasons,
+
+        status: "POSSIBLE"
+    };
+
+
+    return match;
 }
 
 
 module.exports = {
-    findPossibleMatch
+    findMatch,
+    MATCH_THRESHOLD
 };
