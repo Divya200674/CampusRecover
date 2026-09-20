@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Claims - CampusRecover</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="lost-items.html">Lost Items</a>
+            <a href="found-items.html">Found Items</a>
+            <a href="my-reports.html">My Reports</a>
+            <a href="my-claims.html">My Claims</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="claims-container">
+
+        <!-- Header -->
+        <div class="claims-header">
+
+            <h1>My Claims</h1>
+
+            <p>
+                Track the items you have claimed and their verification status.
+            </p>
+
+        </div>
+
+
+        <!-- Important Notice -->
+        <div class="claims-notice">
+
+            <div class="claims-notice-icon">
+                🔐
+            </div>
+
+            <div>
+                <strong>Ownership Verification</strong>
+
+                <p>
+                    A possible match does not confirm ownership.
+                    Your submitted evidence is reviewed by authorized
+                    campus staff before an item can be returned.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Claims Grid -->
+        <div class="claims-grid">
+
+
+            <!-- Claim 1 -->
+            <div class="claim-item-card">
+
+                <div class="claim-card-header">
+
+                    <div>
+                        <span class="claim-type">
+                            Mobile Phone
+                        </span>
+
+                        <h2>Black Smartphone</h2>
+                    </div>
+
+                    <span class="claim-status pending">
+                        CLAIM PENDING
+                    </span>
+
+                </div>
+
+
+                <div class="claim-card-details">
+
+                    <div class="claim-detail">
+                        <span>Found Location</span>
+                        <strong>Library</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Found Date</span>
+                        <strong>20 Sep 2026</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Possible Match</span>
+                        <strong class="claim-match">
+                            86%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="claim-progress">
+
+                    <div class="progress-step completed">
+                        <div class="progress-circle">✓</div>
+                        <span>Claim Submitted</span>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step active">
+                        <div class="progress-circle">2</div>
+                        <span>Verification</span>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step">
+                        <div class="progress-circle">3</div>
+                        <span>Handover</span>
+                    </div>
+
+                </div>
+
+
+                <div class="claim-card-footer">
+
+                    <p>
+                        Your ownership evidence is currently being reviewed.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="claim-view-btn">
+                        View Item
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Claim 2 -->
+            <div class="claim-item-card">
+
+                <div class="claim-card-header">
+
+                    <div>
+                        <span class="claim-type">
+                            Backpack
+                        </span>
+
+                        <h2>Blue Backpack</h2>
+                    </div>
+
+                    <span class="claim-status verified">
+                        VERIFIED
+                    </span>
+
+                </div>
+
+
+                <div class="claim-card-details">
+
+                    <div class="claim-detail">
+                        <span>Found Location</span>
+                        <strong>Block B</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Found Date</span>
+                        <strong>19 Sep 2026</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Possible Match</span>
+                        <strong class="claim-match">
+                            78%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="claim-progress">
+
+                    <div class="progress-step completed">
+                        <div class="progress-circle">✓</div>
+                        <span>Claim Submitted</span>
+                    </div>
+
+                    <div class="progress-line completed-line"></div>
+
+                    <div class="progress-step completed">
+                        <div class="progress-circle">✓</div>
+                        <span>Verified</span>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step active">
+                        <div class="progress-circle">3</div>
+                        <span>Handover</span>
+                    </div>
+
+                </div>
+
+
+                <div class="claim-card-footer">
+
+                    <p>
+                        Your claim has been verified. Proceed to the
+                        authorized campus handover point.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="claim-view-btn">
+                        View Item
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Claim 3 -->
+            <div class="claim-item-card">
+
+                <div class="claim-card-header">
+
+                    <div>
+                        <span class="claim-type">
+                            Wallet
+                        </span>
+
+                        <h2>Brown Wallet</h2>
+                    </div>
+
+                    <span class="claim-status rejected">
+                        REJECTED
+                    </span>
+
+                </div>
+
+
+                <div class="claim-card-details">
+
+                    <div class="claim-detail">
+                        <span>Found Location</span>
+                        <strong>Student Center</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Found Date</span>
+                        <strong>17 Sep 2026</strong>
+                    </div>
+
+                    <div class="claim-detail">
+                        <span>Possible Match</span>
+                        <strong class="claim-match">
+                            62%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="claim-rejection">
+
+                    <strong>Claim Not Verified</strong>
+
+                    <p>
+                        The submitted evidence was not sufficient to
+                        verify ownership.
+                    </p>
+
+                </div>
+
+
+                <div class="claim-card-footer">
+
+                    <p>
+                        You may review the item details and contact
+                        authorized campus staff if you have additional
+                        evidence.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="claim-view-btn">
+                        View Item
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Status Guide -->
+        <section class="claim-status-guide">
+
+            <h2>Claim Status Guide</h2>
+
+            <div class="claim-guide-grid">
+
+                <div class="claim-guide-item">
+
+                    <span class="claim-status pending">
+                        CLAIM PENDING
+                    </span>
+
+                    <p>
+                        Your claim has been submitted and is waiting
+                        for campus verification.
+                    </p>
+
+                </div>
+
+
+                <div class="claim-guide-item">
+
+                    <span class="claim-status verified">
+                        VERIFIED
+                    </span>
+
+                    <p>
+                        Your ownership evidence has been accepted.
+                        Follow the handover instructions.
+                    </p>
+
+                </div>
+
+
+                <div class="claim-guide-item">
+
+                    <span class="claim-status rejected">
+                        REJECTED
+                    </span>
+
+                    <p>
+                        The submitted evidence was not sufficient
+                        to verify ownership.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <p>
+            © 2026 CampusRecover. Built for safer campus lost & found.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

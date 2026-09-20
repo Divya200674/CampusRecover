@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Claim Item - CampusRecover</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="lost-items.html">Lost Items</a>
+            <a href="found-items.html">Found Items</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+
+    <!-- Claim Container -->
+    <main class="claim-container">
+
+        <div class="claim-card">
+
+            <!-- Header -->
+            <div class="claim-header">
+                <h1>Claim This Item</h1>
+
+                <p>
+                    Submit private ownership evidence so the campus
+                    verification team can review your claim.
+                </p>
+            </div>
+
+
+            <!-- Item Information -->
+            <div class="claim-item-info">
+
+                <h2>Black Smartphone</h2>
+
+                <div class="claim-info-grid">
+
+                    <div>
+                        <span class="claim-label">Category</span>
+                        <span class="claim-value">Mobile Phone</span>
+                    </div>
+
+                    <div>
+                        <span class="claim-label">Found Location</span>
+                        <span class="claim-value">Library</span>
+                    </div>
+
+                    <div>
+                        <span class="claim-label">Found Date</span>
+                        <span class="claim-value">20 Sep 2026</span>
+                    </div>
+
+                    <div>
+                        <span class="claim-label">Possible Match</span>
+                        <span class="claim-value match-highlight">
+                            86%
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Verification Notice -->
+            <div class="claim-warning">
+
+                <strong>Important:</strong>
+
+                <p>
+                    A possible match does not confirm ownership.
+                    Your claim will be reviewed by the campus
+                    verification team before the item can be returned.
+                </p>
+
+            </div>
+
+
+            <!-- Claim Form -->
+            <form class="claim-form">
+
+                <!-- Claim Reason -->
+                <div class="form-group">
+
+                    <label for="claimReason">
+                        Why do you believe this item belongs to you?
+                    </label>
+
+                    <textarea
+                        id="claimReason"
+                        name="claimReason"
+                        rows="5"
+                        placeholder="Describe when and where you lost the item and any details that can help verify ownership..."
+                        required>
+                    </textarea>
+
+                </div>
+
+
+                <!-- Ownership Evidence -->
+                <div class="form-group">
+
+                    <label for="ownershipDetails">
+                        Ownership Evidence
+                    </label>
+
+                    <textarea
+                        id="ownershipDetails"
+                        name="ownershipDetails"
+                        rows="5"
+                        placeholder="Mention unique details such as a case mark, wallpaper, sticker, serial number, or other private information..."
+                        required>
+                    </textarea>
+
+                </div>
+
+
+                <!-- Proof Upload -->
+                <div class="form-group">
+
+                    <label for="proof">
+                        Upload Ownership Proof
+                    </label>
+
+                    <input
+                        type="file"
+                        id="proof"
+                        name="proof"
+                        accept="image/*,.pdf">
+
+                    <small>
+                        Upload a photo, receipt, document, or other
+                        evidence that can help verify ownership.
+                    </small>
+
+                </div>
+
+
+                <!-- Contact -->
+                <div class="form-group">
+
+                    <label for="contact">
+                        Contact Information
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="contact"
+                        name="contact"
+                        placeholder="Enter your campus contact number"
+                        required>
+
+                </div>
+
+
+                <!-- Privacy Notice -->
+                <div class="privacy-notice">
+
+                    <div class="privacy-icon">
+                        🔒
+                    </div>
+
+                    <div>
+
+                        <strong>Your evidence is private</strong>
+
+                        <p>
+                            Ownership evidence will only be accessible
+                            to authorized campus verification staff.
+                            It will not be displayed on the public
+                            item listing.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="claim-actions">
+
+                    <a
+                        href="item-details.html"
+                        class="secondary-action-btn">
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="primary-action-btn">
+                        Submit Claim
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <p>
+            © 2026 CampusRecover. Built for safer campus lost & found.
+        </p>
+
+    </footer>
+
+</body>
+</html>

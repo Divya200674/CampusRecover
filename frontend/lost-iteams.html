@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lost Items - CampusRecover</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         NAVIGATION BAR
+    ================================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="lost-items.html">Lost Items</a>
+
+            <a href="found-items.html">Found Items</a>
+
+            <a href="report-lost.html">Report Lost</a>
+
+            <a href="report-found.html">Report Found</a>
+
+            <a href="dashboard.html">Dashboard</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================
+         LOST ITEMS PAGE
+    ================================= -->
+
+    <main class="items-container">
+
+        <!-- Page Header -->
+
+        <section class="items-header">
+
+            <h1>Lost Items</h1>
+
+            <p>
+                Browse items reported lost by students on campus.
+                You may find something that belongs to you.
+            </p>
+
+        </section>
+
+
+        <!-- Search and Filter -->
+
+        <section class="items-controls">
+
+            <input
+                type="text"
+                id="searchLostItems"
+                placeholder="Search lost items..."
+            >
+
+            <select id="categoryFilter">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="wallet">
+                    Wallet
+                </option>
+
+                <option value="mobile">
+                    Mobile Phone
+                </option>
+
+                <option value="laptop">
+                    Laptop
+                </option>
+
+                <option value="bag">
+                    Bag
+                </option>
+
+                <option value="books">
+                    Books
+                </option>
+
+                <option value="id-card">
+                    ID Card
+                </option>
+
+                <option value="water-bottle">
+                    Water Bottle
+                </option>
+
+                <option value="electronics">
+                    Electronics
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- Lost Items -->
+
+        <section class="items-grid">
+
+
+            <!-- Item 1 -->
+
+            <div class="item-card">
+
+                <div class="item-image">
+                    📱
+                </div>
+
+                <div class="item-content">
+
+                    <span class="item-status lost">
+                        LOST
+                    </span>
+
+                    <h2>Black Smartphone</h2>
+
+                    <p>
+                        <strong>Category:</strong>
+                        Mobile Phone
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        Library
+                    </p>
+
+                    <p>
+                        <strong>Date Lost:</strong>
+                        18 September 2026
+                    </p>
+
+                    <p class="item-description">
+                        Black smartphone with a small scratch
+                        near the camera.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="view-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Item 2 -->
+
+            <div class="item-card">
+
+                <div class="item-image">
+                    👛
+                </div>
+
+                <div class="item-content">
+
+                    <span class="item-status lost">
+                        LOST
+                    </span>
+
+                    <h2>Black Wallet</h2>
+
+                    <p>
+                        <strong>Category:</strong>
+                        Wallet
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        Block A
+                    </p>
+
+                    <p>
+                        <strong>Date Lost:</strong>
+                        19 September 2026
+                    </p>
+
+                    <p class="item-description">
+                        Black leather wallet containing
+                        some cards.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="view-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Item 3 -->
+
+            <div class="item-card">
+
+                <div class="item-image">
+                    🎒
+                </div>
+
+                <div class="item-content">
+
+                    <span class="item-status lost">
+                        LOST
+                    </span>
+
+                    <h2>Blue Backpack</h2>
+
+                    <p>
+                        <strong>Category:</strong>
+                        Bag
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        Canteen
+                    </p>
+
+                    <p>
+                        <strong>Date Lost:</strong>
+                        19 September 2026
+                    </p>
+
+                    <p class="item-description">
+                        Blue backpack with two compartments
+                        and a small keychain.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="view-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Item 4 -->
+
+            <div class="item-card">
+
+                <div class="item-image">
+                    🧮
+                </div>
+
+                <div class="item-content">
+
+                    <span class="item-status lost">
+                        LOST
+                    </span>
+
+                    <h2>Scientific Calculator</h2>
+
+                    <p>
+                        <strong>Category:</strong>
+                        Electronics
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        Lab 2
+                    </p>
+
+                    <p>
+                        <strong>Date Lost:</strong>
+                        20 September 2026
+                    </p>
+
+                    <p class="item-description">
+                        Scientific calculator with
+                        black protective cover.
+                    </p>
+
+                    <a
+                        href="item-details.html"
+                        class="view-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusRecover | Campus Lost & Found
+        </p>
+
+    </footer>
+
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
