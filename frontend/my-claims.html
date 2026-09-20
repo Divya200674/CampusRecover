@@ -1,161 +1,168 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>My Claims | CampusRecover</title>
+<title>My Claims | CampusRecover</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+```
 
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+```
+<!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <div class="nav-container">
+    <div class="nav-container">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Campus<span>Recover</span>
+        </a>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+            </li>
+
+            <li>
+                <a href="found-items.html">
+                    Found Items
+                </a>
+            </li>
+
+            <li>
+                <a href="my-reports.html">
+                    My Reports
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="my-claims.html"
+                    class="active"
+                >
+                    My Claims
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="nav-profile">
 
             <a
-                href="index.html"
-                class="logo"
+                href="profile.html"
+                class="profile-link"
             >
-                Campus<span>Recover</span>
+                👤 Profile
             </a>
 
-
-            <ul class="nav-links">
-
-                <li>
-                    <a href="index.html">
-                        Home
-                    </a>
-                </li>
-
-                <li>
-                    <a href="lost-items.html">
-                        Lost Items
-                    </a>
-                </li>
-
-                <li>
-                    <a href="found-items.html">
-                        Found Items
-                    </a>
-                </li>
-
-                <li>
-                    <a href="my-reports.html">
-                        My Reports
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="my-claims.html"
-                        class="active"
-                    >
-                        My Claims
-                    </a>
-                </li>
-
-            </ul>
-
-
-            <div class="nav-profile">
-
-                <a
-                    href="profile.html"
-                    class="profile-link"
-                >
-                    👤 Profile
-                </a>
-
-                <button
-                    class="logout-btn"
-                    id="logoutBtn"
-                >
-                    Logout
-                </button>
-
-            </div>
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    <!-- ================= HEADER ================= -->
+<!-- ================= HEADER ================= -->
 
-    <header class="page-header">
+<header class="page-header">
 
-        <h1>
-            My Claims
-        </h1>
+    <h1>
+        My Claims
+    </h1>
 
-        <p>
-            Track the status of the items you have claimed.
-        </p>
+    <p>
+        Track the status of the items you have claimed.
+    </p>
 
-    </header>
+</header>
 
 
-    <!-- ================= CONTENT ================= -->
+<!-- ================= CONTENT ================= -->
 
-    <main class="container">
+<main class="container">
 
-        <div class="reports-container">
+    <div class="reports-container">
 
-            <div id="myClaimsList">
+        <!-- IMPORTANT:
+             main.js searches for myClaimsContainer
+        -->
 
-                <div class="empty-state">
+        <div id="myClaimsContainer">
 
-                    <div class="empty-state-icon">
-                        🔐
-                    </div>
+            <div class="empty-state">
 
-                    <h3>
-                        No Claims Yet
-                    </h3>
-
-                    <p>
-                        Claims you submit for found items
-                        will appear here.
-                    </p>
-
+                <div class="empty-state-icon">
+                    🔐
                 </div>
 
+                <h3>
+                    Loading claims...
+                </h3>
+
+                <p>
+                    Please wait while we load your claims.
+                </p>
+
             </div>
 
         </div>
 
-    </main>
+    </div>
+
+</main>
 
 
-    <!-- ================= FOOTER ================= -->
+<!-- ================= FOOTER ================= -->
 
-    <footer class="footer">
+<footer class="footer">
 
-        <p>
-            © <span id="currentYear"></span>
-            CampusRecover. Helping campus belongings find their owners.
-        </p>
+    <p>
+        © <span id="currentYear"></span>
+        CampusRecover.
+        Helping campus belongings find their owners.
+    </p>
 
-    </footer>
+</footer>
 
 
-    <script src="js/main.js"></script>
+<script src="js/main.js"></script>
+```
 
 </body>
 

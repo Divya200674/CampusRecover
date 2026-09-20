@@ -1,212 +1,256 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Item Details - CampusRecover</title>
+```
+<title>Item Details | CampusRecover</title>
 
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+```
+
 </head>
 
 <body>
 
-    <!-- ================================
-         NAVIGATION BAR
-    ================================= -->
+<!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <div class="logo">
-            CampusRecover
-        </div>
+```
+<div class="nav-container">
 
-        <div class="nav-links">
+    <a href="index.html" class="logo">
+        Campus<span>Recover</span>
+    </a>
 
+    <ul class="nav-links">
+
+        <li>
             <a href="index.html">Home</a>
+        </li>
 
+        <li>
             <a href="lost-items.html">Lost Items</a>
+        </li>
 
+        <li>
             <a href="found-items.html">Found Items</a>
+        </li>
 
-            <a href="report-lost.html">Report Lost</a>
+        <li>
+            <a href="my-reports.html">My Reports</a>
+        </li>
 
-            <a href="report-found.html">Report Found</a>
+        <li>
+            <a href="my-claims.html">My Claims</a>
+        </li>
 
-            <a href="dashboard.html">Dashboard</a>
+    </ul>
 
+    <div class="nav-profile">
+
+        <a href="profile.html" class="profile-link">
+            👤 Profile
+        </a>
+
+        <button class="logout-btn" id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+```
+
+</nav>
+
+<!-- ================= MAIN ================= -->
+
+<main class="details-container">
+
+```
+<!-- IMPORTANT:
+     main.js searches for itemDetailsContainer
+-->
+
+<div
+    class="details-card"
+    id="itemDetailsContainer"
+>
+
+    <div class="details-image">
+
+        <div class="details-image-placeholder">
+            📦
         </div>
 
-    </nav>
+    </div>
 
 
-    <!-- ================================
-         ITEM DETAILS
-    ================================= -->
+    <div class="details-content">
 
-    <main class="details-container">
-
-        <div class="details-card" id="itemDetailsCard">
-
-            <!-- Content will be loaded by JavaScript -->
-
-            <div class="details-image">
-
-                <div class="details-image-placeholder">
-                    📦
-                </div>
-
-            </div>
+        <span
+            class="item-status found"
+            id="detailStatus"
+        >
+            ITEM
+        </span>
 
 
-            <div class="details-content">
-
-                <span class="item-status found">
-                    ITEM
-                </span>
-
-                <h1>Loading item...</h1>
-
-                <p class="details-description">
-                    Loading item details...
-                </p>
+        <h1 id="detailItemName">
+            Loading item...
+        </h1>
 
 
-                <!-- Basic Information -->
-
-                <div class="details-info">
-
-                    <div class="details-info-row">
-
-                        <span class="details-label">
-                            Category
-                        </span>
-
-                        <span id="detailCategory">
-                            -
-                        </span>
-
-                    </div>
-
-
-                    <div class="details-info-row">
-
-                        <span class="details-label">
-                            Location
-                        </span>
-
-                        <span id="detailLocation">
-                            -
-                        </span>
-
-                    </div>
-
-
-                    <div class="details-info-row">
-
-                        <span class="details-label">
-                            Date
-                        </span>
-
-                        <span id="detailDate">
-                            -
-                        </span>
-
-                    </div>
-
-
-                    <div class="details-info-row">
-
-                        <span class="details-label">
-                            Approximate Time
-                        </span>
-
-                        <span id="detailTime">
-                            -
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Matching Information -->
-
-                <div class="possible-match">
-
-                    <h2>Possible Match</h2>
-
-                    <p>
-                        Our system may identify this item
-                        as a possible match with another
-                        report.
-                    </p>
-
-                    <div class="match-score">
-
-                        <span>
-                            Possible Match Score
-                        </span>
-
-                        <strong>
-                            -
-                        </strong>
-
-                    </div>
-
-                    <small>
-                        This score is only a possible match.
-                        Ownership must be verified through
-                        the campus claim process.
-                    </small>
-
-                </div>
-
-
-                <!-- Actions -->
-
-                <div class="details-actions">
-
-                    <a
-                        href="claim.html"
-                        class="primary-action-btn"
-                        id="claimButton"
-                    >
-                        Claim This Item
-                    </a>
-
-                    <a
-                        href="found-items.html"
-                        class="secondary-action-btn"
-                        id="backButton"
-                    >
-                        Back
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-
-    <!-- ================================
-         FOOTER
-    ================================= -->
-
-    <footer>
-
-        <p>
-            © 2026 CampusRecover | Campus Lost & Found
+        <p
+            class="details-description"
+            id="detailDescription"
+        >
+            Loading item details...
         </p>
 
-    </footer>
+
+        <!-- ================= BASIC INFORMATION ================= -->
+
+        <div class="details-info">
+
+            <div class="details-info-row">
+
+                <span class="details-label">
+                    Category
+                </span>
+
+                <span id="detailCategory">
+                    -
+                </span>
+
+            </div>
 
 
-    <script src="js/main.js"></script>
+            <div class="details-info-row">
+
+                <span class="details-label">
+                    Location
+                </span>
+
+                <span id="detailLocation">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="details-info-row">
+
+                <span class="details-label">
+                    Date
+                </span>
+
+                <span id="detailDate">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="details-info-row">
+
+                <span class="details-label">
+                    Approximate Time
+                </span>
+
+                <span id="detailTime">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= POSSIBLE MATCH ================= -->
+
+        <div class="possible-match">
+
+            <h2>
+                Possible Match
+            </h2>
+
+            <p>
+                Our system may identify this item
+                as a possible match with another
+                report.
+            </p>
+
+            <div class="match-score">
+
+                <span>
+                    Possible Match Score
+                </span>
+
+                <strong>
+                    -
+                </strong>
+
+            </div>
+
+            <small>
+                This score is only a possible match.
+                Ownership must be verified through
+                the campus claim process.
+            </small>
+
+        </div>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <div class="details-actions">
+
+            <a
+                href="#"
+                class="primary-action-btn"
+                id="claimButton"
+            >
+                Claim This Item
+            </a>
+
+
+            <a
+                href="lost-items.html"
+                class="secondary-action-btn"
+                id="backButton"
+            >
+                ← Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+```
+<p>
+    © 2026 CampusRecover.
+    Helping campus belongings find their owners.
+</p>
+```
+
+</footer>
+
+<script src="js/main.js"></script>
 
 </body>
 

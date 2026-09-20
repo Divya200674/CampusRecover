@@ -1,201 +1,226 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Found Items | CampusRecover</title>
+<title>Found Items | CampusRecover</title>
 
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+```
 
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <div class="nav-container">
+```
+<div class="nav-container">
 
-            <a href="index.html" class="logo">
-                Campus<span>Recover</span>
+    <a href="index.html" class="logo">
+        Campus<span>Recover</span>
+    </a>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="index.html">
+                Home
             </a>
+        </li>
 
-            <ul class="nav-links">
+        <li>
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+        </li>
 
-                <li>
-                    <a href="index.html">
-                        Home
-                    </a>
-                </li>
+        <li>
+            <a href="found-items.html" class="active">
+                Found Items
+            </a>
+        </li>
 
-                <li>
-                    <a href="lost-items.html">
-                        Lost Items
-                    </a>
-                </li>
+        <li>
+            <a href="my-reports.html">
+                My Reports
+            </a>
+        </li>
 
-                <li>
-                    <a href="found-items.html" class="active">
-                        Found Items
-                    </a>
-                </li>
+        <li>
+            <a href="my-claims.html">
+                My Claims
+            </a>
+        </li>
 
-                <li>
-                    <a href="my-reports.html">
-                        My Reports
-                    </a>
-                </li>
+    </ul>
 
-                <li>
-                    <a href="my-claims.html">
-                        My Claims
-                    </a>
-                </li>
+    <div class="nav-profile">
 
-            </ul>
+        <a href="profile.html" class="profile-link">
+            👤 Profile
+        </a>
 
-            <div class="nav-profile">
-
-                <a href="profile.html" class="profile-link">
-                    👤 Profile
-                </a>
-
-                <button
-                    class="logout-btn"
-                    id="logoutBtn"
-                >
-                    Logout
-                </button>
-
-            </div>
-
-        </div>
-
-    </nav>
-
-
-    <!-- ================= BLUE HEADER ================= -->
-
-    <header class="page-header">
-
-        <h1>
-            Found Items
-        </h1>
-
-        <p>
-            Browse items found around the campus and check
-            whether one of them belongs to you.
-        </p>
-
-    </header>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="container">
-
-        <section class="search-filter-section">
-
-            <div class="search-box">
-
-                <input
-                    type="text"
-                    id="foundSearch"
-                    placeholder="🔍 Search found items..."
-                >
-
-            </div>
-
-
-            <div class="filter-box">
-
-                <select id="foundCategoryFilter">
-
-                    <option value="">
-                        All Categories
-                    </option>
-
-                    <option value="id-card">
-                        ID Card
-                    </option>
-
-                    <option value="wallet">
-                        Wallet
-                    </option>
-
-                    <option value="mobile">
-                        Mobile
-                    </option>
-
-                    <option value="bag">
-                        Bag
-                    </option>
-
-                    <option value="book">
-                        Book
-                    </option>
-
-                    <option value="bottle">
-                        Bottle
-                    </option>
-
-                    <option value="other">
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-        </section>
-
-
-        <section
-            id="foundItemsGrid"
-            class="items-grid"
+        <button
+            class="logout-btn"
+            id="logoutBtn"
         >
-        </section>
+            Logout
+        </button>
 
+    </div>
 
-        <section
-            id="noFoundItems"
-            class="empty-state"
-            style="display: none;"
+</div>
+```
+
+</nav>
+
+<!-- ================= PAGE HEADER ================= -->
+
+<header class="page-header">
+
+```
+<h1>
+    Found Items
+</h1>
+
+<p>
+    Browse items found around the campus and check
+    whether one of them belongs to you.
+</p>
+```
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+```
+<section class="search-filter-section">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="foundSearch"
+            placeholder="🔍 Search found items..."
         >
 
-            <div class="empty-state-icon">
-                📦
-            </div>
-
-            <h3>
-                No found items available
-            </h3>
-
-            <p>
-                Try another search or category.
-            </p>
-
-        </section>
-
-    </main>
+    </div>
 
 
-    <!-- ================= FOOTER ================= -->
+    <div class="filter-box">
 
-    <footer class="footer">
+        <select id="foundCategoryFilter">
+
+            <option value="">
+                All Categories
+            </option>
+
+            <option value="id-card">
+                ID Card
+            </option>
+
+            <option value="wallet">
+                Wallet
+            </option>
+
+            <option value="mobile">
+                Mobile
+            </option>
+
+            <option value="bag">
+                Bag
+            </option>
+
+            <option value="book">
+                Book
+            </option>
+
+            <option value="bottle">
+                Bottle
+            </option>
+
+            <option value="other">
+                Other
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- IMPORTANT:
+     main.js searches for foundItemsContainer
+-->
+
+<section
+    id="foundItemsContainer"
+    class="items-grid"
+>
+
+    <div class="loading-state">
+
+        <div class="loading-spinner"></div>
 
         <p>
-            © <span id="currentYear"></span>
-            CampusRecover. Helping campus belongings find their owners.
+            Loading found items...
         </p>
 
-    </footer>
+    </div>
+
+</section>
 
 
-    <script src="js/main.js"></script>
+<section
+    id="noFoundItems"
+    class="empty-state"
+    style="display: none;"
+>
+
+    <div class="empty-state-icon">
+        📦
+    </div>
+
+    <h3>
+        No found items available
+    </h3>
+
+    <p>
+        Try another search or category.
+    </p>
+
+</section>
+```
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+```
+<p>
+    © <span id="currentYear"></span>
+    CampusRecover.
+    Helping campus belongings find their owners.
+</p>
+```
+
+</footer>
+
+<script src="js/main.js"></script>
 
 </body>
+
 </html>

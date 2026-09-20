@@ -5,7 +5,7 @@ const API_BASE_URL = "http://localhost:3000";
    PAGE INITIALIZATION
 ===================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
     setCurrentYear();
 
@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupClaimForm();
 
+    displayMyClaims();
+
 });
 
 
@@ -34,14 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function setCurrentYear() {
 
-    document
-        .querySelectorAll(".current-year")
-        .forEach(element => {
+    document.querySelectorAll(".current-year").forEach(function (element) {
 
-            element.textContent =
-                new Date().getFullYear();
+        element.textContent = new Date().getFullYear();
 
-        });
+    });
 
 }
 
@@ -52,18 +51,15 @@ function setCurrentYear() {
 
 function setupLogout() {
 
-    const logoutButtons =
-        document.querySelectorAll(".logout-btn");
+    const logoutButtons = document.querySelectorAll(".logout-btn");
 
+    logoutButtons.forEach(function (button) {
 
-    logoutButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
+        button.addEventListener("click", function () {
 
             localStorage.removeItem("currentUser");
 
-            window.location.href =
-                "login.html";
+            window.location.href = "login.html";
 
         });
 
@@ -78,180 +74,121 @@ function setupLogout() {
 
 function setupLostForm() {
 
-    const form =
-        document.getElementById("lostItemForm");
-
+    const form = document.getElementById("lostItemForm");
 
     if (!form) {
         return;
     }
 
-
-    form.addEventListener("submit", async event => {
+    form.addEventListener("submit", async function (event) {
 
         event.preventDefault();
 
+        const submitButton = form.querySelector(".submit-report-btn");
 
-        const submitButton =
-            form.querySelector(
-                ".submit-report-btn"
-            );
-
-
-        const originalText =
-            submitButton
-                ? submitButton.innerHTML
-                : "";
-
+        const originalText = submitButton
+            ? submitButton.innerHTML
+            : "";
 
         if (submitButton) {
-
             submitButton.disabled = true;
-
-            submitButton.innerHTML =
-                "⏳ Submitting...";
-
+            submitButton.innerHTML = "⏳ Submitting...";
         }
-
-
-        const itemName =
-            document
-                .getElementById("itemName")
-                .value
-                .trim();
-
-
-        const category =
-            document
-                .getElementById("category")
-                .value;
-
-
-        const description =
-            document
-                .getElementById("description")
-                .value
-                .trim();
-
-
-        const location =
-            document
-                .getElementById("location")
-                .value;
-
-
-        const lostDate =
-            document
-                .getElementById("lostDate")
-                .value;
-
-
-        const lostTime =
-            document
-                .getElementById("lostTime")
-                .value;
-
-
-        const additionalInfoElement =
-            document.getElementById(
-                "additionalInfo"
-            );
-
-
-        const additionalInfo =
-            additionalInfoElement
-                ? additionalInfoElement.value.trim()
-                : "";
-
-
-        const data = {
-
-            itemName,
-
-            category,
-
-            description,
-
-            location,
-
-            lostDate,
-
-            lostTime,
-
-            additionalInfo
-
-        };
-
 
         try {
 
-            const response =
-                await fetch(
-                    `${API_BASE_URL}/lost-items`,
-                    {
-                        method: "POST",
+            const itemNameElement = document.getElementById("itemName");
+            const categoryElement = document.getElementById("category");
+            const descriptionElement = document.getElementById("description");
+            const locationElement = document.getElementById("location");
+            const lostDateElement = document.getElementById("lostDate");
+            const lostTimeElement = document.getElementById("lostTime");
+            const additionalInfoElement = document.getElementById("additionalInfo");
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+            const itemName = itemNameElement
+                ? itemNameElement.value.trim()
+                : "";
 
-                        body:
-                            JSON.stringify(data)
+            const category = categoryElement
+                ? categoryElement.value
+                : "";
 
-                    }
-                );
+            const description = descriptionElement
+                ? descriptionElement.value.trim()
+                : "";
 
+            const location = locationElement
+                ? locationElement.value
+                : "";
 
-            const result =
-                await response.json()
-                    .catch(() => ({}));
+            const lostDate = lostDateElement
+                ? lostDateElement.value
+                : "";
 
+            const lostTime = lostTimeElement
+                ? lostTimeElement.value
+                : "";
 
-            if (!response.ok) {
+            const additionalInfo = additionalInfoElement
+                ? additionalInfoElement.value.trim()
+                : "";
 
-                throw new Error(
-                    result.message ||
-                    "Failed to report lost item."
-                );
+            let finalDescription = description;
 
+            if (additionalInfo) {
+                finalDescription = description + "\n" + additionalInfo;
             }
 
+            const data = {
+                itemName: itemName,
+                category: category,
+                description: finalDescription,
+                location: location,
+                date: lostDate,
+                time: lostTime
+            };
 
-            alert(
-                "✅ Lost item reported successfully!"
+            console.log("Sending lost item:", data);
+
+            const response = await fetch(
+                API_BASE_URL + "/lost-items",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
             );
 
+            const result = await response.json();
+
+            console.log("Backend response:", result);
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Failed to report lost item."
+                );
+            }
+
+            alert("✅ Lost item reported successfully!");
 
             form.reset();
 
-
-            window.location.href =
-                "my-reports.html";
-
+            window.location.href = "my-reports.html";
 
         } catch (error) {
 
-            console.error(
-                "Lost item error:",
-                error
-            );
-
+            console.error("Lost item error:", error);
 
             alert(
                 "❌ Unable to submit the lost item.\n\n" +
-                "Please make sure the backend is running."
+                error.message
             );
 
-
             if (submitButton) {
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.innerHTML =
-                    originalText;
-
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
             }
 
         }
@@ -267,136 +204,126 @@ function setupLostForm() {
 
 function setupFoundForm() {
 
-    const form =
-        document.getElementById(
-            "foundItemForm"
-        );
-
+    const form = document.getElementById("foundItemForm");
 
     if (!form) {
         return;
     }
 
+    form.addEventListener("submit", async function (event) {
 
-    form.addEventListener(
-        "submit",
-        async event => {
+        event.preventDefault();
 
-            event.preventDefault();
+        const submitButton = form.querySelector(".submit-report-btn");
 
+        const originalText = submitButton
+            ? submitButton.innerHTML
+            : "";
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = "⏳ Submitting...";
+        }
+
+        try {
+
+            const itemNameElement = document.getElementById("itemName");
+            const categoryElement = document.getElementById("category");
+            const descriptionElement = document.getElementById("description");
+            const locationElement = document.getElementById("location");
+            const dateFoundElement = document.getElementById("dateFound");
+            const timeFoundElement = document.getElementById("timeFound");
+            const additionalInfoElement = document.getElementById("additionalInfo");
+
+            const itemName = itemNameElement
+                ? itemNameElement.value.trim()
+                : "";
+
+            const category = categoryElement
+                ? categoryElement.value
+                : "";
+
+            const description = descriptionElement
+                ? descriptionElement.value.trim()
+                : "";
+
+            const location = locationElement
+                ? locationElement.value
+                : "";
+
+            const dateFound = dateFoundElement
+                ? dateFoundElement.value
+                : "";
+
+            const timeFound = timeFoundElement
+                ? timeFoundElement.value
+                : "";
+
+            const additionalInfo = additionalInfoElement
+                ? additionalInfoElement.value.trim()
+                : "";
+
+            let finalDescription = description;
+
+            if (additionalInfo) {
+                finalDescription = description + "\n" + additionalInfo;
+            }
 
             const data = {
-
-                itemName:
-                    document
-                        .getElementById(
-                            "itemName"
-                        )
-                        .value
-                        .trim(),
-
-                category:
-                    document
-                        .getElementById(
-                            "category"
-                        )
-                        .value,
-
-                description:
-                    document
-                        .getElementById(
-                            "description"
-                        )
-                        .value
-                        .trim(),
-
-                location:
-                    document
-                        .getElementById(
-                            "location"
-                        )
-                        .value,
-
-                dateFound:
-                    document
-                        .getElementById(
-                            "dateFound"
-                        )
-                        .value,
-
-                timeFound:
-                    document
-                        .getElementById(
-                            "timeFound"
-                        )
-                        .value,
-
-                additionalInfo:
-                    document
-                        .getElementById(
-                            "additionalInfo"
-                        )
-                        ?.value
-                        .trim() || ""
-
+                itemName: itemName,
+                category: category,
+                description: finalDescription,
+                location: location,
+                date: dateFound,
+                time: timeFound
             };
 
+            console.log("Sending found item:", data);
 
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_BASE_URL}/found-items`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(data)
-
-                        }
-                    );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Failed to report found item"
-                    );
-
+            const response = await fetch(
+                API_BASE_URL + "/found-items",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
                 }
+            );
 
+            const result = await response.json();
 
-                alert(
-                    "✅ Found item reported successfully!"
+            console.log("Backend response:", result);
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Failed to report found item."
                 );
+            }
 
+            alert("✅ Found item reported successfully!");
 
-                form.reset();
+            form.reset();
 
+            window.location.href = "found-items.html";
 
-                window.location.href =
-                    "found-items.html";
+        } catch (error) {
 
+            console.error("Found item error:", error);
 
-            } catch (error) {
+            alert(
+                "❌ Unable to submit the found item.\n\n" +
+                error.message
+            );
 
-                console.error(error);
-
-
-                alert(
-                    "❌ Unable to submit found item.\n\n" +
-                    "Please make sure the backend is running."
-                );
-
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
             }
 
         }
-    );
+
+    });
 
 }
 
@@ -407,80 +334,42 @@ function setupFoundForm() {
 
 async function displayLostItems() {
 
-    const container =
-        document.getElementById(
-            "lostItemsContainer"
-        );
-
+    const container = document.getElementById("lostItemsContainer");
 
     if (!container) {
         return;
     }
 
-
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/lost-items`
-            );
-
+        const response = await fetch(
+            API_BASE_URL + "/lost-items"
+        );
 
         if (!response.ok) {
-
-            throw new Error(
-                "Unable to load lost items"
-            );
-
+            throw new Error("Unable to load lost items");
         }
 
+        const result = await response.json();
 
-        const items =
-            await response.json();
+        const items = Array.isArray(result)
+            ? result
+            : result.items || [];
 
+        renderItems(container, items, "lost");
 
-        renderItems(
-            container,
-            items,
-            "lost"
-        );
-
-
-        setupItemFilters(
-            "lost",
-            items
-        );
-
+        setupItemFilters("lost", items);
 
     } catch (error) {
 
-        console.error(
-            "Lost items error:",
-            error
-        );
+        console.error("Lost items error:", error);
 
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Unable to load lost items
-                </h3>
-
-                <p>
-                    Make sure the CampusRecover
-                    backend is running on
-                    http://localhost:3000
-                </p>
-
-            </div>
-
-        `;
+        container.innerHTML =
+            '<div class="empty-state">' +
+                '<div class="empty-icon">⚠️</div>' +
+                '<h3>Unable to load lost items</h3>' +
+                '<p>Make sure the CampusRecover backend is running on http://localhost:3000</p>' +
+            '</div>';
 
     }
 
@@ -493,79 +382,42 @@ async function displayLostItems() {
 
 async function displayFoundItems() {
 
-    const container =
-        document.getElementById(
-            "foundItemsContainer"
-        );
-
+    const container = document.getElementById("foundItemsContainer");
 
     if (!container) {
         return;
     }
 
-
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/found-items`
-            );
-
+        const response = await fetch(
+            API_BASE_URL + "/found-items"
+        );
 
         if (!response.ok) {
-
-            throw new Error(
-                "Unable to load found items"
-            );
-
+            throw new Error("Unable to load found items");
         }
 
+        const result = await response.json();
 
-        const items =
-            await response.json();
+        const items = Array.isArray(result)
+            ? result
+            : result.items || [];
 
+        renderItems(container, items, "found");
 
-        renderItems(
-            container,
-            items,
-            "found"
-        );
-
-
-        setupItemFilters(
-            "found",
-            items
-        );
-
+        setupItemFilters("found", items);
 
     } catch (error) {
 
-        console.error(
-            "Found items error:",
-            error
-        );
+        console.error("Found items error:", error);
 
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Unable to load found items
-                </h3>
-
-                <p>
-                    Make sure the CampusRecover
-                    backend is running.
-                </p>
-
-            </div>
-
-        `;
+        container.innerHTML =
+            '<div class="empty-state">' +
+                '<div class="empty-icon">⚠️</div>' +
+                '<h3>Unable to load found items</h3>' +
+                '<p>Make sure the CampusRecover backend is running.</p>' +
+            '</div>';
 
     }
 
@@ -576,73 +428,53 @@ async function displayFoundItems() {
    RENDER ITEMS
 ===================================================== */
 
-function renderItems(
-    container,
-    items,
-    type
-) {
+function renderItems(container, items, type) {
 
-    if (
-        !items ||
-        items.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    ${
-                        type === "lost"
-                            ? "🔍"
-                            : "📦"
-                    }
-                </div>
-
-                <h3>
-                    No ${type} items found
-                </h3>
-
-                <p>
-                    ${
-                        type === "lost"
-                            ? "No students have reported lost items yet."
-                            : "No found items have been reported yet."
-                    }
-                </p>
-
-                <a
-                    href="${
-                        type === "lost"
-                            ? "report-lost.html"
-                            : "report-found.html"
-                    }"
-                    class="empty-action-btn"
-                >
-                    ${
-                        type === "lost"
-                            ? "Report Lost Item"
-                            : "Report Found Item"
-                    }
-                </a>
-
-            </div>
-
-        `;
-
+    if (!container) {
         return;
-
     }
 
+    if (!items || items.length === 0) {
 
-    container.innerHTML =
-        items.map(
-            item =>
-                createItemCard(
-                    item,
-                    type
-                )
-        ).join("");
+        let icon = "📦";
+        let message = "No items have been reported yet.";
+        let buttonText = "Report Item";
+        let buttonLink = "report-lost.html";
+
+        if (type === "lost") {
+            icon = "🔍";
+            message = "No students have reported lost items yet.";
+            buttonText = "Report Lost Item";
+            buttonLink = "report-lost.html";
+        }
+
+        if (type === "found") {
+            icon = "📦";
+            message = "No found items have been reported yet.";
+            buttonText = "Report Found Item";
+            buttonLink = "report-found.html";
+        }
+
+        container.innerHTML =
+            '<div class="empty-state">' +
+                '<div class="empty-icon">' + icon + '</div>' +
+                '<h3>No ' + type + ' items found</h3>' +
+                '<p>' + message + '</p>' +
+                '<a href="' + buttonLink + '" class="empty-action-btn">' +
+                    buttonText +
+                '</a>' +
+            '</div>';
+
+        return;
+    }
+
+    let html = "";
+
+    items.forEach(function (item) {
+        html += createItemCard(item, type);
+    });
+
+    container.innerHTML = html;
 
 }
 
@@ -651,158 +483,110 @@ function renderItems(
    ITEM CARD
 ===================================================== */
 
-function createItemCard(
-    item,
-    type
-) {
+function createItemCard(item, type) {
 
     const id =
+        item.itemId ||
         item.id ||
         item._id ||
         "";
-
 
     const itemName =
         item.itemName ||
         item.name ||
         "Unnamed Item";
 
-
     const description =
         item.description ||
         "No description available.";
-
 
     const category =
         item.category ||
         "Other";
 
-
     const location =
         item.location ||
         "Unknown";
 
-
     const date =
+        item.date ||
+        item.lostDate ||
+        item.dateLost ||
+        item.dateFound ||
+        item.foundDate ||
+        "Unknown";
+
+    const icon = getItemIcon(category);
+
+    const badgeClass =
         type === "lost"
-            ? (
-                item.lostDate ||
-                item.dateLost ||
-                "Unknown"
-            )
-            : (
-                item.dateFound ||
-                item.foundDate ||
-                "Unknown"
-            );
+            ? "lost-badge"
+            : "found-badge";
 
+    const badgeText =
+        type === "lost"
+            ? "LOST"
+            : "FOUND";
 
-    const icon =
-        getItemIcon(category);
+    return (
+        '<div class="item-card">' +
 
+            '<div class="item-card-top">' +
 
-    return `
+                '<div class="item-card-icon">' +
+                    icon +
+                '</div>' +
 
-        <div class="item-card">
+                '<span class="' + badgeClass + '">' +
+                    badgeText +
+                '</span>' +
 
-            <div class="item-card-top">
+            '</div>' +
 
-                <div class="item-card-icon">
-                    ${icon}
-                </div>
+            '<div class="item-card-content">' +
 
-                <span
-                    class="${
-                        type === "lost"
-                            ? "lost-badge"
-                            : "found-badge"
-                    }"
-                >
-                    ${
-                        type === "lost"
-                            ? "LOST"
-                            : "FOUND"
-                    }
-                </span>
+                '<h3>' +
+                    escapeHTML(itemName) +
+                '</h3>' +
 
-            </div>
+                '<p class="item-description">' +
+                    escapeHTML(description) +
+                '</p>' +
 
+                '<div class="item-details-list">' +
 
-            <div class="item-card-content">
+                    '<div class="item-detail-row">' +
+                        '📂 ' +
+                        '<strong>Category:</strong> ' +
+                        escapeHTML(formatCategory(category)) +
+                    '</div>' +
 
-                <h3>
-                    ${escapeHTML(itemName)}
-                </h3>
+                    '<div class="item-detail-row">' +
+                        '📍 ' +
+                        '<strong>Location:</strong> ' +
+                        escapeHTML(formatLocation(location)) +
+                    '</div>' +
 
+                    '<div class="item-detail-row">' +
+                        '📅 ' +
+                        '<strong>Date:</strong> ' +
+                        escapeHTML(formatDate(date)) +
+                    '</div>' +
 
-                <p class="item-description">
+                '</div>' +
 
-                    ${escapeHTML(description)}
+                '<a href="item-details.html?id=' +
+                    encodeURIComponent(id) +
+                    '&type=' +
+                    type +
+                    '" class="view-details-btn">' +
+                    'View Details →' +
+                '</a>' +
 
-                </p>
+            '</div>' +
 
-
-                <div class="item-details-list">
-
-                    <div class="item-detail-row">
-
-                        📂
-
-                        <strong>
-                            Category:
-                        </strong>
-
-                        ${escapeHTML(
-                            formatCategory(category)
-                        )}
-
-                    </div>
-
-
-                    <div class="item-detail-row">
-
-                        📍
-
-                        <strong>
-                            Location:
-                        </strong>
-
-                        ${escapeHTML(
-                            formatLocation(location)
-                        )}
-
-                    </div>
-
-
-                    <div class="item-detail-row">
-
-                        📅
-
-                        <strong>
-                            Date:
-                        </strong>
-
-                        ${escapeHTML(
-                            formatDate(date)
-                        )}
-
-                    </div>
-
-                </div>
-
-
-                <a
-                    href="item-details.html?id=${encodeURIComponent(id)}&type=${type}"
-                    class="view-details-btn"
-                >
-                    View Details →
-                </a>
-
-            </div>
-
-        </div>
-
-    `;
+        '</div>'
+    );
 
 }
 
@@ -811,141 +595,76 @@ function createItemCard(
    SEARCH + CATEGORY FILTER
 ===================================================== */
 
-function setupItemFilters(
-    type,
-    originalItems
-) {
+function setupItemFilters(type, originalItems) {
 
     const searchInput =
-        document.getElementById(
-            `${type}Search`
-        );
-
+        document.getElementById(type + "Search");
 
     const categoryFilter =
-        document.getElementById(
-            `${type}CategoryFilter`
-        );
+        document.getElementById(type + "CategoryFilter");
 
-
-    if (
-        !searchInput &&
-        !categoryFilter
-    ) {
+    if (!searchInput && !categoryFilter) {
         return;
     }
 
+    const applyFilters = function () {
 
-    const applyFilters = () => {
+        let filtered = [...originalItems];
 
-        let filtered =
-            [...originalItems];
+        const search = searchInput
+            ? searchInput.value.trim().toLowerCase()
+            : "";
 
-
-        const search =
-            searchInput
-                ? searchInput.value
-                    .trim()
-                    .toLowerCase()
-                : "";
-
-
-        const category =
-            categoryFilter
-                ? categoryFilter.value
-                    .trim()
-                    .toLowerCase()
-                : "";
-
+        const category = categoryFilter
+            ? categoryFilter.value.trim().toLowerCase()
+            : "";
 
         if (search) {
 
-            filtered =
-                filtered.filter(item => {
+            filtered = filtered.filter(function (item) {
 
-                    const text = `
+                const text =
+                    String(item.itemName || "") + " " +
+                    String(item.name || "") + " " +
+                    String(item.description || "") + " " +
+                    String(item.location || "") + " " +
+                    String(item.category || "");
 
-                        ${
-                            item.itemName ||
-                            item.name ||
-                            ""
-                        }
+                return text.toLowerCase().includes(search);
 
-                        ${
-                            item.description ||
-                            ""
-                        }
-
-                        ${
-                            item.location ||
-                            ""
-                        }
-
-                        ${
-                            item.category ||
-                            ""
-                        }
-
-                    `.toLowerCase();
-
-
-                    return text.includes(
-                        search
-                    );
-
-                });
+            });
 
         }
-
 
         if (category) {
 
-            filtered =
-                filtered.filter(item =>
+            filtered = filtered.filter(function (item) {
 
-                    String(
-                        item.category || ""
-                    )
+                return String(item.category || "")
                     .toLowerCase()
-                    .includes(category)
+                    .includes(category);
 
-                );
+            });
 
         }
 
-
         const container =
             document.getElementById(
-                `${type}ItemsContainer`
+                type + "ItemsContainer"
             );
 
-
-        renderItems(
-            container,
-            filtered,
-            type
-        );
+        if (container) {
+            renderItems(container, filtered, type);
+        }
 
     };
 
-
     if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            applyFilters
-        );
-
+        searchInput.addEventListener("input", applyFilters);
     }
 
-
     if (categoryFilter) {
-
-        categoryFilter.addEventListener(
-            "change",
-            applyFilters
-        );
-
+        categoryFilter.addEventListener("change", applyFilters);
     }
 
 }
@@ -958,208 +677,139 @@ function setupItemFilters(
 async function displayItemDetails() {
 
     const container =
-        document.getElementById(
-            "itemDetailsContainer"
-        );
-
+        document.getElementById("itemDetailsContainer");
 
     if (!container) {
         return;
     }
 
-
     const params =
-        new URLSearchParams(
-            window.location.search
-        );
+        new URLSearchParams(window.location.search);
 
-
-    const id =
-        params.get("id");
-
+    const id = params.get("id");
 
     const type =
-        params.get("type") ||
-        "found";
-
+        params.get("type") || "found";
 
     if (!id) {
 
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Invalid Item
-                </h3>
-
-                <p>
-                    No item ID was provided.
-                </p>
-
-            </div>
-
-        `;
+        container.innerHTML =
+            '<div class="empty-state">' +
+                '<div class="empty-icon">⚠️</div>' +
+                '<h3>Invalid Item</h3>' +
+                '<p>No item ID was provided.</p>' +
+            '</div>';
 
         return;
-
     }
-
 
     try {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/items/${encodeURIComponent(id)}`
+                API_BASE_URL +
+                "/items/" +
+                encodeURIComponent(id)
             );
-
 
         if (!response.ok) {
+            throw new Error("Item not found");
+        }
 
-            throw new Error(
-                "Item not found"
-            );
+        const result = await response.json();
+
+        const item =
+            result.item || result;
+
+        let claimButton = "";
+
+        if (type === "found") {
+
+            claimButton =
+                '<a href="claim.html?id=' +
+                encodeURIComponent(id) +
+                '&type=found" class="claim-button">' +
+                'Claim This Item' +
+                '</a>';
 
         }
 
+        const backPage =
+            type === "lost"
+                ? "lost-items.html"
+                : "found-items.html";
 
-        const item =
-            await response.json();
+        const badge =
+            type === "lost"
+                ? "🔍 LOST ITEM"
+                : "📦 FOUND ITEM";
 
+        container.innerHTML =
+            '<div class="details-card">' +
 
-        container.innerHTML = `
+                '<div class="details-badge">' +
+                    badge +
+                '</div>' +
 
-            <div class="details-card">
+                '<h1>' +
+                    escapeHTML(item.itemName || "Unnamed Item") +
+                '</h1>' +
 
-                <div class="details-badge">
+                '<p class="details-description">' +
+                    escapeHTML(item.description || "No description") +
+                '</p>' +
 
-                    ${
-                        type === "lost"
-                            ? "🔍 LOST ITEM"
-                            : "📦 FOUND ITEM"
-                    }
+                '<div class="details-grid">' +
 
-                </div>
+                    '<div>' +
+                        '<span>Category</span>' +
+                        '<strong>' +
+                            escapeHTML(
+                                formatCategory(item.category)
+                            ) +
+                        '</strong>' +
+                    '</div>' +
 
+                    '<div>' +
+                        '<span>Location</span>' +
+                        '<strong>' +
+                            escapeHTML(
+                                formatLocation(item.location)
+                            ) +
+                        '</strong>' +
+                    '</div>' +
 
-                <h1>
-                    ${escapeHTML(
-                        item.itemName ||
-                        "Unnamed Item"
-                    )}
-                </h1>
+                    '<div>' +
+                        '<span>Date</span>' +
+                        '<strong>' +
+                            escapeHTML(
+                                formatDate(item.date)
+                            ) +
+                        '</strong>' +
+                    '</div>' +
 
+                '</div>' +
 
-                <p class="details-description">
+                claimButton +
 
-                    ${escapeHTML(
-                        item.description ||
-                        "No description"
-                    )}
+                '<a href="' +
+                    backPage +
+                    '" class="back-button">' +
+                    '← Back' +
+                '</a>' +
 
-                </p>
-
-
-                <div class="details-grid">
-
-                    <div>
-                        <span>Category</span>
-                        <strong>
-                            ${escapeHTML(
-                                formatCategory(
-                                    item.category
-                                )
-                            )}
-                        </strong>
-                    </div>
-
-
-                    <div>
-                        <span>Location</span>
-                        <strong>
-                            ${escapeHTML(
-                                formatLocation(
-                                    item.location
-                                )
-                            )}
-                        </strong>
-                    </div>
-
-
-                    <div>
-                        <span>Date</span>
-                        <strong>
-                            ${escapeHTML(
-                                formatDate(
-                                    type === "lost"
-                                        ? item.lostDate
-                                        : item.dateFound
-                                )
-                            )}
-                        </strong>
-                    </div>
-
-                </div>
-
-
-                ${
-                    type === "found"
-                        ? `
-                            <a
-                                href="claim.html?id=${encodeURIComponent(id)}&type=found"
-                                class="claim-button"
-                            >
-                                Claim This Item
-                            </a>
-                        `
-                        : ""
-                }
-
-
-                <a
-                    href="${
-                        type === "lost"
-                            ? "lost-items.html"
-                            : "found-items.html"
-                    }"
-                    class="back-button"
-                >
-                    ← Back
-                </a>
-
-            </div>
-
-        `;
-
+            '</div>';
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Item details error:", error);
 
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Item not found
-                </h3>
-
-                <p>
-                    The requested item could not be loaded.
-                </p>
-
-            </div>
-
-        `;
+        container.innerHTML =
+            '<div class="empty-state">' +
+                '<div class="empty-icon">⚠️</div>' +
+                '<h3>Item not found</h3>' +
+                '<p>The requested item could not be loaded.</p>' +
+            '</div>';
 
     }
 
@@ -1173,25 +823,16 @@ async function displayItemDetails() {
 async function displayClaimItem() {
 
     const container =
-        document.getElementById(
-            "claimItemContainer"
-        );
-
+        document.getElementById("claimItemContainer");
 
     if (!container) {
         return;
     }
 
-
     const params =
-        new URLSearchParams(
-            window.location.search
-        );
+        new URLSearchParams(window.location.search);
 
-
-    const id =
-        params.get("id");
-
+    const id = params.get("id");
 
     if (!id) {
 
@@ -1199,87 +840,72 @@ async function displayClaimItem() {
             "<p>Invalid claim.</p>";
 
         return;
-
     }
-
 
     try {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/items/${encodeURIComponent(id)}`
+                API_BASE_URL +
+                "/items/" +
+                encodeURIComponent(id)
             );
-
 
         if (!response.ok) {
-
-            throw new Error(
-                "Unable to load item"
-            );
-
+            throw new Error("Unable to load item");
         }
 
+        const result = await response.json();
 
         const item =
-            await response.json();
+            result.item || result;
 
+        container.innerHTML =
+            '<div class="claim-item-preview">' +
 
-        container.innerHTML = `
+                '<span class="found-badge">' +
+                    'FOUND' +
+                '</span>' +
 
-            <div class="claim-item-preview">
-
-                <span class="found-badge">
-                    FOUND
-                </span>
-
-                <h2>
-                    ${escapeHTML(
+                '<h2>' +
+                    escapeHTML(
                         item.itemName ||
                         "Unnamed Item"
-                    )}
-                </h2>
+                    ) +
+                '</h2>' +
 
-                <p>
-                    ${escapeHTML(
-                        item.description ||
-                        ""
-                    )}
-                </p>
+                '<p>' +
+                    escapeHTML(
+                        item.description || ""
+                    ) +
+                '</p>' +
 
-                <div>
-                    📂
-                    ${escapeHTML(
-                        formatCategory(
-                            item.category
-                        )
-                    )}
-                </div>
+                '<div>' +
+                    '📂 ' +
+                    escapeHTML(
+                        formatCategory(item.category)
+                    ) +
+                '</div>' +
 
-                <div>
-                    📍
-                    ${escapeHTML(
-                        formatLocation(
-                            item.location
-                        )
-                    )}
-                </div>
+                '<div>' +
+                    '📍 ' +
+                    escapeHTML(
+                        formatLocation(item.location)
+                    ) +
+                '</div>' +
 
-                <div>
-                    📅
-                    ${escapeHTML(
-                        formatDate(
-                            item.dateFound
-                        )
-                    )}
-                </div>
+                '<div>' +
+                    '📅 ' +
+                    escapeHTML(
+                        formatDate(item.date)
+                    ) +
+                '</div>' +
 
-            </div>
-
-        `;
+            '</div>';
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Claim item error:", error);
 
         container.innerHTML =
             "<p>Unable to load item.</p>";
@@ -1296,107 +922,335 @@ async function displayClaimItem() {
 function setupClaimForm() {
 
     const form =
-        document.getElementById(
-            "claimForm"
-        );
-
+        document.getElementById("claimForm");
 
     if (!form) {
         return;
     }
 
+    form.addEventListener("submit", async function (event) {
 
-    form.addEventListener(
-        "submit",
-        async event => {
+        event.preventDefault();
 
-            event.preventDefault();
+        const params =
+            new URLSearchParams(window.location.search);
 
+        const itemId =
+            params.get("id");
 
-            const params =
-                new URLSearchParams(
-                    window.location.search
+        const reasonElement =
+            document.getElementById("claimReason");
+
+        const reason =
+            reasonElement
+                ? reasonElement.value.trim()
+                : "";
+
+        if (!itemId) {
+
+            alert("Invalid item.");
+
+            return;
+        }
+
+        if (!reason) {
+
+            alert(
+                "Please provide a reason for your claim."
+            );
+
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    API_BASE_URL + "/claims",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            itemId: itemId,
+                            reason: reason
+                        })
+                    }
                 );
 
+            const result =
+                await response.json();
 
-            const itemId =
-                params.get("id");
+            if (!response.ok) {
 
-
-            const reason =
-                document
-                    .getElementById(
-                        "claimReason"
-                    )
-                    ?.value
-                    .trim() || "";
-
-
-            if (!itemId) {
-
-                alert(
-                    "Invalid item."
+                throw new Error(
+                    result.message ||
+                    "Unable to submit claim"
                 );
-
-                return;
 
             }
 
+            alert(
+                "✅ Claim submitted successfully!"
+            );
+
+            window.location.href =
+                "my-claims.html";
+
+        } catch (error) {
+
+            console.error(
+                "Claim error:",
+                error
+            );
+
+            alert(
+                "❌ Unable to submit claim.\n\n" +
+                error.message
+            );
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   MY CLAIMS
+===================================================== */
+
+async function displayMyClaims() {
+
+    const container =
+        document.getElementById("myClaimsContainer");
+
+    if (!container) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL + "/claims"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load claims"
+            );
+
+        }
+
+        const result =
+            await response.json();
+
+        const claims =
+            Array.isArray(result)
+                ? result
+                : result.claims || [];
+
+        if (claims.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty-state">' +
+
+                    '<div class="empty-state-icon">' +
+                        '🔐' +
+                    '</div>' +
+
+                    '<h3>No Claims Yet</h3>' +
+
+                    '<p>' +
+                        'You have not submitted any claims yet.' +
+                    '</p>' +
+
+                '</div>';
+
+            return;
+        }
+
+        let html =
+            '<div class="items-grid">';
+
+        for (const claim of claims) {
+
+            let item = null;
 
             try {
 
-                const response =
+                const itemResponse =
                     await fetch(
-                        `${API_BASE_URL}/claims`,
-                        {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify({
-                                    itemId,
-                                    reason
-                                })
-
-                        }
+                        API_BASE_URL +
+                        "/items/" +
+                        encodeURIComponent(
+                            claim.itemId
+                        )
                     );
 
+                if (itemResponse.ok) {
 
-                if (!response.ok) {
+                    const itemResult =
+                        await itemResponse.json();
 
-                    throw new Error(
-                        "Unable to submit claim"
-                    );
+                    item =
+                        itemResult.item ||
+                        itemResult;
 
                 }
 
+            } catch (itemError) {
 
-                alert(
-                    "✅ Claim submitted successfully!"
-                );
-
-
-                window.location.href =
-                    "my-claims.html";
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "❌ Unable to submit claim."
+                console.error(
+                    "Unable to load claim item:",
+                    itemError
                 );
 
             }
 
+            const itemName =
+                item && item.itemName
+                    ? item.itemName
+                    : "Unknown Item";
+
+            const category =
+                item && item.category
+                    ? item.category
+                    : "Other";
+
+            const location =
+                item && item.location
+                    ? item.location
+                    : "Unknown";
+
+            const itemDate =
+                item && item.date
+                    ? item.date
+                    : "Unknown";
+
+            const reason =
+                claim.reason ||
+                "No reason provided";
+
+            const status =
+                claim.status ||
+                "PENDING";
+
+            const statusClass =
+                status.toLowerCase();
+
+            const createdAt =
+                claim.createdAt
+                    ? formatDateTime(claim.createdAt)
+                    : "Unknown";
+
+            html +=
+                '<div class="item-card">' +
+
+                    '<div class="item-card-top">' +
+
+                        '<div class="item-card-icon">' +
+                            getItemIcon(category) +
+                        '</div>' +
+
+                        '<span class="claim-status ' +
+                            statusClass +
+                        '">' +
+                            escapeHTML(status) +
+                        '</span>' +
+
+                    '</div>' +
+
+                    '<div class="item-card-content">' +
+
+                        '<h3>' +
+                            escapeHTML(itemName) +
+                        '</h3>' +
+
+                        '<div class="item-details-list">' +
+
+                            '<div class="item-detail-row">' +
+                                '📂 ' +
+                                '<strong>Category:</strong> ' +
+                                escapeHTML(
+                                    formatCategory(category)
+                                ) +
+                            '</div>' +
+
+                            '<div class="item-detail-row">' +
+                                '📍 ' +
+                                '<strong>Location:</strong> ' +
+                                escapeHTML(
+                                    formatLocation(location)
+                                ) +
+                            '</div>' +
+
+                            '<div class="item-detail-row">' +
+                                '📅 ' +
+                                '<strong>Date:</strong> ' +
+                                escapeHTML(
+                                    formatDate(itemDate)
+                                ) +
+                            '</div>' +
+
+                        '</div>' +
+
+                        '<div class="claim-reason">' +
+
+                            '<strong>Claim Reason:</strong>' +
+
+                            '<p>' +
+                                escapeHTML(reason) +
+                            '</p>' +
+
+                        '</div>' +
+
+                        '<div class="claim-submitted">' +
+
+                            '<strong>Submitted:</strong> ' +
+                            escapeHTML(createdAt) +
+
+                        '</div>' +
+
+                    '</div>' +
+
+                '</div>';
+
         }
-    );
+
+        html += "</div>";
+
+        container.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(
+            "My claims error:",
+            error
+        );
+
+        container.innerHTML =
+            '<div class="empty-state">' +
+
+                '<div class="empty-state-icon">' +
+                    '⚠️' +
+                '</div>' +
+
+                '<h3>Unable to load claims</h3>' +
+
+                '<p>' +
+                    'Make sure the CampusRecover backend is running on http://localhost:3000' +
+                '</p>' +
+
+            '</div>';
+
+    }
 
 }
 
@@ -1408,10 +1262,7 @@ function setupClaimForm() {
 function getItemIcon(category) {
 
     const value =
-        String(
-            category || ""
-        ).toLowerCase();
-
+        String(category || "").toLowerCase();
 
     if (
         value.includes("mobile") ||
@@ -1420,7 +1271,6 @@ function getItemIcon(category) {
         return "📱";
     }
 
-
     if (
         value.includes("laptop") ||
         value.includes("computer")
@@ -1428,48 +1278,29 @@ function getItemIcon(category) {
         return "💻";
     }
 
-
-    if (
-        value.includes("wallet")
-    ) {
+    if (value.includes("wallet")) {
         return "👛";
     }
 
-
-    if (
-        value.includes("id")
-    ) {
+    if (value.includes("id")) {
         return "🪪";
     }
 
-
-    if (
-        value.includes("book")
-    ) {
+    if (value.includes("book")) {
         return "📚";
     }
 
-
-    if (
-        value.includes("bag")
-    ) {
+    if (value.includes("bag")) {
         return "🎒";
     }
 
-
-    if (
-        value.includes("key")
-    ) {
+    if (value.includes("key")) {
         return "🔑";
     }
 
-
-    if (
-        value.includes("electronic")
-    ) {
+    if (value.includes("electronic")) {
         return "🎧";
     }
-
 
     return "📦";
 
@@ -1482,12 +1313,11 @@ function formatCategory(category) {
         return "Other";
     }
 
-
     return String(category)
         .replace(/[-_]/g, " ")
-        .replace(/\b\w/g, char =>
-            char.toUpperCase()
-        );
+        .replace(/\b\w/g, function (char) {
+            return char.toUpperCase();
+        });
 
 }
 
@@ -1498,12 +1328,11 @@ function formatLocation(location) {
         return "Unknown";
     }
 
-
     return String(location)
         .replace(/[-_]/g, " ")
-        .replace(/\b\w/g, char =>
-            char.toUpperCase()
-        );
+        .replace(/\b\w/g, function (char) {
+            return char.toUpperCase();
+        });
 
 }
 
@@ -1514,23 +1343,18 @@ function formatDate(date) {
         return "Unknown";
     }
 
-
     try {
 
         const parsed =
             new Date(date);
-
 
         if (
             Number.isNaN(
                 parsed.getTime()
             )
         ) {
-
             return String(date);
-
         }
-
 
         return parsed.toLocaleDateString(
             "en-IN",
@@ -1541,9 +1365,48 @@ function formatDate(date) {
             }
         );
 
-    } catch {
+    } catch (error) {
 
         return String(date);
+
+    }
+
+}
+
+
+function formatDateTime(dateTime) {
+
+    if (!dateTime) {
+        return "Unknown";
+    }
+
+    try {
+
+        const parsed =
+            new Date(dateTime);
+
+        if (
+            Number.isNaN(
+                parsed.getTime()
+            )
+        ) {
+            return String(dateTime);
+        }
+
+        return parsed.toLocaleString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    } catch (error) {
+
+        return String(dateTime);
 
     }
 
@@ -1553,16 +1416,12 @@ function formatDate(date) {
 function escapeHTML(value) {
 
     const div =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     div.textContent =
-        String(
-            value ?? ""
-        );
-
+        String(value === null || value === undefined
+            ? ""
+            : value);
 
     return div.innerHTML;
 
