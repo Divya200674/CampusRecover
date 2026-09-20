@@ -182,22 +182,22 @@
 
                 <div class="detail">
                     <div class="label">Claim ID</div>
-                    <div class="value">CR-001</div>
+                    <div class="value" id="claimId">Loading...</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Student</div>
-                    <div class="value">Student A</div>
+                    <div class="value">-</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Item</div>
-                    <div class="value">Black Laptop</div>
+                    <div class="value" id="itemId">Loading...</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Status</div>
-                    <div class="value">VERIFIED</div>
+                    <div class="value" id="claimStatus">Loading...</div>
                 </div>
 
             </div>
@@ -281,77 +281,192 @@
 
     <script>
 
-        let generatedCode = "";
+        
 
-        let codeVerified = false;
+    const API_URL = "http://localhost:3000";
+
+    let generatedCode = "";
+    let codeVerified = false;
+
+    const params = new URLSearchParams(window.location.search);
+
+    const claimId = params.get("claimId");
 
 
-        function generateCode() {
+    async function loadClaim() {
 
-            generatedCode =
-                "CR-" +
-                Math.floor(100000 + Math.random() * 900000);
-
-            document.getElementById("handoverCode").textContent =
-                generatedCode;
-
-            document.getElementById("codeBox").style.display =
-                "block";
-
-            codeVerified = false;
-
+        if (!claimId) {
+            alert("No claim ID provided.");
+            return;
         }
 
+        try {
 
-        function verifyCode() {
+            const response =
+                await fetch(`${API_URL}/claims/${claimId}`);
 
-            const enteredCode =
-                document.getElementById("enteredCode").value;
+            const data = await response.json();
 
-            const result =
-                document.getElementById("verificationResult");
-
-
-            if (enteredCode === generatedCode && generatedCode !== "") {
-
-                result.textContent =
-                    "Handover code verified successfully.";
-
-                result.style.color =
-                    "green";
-
-                codeVerified = true;
-
-            } else {
-
-                result.textContent =
-                    "Invalid handover code.";
-
-                result.style.color =
-                    "red";
-
-                codeVerified = false;
-
+            if (!data.success) {
+                throw new Error(data.message);
             }
 
+            const claim = data.claim;
+
+            document.getElementById("claimId").textContent =
+                claim.claimId;
+
+            document.getElementById("itemId").textContent =
+                claim.itemId;
+
+            document.getElementById("claimStatus").textContent =
+                claim.status;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load claim.");
+        }
+    }
+
+
+    function generateCode() {
+
+        generatedCode =
+            "CR-" +
+            Math.floor(100000 + Math.random() * 900000);
+
+        document.getElementById("handoverCode").textContent =
+            generatedCode;
+
+        document.getElementById("codeBox").style.display =
+            "block";
+
+        codeVerified = false;
+    }
+
+
+    function verifyCode() {
+
+        const enteredCode =
+            document.getElementById("enteredCode").value.trim();
+
+        const result =
+            document.getElementById("verificationResult");
+
+
+        if (
+            enteredCode === generatedCode &&
+            generatedCode !== ""
+        ) {
+
+            result.textContent =
+                "Handover code verified successfully.";
+
+            result.style.color = "green";
+
+            codeVerified = true;
+
+        } else {
+
+            result.textContent =
+                "Invalid handover code.";
+
+            result.style.color = "red";
+
+            codeVerified = false;
+        }
+    }
+
+
+    async function markReturned() {
+
+        if (!codeVerified) {
+
+            alert("Please verify the handover code first.");
+
+            return;
         }
 
+        try {
 
-        function markReturned() {
+            const response =
+                await fetch(`${API_URL}/items/${claimItemId}`, {
+                    method: "PATCH",
 
-            if (!codeVerified) {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-                alert("Please verify the handover code first.");
+                    body: JSON.stringify({
+                        status: "RETURNED"
+                    })
+                });
 
-                return;
+            const data = await response.json();
 
+            if (!data.success) {
+                throw new Error(data.message);
             }
 
             alert("Item successfully marked as RETURNED.");
 
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to update item status.");
+        }
+    }
+
+
+    let claimItemId = null;
+
+
+    async function initializePage() {
+
+        if (!claimId) {
+            alert("No claim ID provided.");
+            return;
         }
 
-    </script>
+        try {
+
+            const response =
+                await fetch(`${API_URL}/claims/${claimId}`);
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            const claim = data.claim;
+
+            claimItemId = claim.itemId;
+
+            document.getElementById("claimId").textContent =
+                claim.claimId;
+
+            document.getElementById("itemId").textContent =
+                claim.itemId;
+
+            document.getElementById("claimStatus").textContent =
+                claim.status;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load claim.");
+        }
+    }
+
+
+    initializePage();
+
+</script>
 
 </body>
 

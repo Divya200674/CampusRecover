@@ -202,34 +202,150 @@
 </head>
 
 <script>
+    const API_URL = "http://localhost:3000";
+
+    // Get claimId from URL
+    const params = new URLSearchParams(window.location.search);
+    const claimId = params.get("claimId");
+
+    async function loadClaim() {
+
+        if (!claimId) {
+            showResult("No claim ID provided.", "error");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(`${API_URL}/claims/${claimId}`);
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            const claim = data.claim;
+
+            // Claim information
+            document.getElementById("claimId").textContent =
+                claim.claimId;
+
+            document.getElementById("claimStatus").textContent =
+                claim.status;
+
+            document.getElementById("submittedDate").textContent =
+                new Date(claim.createdAt).toLocaleDateString();
+
+            // Ownership evidence / reason
+            document.getElementById("claimReason").textContent =
+                claim.reason;
+
+            // Item ID
+            document.getElementById("itemId").textContent =
+                claim.itemId;
+
+        } catch (error) {
+
+            console.error(error);
+
+            showResult(
+                "Failed to load claim from backend.",
+                "error"
+            );
+        }
+    }
+
+
+    async function updateClaimStatus(status) {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/claims/${claimId}`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        status: status
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            document.getElementById("claimStatus").textContent =
+                data.claim.status;
+
+            showResult(
+                `Claim ${status.toLowerCase()} successfully.`,
+                status === "APPROVED" ? "success" : "error"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showResult(
+                "Failed to update claim.",
+                "error"
+            );
+        }
+    }
+
 
     function approveClaim() {
-        const result = document.getElementById("decisionResult");
-
-        result.style.display = "block";
-        result.style.background = "#dcfce7";
-        result.style.color = "#166534";
-        result.textContent = "Claim approved. The item can now proceed to the handover process.";
+        updateClaimStatus("APPROVED");
     }
+
 
     function rejectClaim() {
-        const result = document.getElementById("decisionResult");
-
-        result.style.display = "block";
-        result.style.background = "#fee2e2";
-        result.style.color = "#991b1b";
-        result.textContent = "Claim rejected.";
+        updateClaimStatus("REJECTED");
     }
+
 
     function requestEvidence() {
+
+        showResult(
+            "More evidence has been requested from the student.",
+            "info"
+        );
+    }
+
+
+    function showResult(message, type) {
+
         const result = document.getElementById("decisionResult");
 
         result.style.display = "block";
-        result.style.background = "#dbeafe";
-        result.style.color = "#1e40af";
-        result.textContent = "More evidence has been requested from the student.";
+        result.textContent = message;
+
+        if (type === "success") {
+            result.style.background = "#dcfce7";
+            result.style.color = "#166534";
+        }
+
+        if (type === "error") {
+            result.style.background = "#fee2e2";
+            result.style.color = "#991b1b";
+        }
+
+        if (type === "info") {
+            result.style.background = "#dbeafe";
+            result.style.color = "#1e40af";
+        }
     }
 
+
+    // Load claim when page opens
+    loadClaim();
 </script>
 
 <body>
@@ -274,22 +390,22 @@
 
                 <div class="detail">
                     <div class="label">Claim ID</div>
-                    <div class="value">CR-001</div>
+                    <div class="value" id="claimId">Loading...</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Status</div>
-                    <div class="status">PENDING</div>
+                    <div class="status" id="claimStatus">Loading...</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Student</div>
-                    <div class="value">Student A</div>
+                    <div class="value">-</div>
                 </div>
 
                 <div class="detail">
                     <div class="label">Submitted</div>
-                    <div class="value">18 Sep 2026</div>
+                    <div class="value" id="submittedDate">Loading...</div>
                 </div>
 
             </div>
@@ -307,7 +423,7 @@
 
                 <div class="detail">
                     <div class="label">Item</div>
-                    <div class="value">Black Laptop</div>
+                    <div class="value" id="itemId">Loading...</div>
                 </div>
 
                 <div class="detail">
@@ -328,17 +444,9 @@
 
             <div class="evidence">
 
-                Student claims the laptop belongs to them.
-
-                <br><br>
-
-                <strong>Provided evidence:</strong>
-
-                <ul>
-                    <li>Unique sticker on the back of the laptop</li>
-                    <li>Black protective cover</li>
-                    <li>Student knows the approximate purchase details</li>
-                </ul>
+                <div id="claimReason">
+    Loading evidence...
+</div>
 
             </div>
 

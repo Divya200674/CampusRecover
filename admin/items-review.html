@@ -150,98 +150,141 @@
 
                 </thead>
 
-                <tbody>
+                
 
-                    <tr>
+                    <tbody id="itemsTableBody">
+    <tr>
+        <td colspan="7">Loading items...</td>
+    </tr>
+</tbody>
 
-                        <td>ITEM-101</td>
-
-                        <td>Black Laptop</td>
-
-                        <td>Student X</td>
-
-                        <td>CR-001</td>
-
-                        <td>
-                            <span class="status review">
-                                UNDER_REVIEW
-                            </span>
-                        </td>
-
-                        <td>18 Sep 2026</td>
-
-                        <td>
-                            <button class="review-btn"
-                                onclick="window.location.href='claim-details.html'">
-                                Review
-                            </button>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>ITEM-102</td>
-
-                        <td>Blue Backpack</td>
-
-                        <td>Student Y</td>
-
-                        <td>CR-002</td>
-
-                        <td>
-                            <span class="status matched">
-                                MATCHED
-                            </span>
-                        </td>
-
-                        <td>18 Sep 2026</td>
-
-                        <td>
-                            <button class="review-btn"
-                                onclick="window.location.href='claim-details.html'">
-                                Review
-                            </button>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>ITEM-103</td>
-
-                        <td>Scientific Calculator</td>
-
-                        <td>Student Z</td>
-
-                        <td>CR-003</td>
-
-                        <td>
-                            <span class="status review">
-                                UNDER_REVIEW
-                            </span>
-                        </td>
-
-                        <td>17 Sep 2026</td>
-
-                        <td>
-                            <button class="review-btn"
-                                onclick="window.location.href='claim-details.html'">
-                                Review
-                            </button>
-                        </td>
-
-                    </tr>
-
-                </tbody>
+                
 
             </table>
 
         </div>
 
     </main>
+    <script>
+    const API_URL = "http://localhost:3000";
+
+    async function loadItems() {
+
+        const tableBody = document.getElementById("itemsTableBody");
+
+        try {
+
+            const response = await fetch(`${API_URL}/items`);
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            if (data.items.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7">No items found.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = "";
+
+            data.items.forEach(item => {
+
+                const row = document.createElement("tr");
+
+                const statusClass =
+                    item.status === "FOUND"
+                        ? "matched"
+                        : "review";
+
+                row.innerHTML = `
+                    <td>${item.itemId}</td>
+
+                    <td>${item.itemName}</td>
+
+                    <td>-</td>
+
+                    <td>-</td>
+
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${item.status}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${new Date(item.createdAt).toLocaleDateString()}
+                    </td>
+
+                    <td>
+                        <button class="review-btn"
+                            onclick="reviewItem('${item.itemId}')">
+                            Review
+                        </button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        Failed to load items from backend.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+
+    async function reviewItem(itemId) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/claims`
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        // Find the claim belonging to this item
+        const claim = data.claims.find(
+            claim => claim.itemId === itemId
+        );
+
+        if (!claim) {
+            alert("No claim found for this item.");
+            return;
+        }
+
+        // Open the claim details page
+        window.location.href =
+            `claim-details.html?claimId=${encodeURIComponent(claim.claimId)}`;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Failed to find the claim for this item.");
+    }
+}
+
+
+    loadItems();
+</script>
 
 </body>
 
