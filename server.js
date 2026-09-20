@@ -1,7 +1,10 @@
-
 const express = require("express");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
+
+// ===== MATCHING ADDITION =====
+const { findPossibleMatches } = require("./matching/match-service");
+const { saveMatch } = require("./matching/match-storage");
 
 const app = express();
 
@@ -19,6 +22,7 @@ app.get("/", (req, res) => {
     });
 });
 
+// POST /lost-items
 app.post("/lost-items", (req, res) => {
 
     const {
@@ -51,13 +55,50 @@ app.post("/lost-items", (req, res) => {
 
     lostItems.push(item);
 
+    // ===== MATCHING ADDITION =====
+    const lostItemForMatching = {
+        lostItemId: item.itemId,
+        itemName: item.itemName,
+        category: item.category,
+        description: item.description,
+        location: item.location,
+        date: item.date,
+        time: item.time
+    };
+
+    const foundItemsForMatching = [];
+
+    for (let i = 0; i < foundItems.length; i++) {
+        foundItemsForMatching.push({
+            foundItemId: foundItems[i].itemId,
+            itemName: foundItems[i].itemName,
+            category: foundItems[i].category,
+            description: foundItems[i].description,
+            location: foundItems[i].location,
+            date: foundItems[i].date,
+            time: foundItems[i].time
+        });
+    }
+
+    const possibleMatches = findPossibleMatches(
+        lostItemForMatching,
+        foundItemsForMatching
+    );
+
+    // Save possible matches
+    for (let i = 0; i < possibleMatches.length; i++) {
+        saveMatch(possibleMatches[i]);
+    }
+
     res.status(201).json({
         success: true,
         message: "Lost item reported successfully",
         itemId: item.itemId,
-        item: item
+        item: item,
+        possibleMatches: possibleMatches
     });
 });
+
 // POST /found-items
 app.post("/found-items", (req, res) => {
 
@@ -70,7 +111,6 @@ app.post("/found-items", (req, res) => {
         time
     } = req.body;
 
-    // Validation
     if (!itemName || !category || !description || !location || !date || !time) {
         return res.status(400).json({
             success: false,
@@ -92,13 +132,68 @@ app.post("/found-items", (req, res) => {
 
     foundItems.push(item);
 
+    // ===== MATCHING ADDITION =====
+    const foundItemForMatching = {
+        foundItemId: item.itemId,
+        itemName: item.itemName,
+        category: item.category,
+        description: item.description,
+        location: item.location,
+        date: item.date,
+        time: item.time
+    };
+
+    const possibleMatches = [];
+
+    for (let i = 0; i < lostItems.length; i++) {
+
+        const lostItemForMatching = {
+            lostItemId: lostItems[i].itemId,
+            itemName: lostItems[i].itemName,
+            category: lostItems[i].category,
+            description: lostItems[i].description,
+            location: lostItems[i].location,
+            date: lostItems[i].date,
+            time: lostItems[i].time
+        };
+
+        const matches = findPossibleMatches(
+            lostItemForMatching,
+            [foundItemForMatching]
+        );
+
+        for (let j = 0; j < matches.length; j++) {
+            possibleMatches.push(matches[j]);
+        }
+    }
+
+    // Sort by highest score
+    for (let i = 0; i < possibleMatches.length; i++) {
+        for (let j = i + 1; j < possibleMatches.length; j++) {
+
+            if (possibleMatches[j].score > possibleMatches[i].score) {
+
+                const temp = possibleMatches[i];
+                possibleMatches[i] = possibleMatches[j];
+                possibleMatches[j] = temp;
+            }
+        }
+    }
+
+    // Save possible matches
+    for (let i = 0; i < possibleMatches.length; i++) {
+        saveMatch(possibleMatches[i]);
+    }
+
     res.status(201).json({
         success: true,
         message: "Found item reported successfully",
         itemId: item.itemId,
-        item: item
+        item: item,
+        possibleMatches: possibleMatches
     });
 });
+
 // GET /lost-items
 app.get("/lost-items", (req, res) => {
     res.json({
@@ -107,6 +202,7 @@ app.get("/lost-items", (req, res) => {
         items: lostItems
     });
 });
+
 // GET /found-items
 app.get("/found-items", (req, res) => {
     res.json({
@@ -115,6 +211,7 @@ app.get("/found-items", (req, res) => {
         items: foundItems
     });
 });
+
 // GET /items
 app.get("/items", (req, res) => {
     const allItems = [...lostItems, ...foundItems];
@@ -125,6 +222,7 @@ app.get("/items", (req, res) => {
         items: allItems
     });
 });
+
 // GET /items/:id
 app.get("/items/:id", (req, res) => {
 
@@ -146,6 +244,7 @@ app.get("/items/:id", (req, res) => {
         item: item
     });
 });
+
 // POST /claims
 app.post("/claims", (req, res) => {
 
@@ -154,7 +253,6 @@ app.post("/claims", (req, res) => {
         reason
     } = req.body;
 
-    // Validation
     if (!itemId || !reason) {
         return res.status(400).json({
             success: false,
@@ -162,7 +260,6 @@ app.post("/claims", (req, res) => {
         });
     }
 
-    // Check whether item exists
     const allItems = [...lostItems, ...foundItems];
 
     const item = allItems.find(item => item.itemId === itemId);
@@ -174,7 +271,6 @@ app.post("/claims", (req, res) => {
         });
     }
 
-    // Create claim
     const claim = {
         claimId: uuidv4(),
         itemId: itemId,
@@ -192,6 +288,7 @@ app.post("/claims", (req, res) => {
         claim: claim
     });
 });
+
 // GET /claims
 app.get("/claims", (req, res) => {
 
@@ -201,6 +298,7 @@ app.get("/claims", (req, res) => {
         claims: claims
     });
 });
+
 // GET /claims/:id
 app.get("/claims/:id", (req, res) => {
 
@@ -220,13 +318,13 @@ app.get("/claims/:id", (req, res) => {
         claim: claim
     });
 });
+
 // PATCH /claims/:id
 app.patch("/claims/:id", (req, res) => {
 
     const claimId = req.params.id;
     const { status } = req.body;
 
-    // Validate status
     if (!status) {
         return res.status(400).json({
             success: false,
@@ -241,7 +339,6 @@ app.patch("/claims/:id", (req, res) => {
         });
     }
 
-    // Find claim
     const claim = claims.find(claim => claim.claimId === claimId);
 
     if (!claim) {
@@ -251,7 +348,6 @@ app.patch("/claims/:id", (req, res) => {
         });
     }
 
-    // Update status
     claim.status = status;
 
     res.json({
@@ -260,13 +356,13 @@ app.patch("/claims/:id", (req, res) => {
         claim: claim
     });
 });
+
 // PATCH /items/:id
 app.patch("/items/:id", (req, res) => {
 
     const itemId = req.params.id;
     const { status } = req.body;
 
-    // Validate status
     if (!status) {
         return res.status(400).json({
             success: false,
@@ -283,7 +379,6 @@ app.patch("/items/:id", (req, res) => {
         });
     }
 
-    // Find item
     const item = [...lostItems, ...foundItems]
         .find(item => item.itemId === itemId);
 
@@ -294,7 +389,6 @@ app.patch("/items/:id", (req, res) => {
         });
     }
 
-    // Update status
     item.status = status;
 
     res.json({
@@ -303,8 +397,9 @@ app.patch("/items/:id", (req, res) => {
         item: item
     });
 });
+
 const PORT = 3000;
 
-app.listen(PORT,"0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`CampusRecover backend running on http://localhost:${PORT}`);
 });
