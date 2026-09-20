@@ -1,0 +1,977 @@
+/* ========================================
+   GENERAL
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+
+/* ========================================
+   NAVIGATION BAR
+======================================== */
+
+.navbar {
+    min-height: 70px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+}
+
+.nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+
+    color: #334155;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+
+/* ========================================
+   HOME PAGE - HERO
+======================================== */
+
+.hero {
+    min-height: 550px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-size: 52px;
+
+    line-height: 1.2;
+
+    margin-bottom: 25px;
+}
+
+.hero p {
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #64748b;
+
+    margin-bottom: 35px;
+}
+
+
+/* ========================================
+   HOME PAGE - BUTTONS
+======================================== */
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+
+    text-decoration: none;
+
+    padding: 14px 25px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.primary-btn {
+    background: #2563eb;
+
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #1d4ed8;
+}
+
+.secondary-btn {
+    border: 2px solid #2563eb;
+
+    color: #2563eb;
+
+    background: white;
+}
+
+.secondary-btn:hover {
+    background: #eff6ff;
+}
+
+
+/* ========================================
+   HOME PAGE - HOW IT WORKS
+======================================== */
+
+.how-it-works {
+    background: white;
+
+    padding: 70px 7%;
+
+    text-align: center;
+}
+
+.how-it-works h2 {
+    font-size: 32px;
+
+    margin-bottom: 45px;
+}
+
+.steps {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+.step-card {
+    padding: 30px 20px;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.step-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.08);
+}
+
+.step-card h3 {
+    margin-bottom: 15px;
+}
+
+.step-card p {
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   AUTHENTICATION
+======================================== */
+
+.auth-section {
+    min-height: 650px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 50px 20px;
+}
+
+.auth-card {
+    width: 100%;
+
+    max-width: 450px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1 {
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    font-size: 32px;
+}
+
+.auth-subtitle {
+    text-align: center;
+
+    color: #64748b;
+
+    margin-bottom: 30px;
+
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   FORM
+======================================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+
+    color: #334155;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ========================================
+   SELECT
+======================================== */
+
+.form-group select {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    background: white;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ========================================
+   TEXTAREA
+======================================== */
+
+.form-group textarea {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-family: Arial, sans-serif;
+
+    resize: vertical;
+
+    outline: none;
+}
+
+.form-group textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ========================================
+   LOGIN / REGISTER BUTTON
+======================================== */
+
+.login-btn {
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* ========================================
+   REGISTER / LOGIN LINK
+======================================== */
+
+.register-text {
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #64748b;
+}
+
+.register-text a {
+    color: #2563eb;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   DASHBOARD
+======================================== */
+
+.dashboard-container {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 50px 30px;
+}
+
+
+/* ========================================
+   DASHBOARD HEADER
+======================================== */
+
+.dashboard-header {
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    font-size: 36px;
+
+    margin-bottom: 10px;
+}
+
+.dashboard-header p {
+    color: #64748b;
+
+    font-size: 17px;
+}
+
+
+/* ========================================
+   DASHBOARD STATISTICS
+======================================== */
+
+.stats-container {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+
+    transition: 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+}
+
+.stat-card h3 {
+    margin-bottom: 15px;
+
+    color: #475569;
+}
+
+.stat-number {
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+
+    margin-bottom: 8px;
+}
+
+.stat-card span {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* ========================================
+   QUICK ACTIONS
+======================================== */
+
+.quick-actions {
+    margin-bottom: 50px;
+}
+
+.quick-actions h2 {
+    margin-bottom: 25px;
+
+    font-size: 28px;
+}
+
+.action-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.action-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: #1e293b;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+
+    transition: 0.2s;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+}
+
+.action-icon {
+    font-size: 32px;
+
+    margin-bottom: 15px;
+}
+
+.action-card h3 {
+    margin-bottom: 10px;
+}
+
+.action-card p {
+    color: #64748b;
+
+    line-height: 1.5;
+
+    font-size: 14px;
+}
+
+
+/* ========================================
+   RECENT REPORTS
+======================================== */
+
+.recent-reports {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+}
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.section-heading h2 {
+    font-size: 25px;
+}
+
+.section-heading a {
+    text-decoration: none;
+
+    color: #2563eb;
+
+    font-weight: bold;
+}
+
+.section-heading a:hover {
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   REPORT TABLE
+======================================== */
+
+.report-table {
+    width: 100%;
+}
+
+.report-row {
+    display: grid;
+
+    grid-template-columns: 2fr 1fr 1.5fr 1fr;
+
+    gap: 15px;
+
+    align-items: center;
+
+    padding: 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.report-row:last-child {
+    border-bottom: none;
+}
+
+.report-header {
+    font-weight: bold;
+
+    color: #475569;
+
+    background: #f8fafc;
+}
+
+
+/* ========================================
+   STATUS BADGES
+======================================== */
+
+.status {
+    display: inline-block;
+
+    width: fit-content;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.status.lost {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.status.found {
+    background: #dcfce7;
+
+    color: #16a34a;
+}
+
+.status.match {
+    background: #fef3c7;
+
+    color: #d97706;
+}
+
+
+/* ========================================
+   REPORT ITEM PAGE
+======================================== */
+
+.report-container {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding: 50px 25px;
+}
+
+.report-card {
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.report-header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.report-header h1 {
+    font-size: 32px;
+
+    margin-bottom: 12px;
+}
+
+.report-header p {
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   DATE / TIME ROW
+======================================== */
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* ========================================
+   FILE UPLOAD
+======================================== */
+
+.form-group input[type="file"] {
+    padding: 10px;
+
+    background: #f8fafc;
+
+    cursor: pointer;
+}
+
+.form-group small {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ========================================
+   SUBMIT BUTTON
+======================================== */
+
+.submit-btn {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+footer {
+    text-align: center;
+
+    padding: 25px;
+
+    background: #0f172a;
+
+    color: white;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN - TABLET
+======================================== */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 20px;
+    }
+
+    .steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .navbar {
+        flex-direction: column;
+
+        height: auto;
+
+        padding: 20px;
+
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 15px;
+    }
+
+
+    /* Home */
+
+    .hero {
+        min-height: 500px;
+
+        padding: 40px 20px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+
+    /* Hero Buttons */
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .btn {
+        width: 220px;
+
+        text-align: center;
+    }
+
+
+    /* How It Works */
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Authentication */
+
+    .auth-section {
+        padding: 30px 15px;
+    }
+
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .auth-card h1 {
+        font-size: 28px;
+    }
+
+
+    /* Dashboard */
+
+    .dashboard-container {
+        padding: 30px 15px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+
+    /* Dashboard Actions */
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Recent Reports */
+
+    .recent-reports {
+        padding: 20px;
+    }
+
+    .section-heading {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+
+    /* Report Rows */
+
+    .report-row {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+    .report-header {
+        display: none;
+    }
+
+
+    /* Report Form */
+
+    .report-container {
+        padding: 30px 15px;
+    }
+
+    .report-card {
+        padding: 25px 20px;
+    }
+
+    .report-header h1 {
+        font-size: 28px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+}

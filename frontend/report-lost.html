@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Lost Item - CampusRecover</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="lost-items.html">Lost Items</a>
+            <a href="found-items.html">Found Items</a>
+            <a href="report-lost.html">Report Lost</a>
+            <a href="dashboard.html">Dashboard</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Report Lost Section -->
+    <main class="report-container">
+
+        <div class="report-card">
+
+            <div class="report-header">
+
+                <h1>Report Lost Item</h1>
+
+                <p>
+                    Provide as much information as possible to help
+                    other students identify your lost item.
+                </p>
+
+            </div>
+
+
+            <form id="lostItemForm">
+
+
+                <!-- Item Name -->
+                <div class="form-group">
+
+                    <label for="itemName">
+                        Item Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="itemName"
+                        name="itemName"
+                        placeholder="Example: Black Wallet"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" name="category" required>
+
+                        <option value="">
+                            Select a category
+                        </option>
+
+                        <option value="electronics">
+                            Electronics
+                        </option>
+
+                        <option value="wallet">
+                            Wallet / Purse
+                        </option>
+
+                        <option value="id-card">
+                            ID Card
+                        </option>
+
+                        <option value="books">
+                            Books / Notes
+                        </option>
+
+                        <option value="bag">
+                            Bag
+                        </option>
+
+                        <option value="clothing">
+                            Clothing
+                        </option>
+
+                        <option value="keys">
+                            Keys
+                        </option>
+
+                        <option value="bottle">
+                            Water Bottle
+                        </option>
+
+                        <option value="accessories">
+                            Accessories
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Description -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Describe the item, color, brand, identifying marks, etc."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Location -->
+                <div class="form-group">
+
+                    <label for="location">
+                        Where did you lose it?
+                    </label>
+
+                    <select id="location" name="location" required>
+
+                        <option value="">
+                            Select location
+                        </option>
+
+                        <option value="block-a">
+                            Block A
+                        </option>
+
+                        <option value="block-b">
+                            Block B
+                        </option>
+
+                        <option value="block-c">
+                            Block C
+                        </option>
+
+                        <option value="library">
+                            Library
+                        </option>
+
+                        <option value="canteen">
+                            Canteen
+                        </option>
+
+                        <option value="lab">
+                            Laboratory
+                        </option>
+
+                        <option value="playground">
+                            Playground
+                        </option>
+
+                        <option value="parking">
+                            Parking Area
+                        </option>
+
+                        <option value="auditorium">
+                            Auditorium
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date and Time -->
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="lostDate">
+                            Date Lost
+                        </label>
+
+                        <input
+                            type="date"
+                            id="lostDate"
+                            name="lostDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="lostTime">
+                            Approximate Time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="lostTime"
+                            name="lostTime"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Image -->
+                <div class="form-group">
+
+                    <label for="itemImage">
+                        Upload Item Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="itemImage"
+                        name="itemImage"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Upload a clear photo of the item if available.
+                    </small>
+
+                </div>
+
+
+                <!-- Additional Information -->
+                <div class="form-group">
+
+                    <label for="additionalInfo">
+                        Additional Information
+                    </label>
+
+                    <textarea
+                        id="additionalInfo"
+                        name="additionalInfo"
+                        rows="3"
+                        placeholder="Any other information that may help identify your item..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit Lost Report
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 CampusRecover | Campus Lost & Found
+        </p>
+
+    </footer>
+
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

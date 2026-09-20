@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Found Item - CampusRecover</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         NAVIGATION BAR
+    ================================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="report-lost.html">
+                Report Lost
+            </a>
+
+            <a href="report-found.html">
+                Report Found
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================
+         REPORT FOUND SECTION
+    ================================= -->
+
+    <section class="report-container">
+
+        <div class="report-card">
+
+            <div class="report-header">
+
+                <h1>Report a Found Item</h1>
+
+                <p>
+                    Found something on campus?
+                    Report it here so the owner can recover it.
+                </p>
+
+            </div>
+
+
+            <!-- ================================
+                 FOUND ITEM FORM
+            ================================= -->
+
+            <form id="foundItemForm">
+
+
+                <!-- Item Name -->
+
+                <div class="form-group">
+
+                    <label for="itemName">
+                        Item Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="itemName"
+                        name="itemName"
+                        placeholder="Example: Black Wallet"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="wallet">
+                            Wallet
+                        </option>
+
+                        <option value="mobile">
+                            Mobile Phone
+                        </option>
+
+                        <option value="laptop">
+                            Laptop
+                        </option>
+
+                        <option value="bag">
+                            Bag
+                        </option>
+
+                        <option value="books">
+                            Books
+                        </option>
+
+                        <option value="id-card">
+                            ID Card
+                        </option>
+
+                        <option value="water-bottle">
+                            Water Bottle
+                        </option>
+
+                        <option value="electronics">
+                            Electronics
+                        </option>
+
+                        <option value="accessories">
+                            Accessories
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Item Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Describe the item you found. Mention color, brand, unique marks, etc."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Location -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Where Did You Find It?
+                    </label>
+
+                    <select
+                        id="location"
+                        name="location"
+                        required
+                    >
+
+                        <option value="">
+                            Select Campus Location
+                        </option>
+
+                        <option value="library">
+                            Library
+                        </option>
+
+                        <option value="block-a">
+                            Block A
+                        </option>
+
+                        <option value="block-b">
+                            Block B
+                        </option>
+
+                        <option value="block-c">
+                            Block C
+                        </option>
+
+                        <option value="canteen">
+                            Canteen
+                        </option>
+
+                        <option value="lab-1">
+                            Lab 1
+                        </option>
+
+                        <option value="lab-2">
+                            Lab 2
+                        </option>
+
+                        <option value="lab-3">
+                            Lab 3
+                        </option>
+
+                        <option value="auditorium">
+                            Auditorium
+                        </option>
+
+                        <option value="parking">
+                            Parking Area
+                        </option>
+
+                        <option value="sports-ground">
+                            Sports Ground
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date and Time -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="dateFound">
+                            Date Found
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dateFound"
+                            name="dateFound"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="timeFound">
+                            Approximate Time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="timeFound"
+                            name="timeFound"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Photo -->
+
+                <div class="form-group">
+
+                    <label for="itemPhoto">
+                        Upload Item Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="itemPhoto"
+                        name="itemPhoto"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Upload a clear photo of the found item.
+                    </small>
+
+                </div>
+
+
+                <!-- Additional Information -->
+
+                <div class="form-group">
+
+                    <label for="additionalInfo">
+                        Additional Information
+                    </label>
+
+                    <textarea
+                        id="additionalInfo"
+                        name="additionalInfo"
+                        rows="4"
+                        placeholder="Mention where you are keeping the item or any other useful information."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit Found Report
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusRecover | Campus Lost & Found
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
