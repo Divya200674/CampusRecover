@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - CampusRecover</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .admin-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .dashboard-container {
+            padding: 35px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-header p {
+            color: #666;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h3 {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .stat-card span {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .admin-sections {
+            margin-top: 35px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .admin-card h2 {
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .admin-card p {
+            color: #666;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .admin-card a {
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 900px) {
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .admin-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="admin-label">
+            Admin / Verification Panel
+        </div>
+
+    </nav>
+
+
+    <main class="dashboard-container">
+
+        <section class="dashboard-header">
+
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Monitor lost and found items, claims, verification, and returned items.
+            </p>
+
+        </section>
+
+
+        <section class="stats-container">
+
+            <div class="stat-card">
+
+                <h3>Total Lost Items</h3>
+
+                <p class="stat-number">
+                    35
+                </p>
+
+                <span>
+                    Items reported lost
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Total Found Items</h3>
+
+                <p class="stat-number">
+                    28
+                </p>
+
+                <span>
+                    Items reported found
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Pending Claims</h3>
+
+                <p class="stat-number">
+                    6
+                </p>
+
+                <span>
+                    Claims waiting for review
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Items Under Review</h3>
+
+                <p class="stat-number">
+                    4
+                </p>
+
+                <span>
+                    Items requiring verification
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Returned Items</h3>
+
+                <p class="stat-number">
+                    19
+                </p>
+
+                <span>
+                    Successfully handed over
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <section class="admin-sections">
+
+
+            <!-- Claims -->
+
+            <div class="admin-card">
+
+                <h2>Pending Claims</h2>
+
+                <p>
+                    Review student claims and submitted ownership evidence.
+                </p>
+
+                <a href="claims.html">
+                    View Claims
+                </a>
+
+            </div>
+
+
+            <!-- Items Under Review -->
+
+            <div class="admin-card">
+
+                <h2>Items Under Review</h2>
+
+                <p>
+                    Check items with ownership verification currently in progress.
+                </p>
+
+                <a href="items-review.html">
+                    Review Items
+                </a>
+
+            </div>
+
+
+            <!-- Handover -->
+
+            <div class="admin-card">
+
+                <h2>Handover</h2>
+
+                <p>
+                    Manage approved claims and one-time item handover codes.
+                </p>
+
+                <a href="handover.html">
+                    Manage Handover
+                </a>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 CampusRecover | Admin Verification
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
