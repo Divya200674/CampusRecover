@@ -1,74 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Claim Item - CampusRecover</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- =========================================
+         NAVIGATION BAR
+    ========================================== -->
+
     <nav class="navbar">
-        <div class="logo">
-            CampusRecover
+
+        <div class="nav-container">
+
+            <div class="logo">
+                CampusRecover
+            </div>
+
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a href="found-items.html">
+                    Found Items
+                </a>
+
+                <a href="my-reports.html">
+                    My Reports
+                </a>
+
+                <a
+                    href="my-claims.html"
+                    class="active"
+                >
+                    My Claims
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+                <a
+                    href="login.html"
+                    class="logout-btn"
+                >
+                    Logout
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="profile.html">Profile</a>
-        </div>
     </nav>
 
 
-    <!-- Claim Container -->
+
+    <!-- =========================================
+         CLAIM CONTAINER
+    ========================================== -->
+
     <main class="claim-container">
 
         <div class="claim-card">
 
-            <!-- Header -->
+
+            <!-- =====================================
+                 HEADER
+            ====================================== -->
+
             <div class="claim-header">
-                <h1>Claim This Item</h1>
+
+                <span class="section-label">
+                    CAMPUS VERIFICATION
+                </span>
+
+                <h1>
+                    Claim This Item
+                </h1>
 
                 <p>
-                    Submit private ownership evidence so the campus
-                    verification team can review your claim.
+                    Submit private ownership evidence so the
+                    campus verification team can review your claim.
                 </p>
+
             </div>
 
 
-            <!-- Item Information -->
-            <div class="claim-item-info">
 
-                <h2>Black Smartphone</h2>
+            <!-- =====================================
+                 ITEM INFORMATION
+            ====================================== -->
+
+            <div
+                class="claim-item-info"
+                id="claimItemInfo"
+            >
+
+                <h2 id="claimItemName">
+                    Loading item...
+                </h2>
+
 
                 <div class="claim-info-grid">
 
                     <div>
-                        <span class="claim-label">Category</span>
-                        <span class="claim-value">Mobile Phone</span>
-                    </div>
 
-                    <div>
-                        <span class="claim-label">Found Location</span>
-                        <span class="claim-value">Library</span>
-                    </div>
-
-                    <div>
-                        <span class="claim-label">Found Date</span>
-                        <span class="claim-value">20 Sep 2026</span>
-                    </div>
-
-                    <div>
-                        <span class="claim-label">Possible Match</span>
-                        <span class="claim-value match-highlight">
-                            86%
+                        <span class="claim-label">
+                            Category
                         </span>
+
+                        <span
+                            class="claim-value"
+                            id="claimCategory"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="claim-label">
+                            Found Location
+                        </span>
+
+                        <span
+                            class="claim-value"
+                            id="claimLocation"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="claim-label">
+                            Found Date
+                        </span>
+
+                        <span
+                            class="claim-value"
+                            id="claimDate"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="claim-label">
+                            Status
+                        </span>
+
+                        <span
+                            class="claim-value match-highlight"
+                            id="claimStatus"
+                        >
+                            FOUND
+                        </span>
+
                     </div>
 
                 </div>
@@ -76,10 +199,16 @@
             </div>
 
 
-            <!-- Verification Notice -->
+
+            <!-- =====================================
+                 VERIFICATION NOTICE
+            ====================================== -->
+
             <div class="claim-warning">
 
-                <strong>Important:</strong>
+                <strong>
+                    Important:
+                </strong>
 
                 <p>
                     A possible match does not confirm ownership.
@@ -90,93 +219,130 @@
             </div>
 
 
-            <!-- Claim Form -->
-            <form class="claim-form">
 
-                <!-- Claim Reason -->
+            <!-- =====================================
+                 CLAIM FORM
+            ====================================== -->
+
+            <form
+                class="claim-form"
+                id="claimForm"
+            >
+
+
+                <!-- CLAIM REASON -->
+
                 <div class="form-group">
 
                     <label for="claimReason">
+
                         Why do you believe this item belongs to you?
+
                     </label>
+
 
                     <textarea
                         id="claimReason"
                         name="claimReason"
                         rows="5"
                         placeholder="Describe when and where you lost the item and any details that can help verify ownership..."
-                        required>
-                    </textarea>
+                        required
+                    ></textarea>
 
                 </div>
 
 
-                <!-- Ownership Evidence -->
+
+                <!-- OWNERSHIP EVIDENCE -->
+
                 <div class="form-group">
 
                     <label for="ownershipDetails">
+
                         Ownership Evidence
+
                     </label>
+
 
                     <textarea
                         id="ownershipDetails"
                         name="ownershipDetails"
                         rows="5"
                         placeholder="Mention unique details such as a case mark, wallpaper, sticker, serial number, or other private information..."
-                        required>
-                    </textarea>
+                        required
+                    ></textarea>
 
                 </div>
 
 
-                <!-- Proof Upload -->
+
+                <!-- PROOF UPLOAD -->
+
                 <div class="form-group">
 
                     <label for="proof">
+
                         Upload Ownership Proof
+
                     </label>
+
 
                     <input
                         type="file"
                         id="proof"
                         name="proof"
-                        accept="image/*,.pdf">
+                        accept="image/*,.pdf"
+                    >
+
 
                     <small>
+
                         Upload a photo, receipt, document, or other
                         evidence that can help verify ownership.
+
                     </small>
 
                 </div>
 
 
-                <!-- Contact -->
+
+                <!-- CONTACT -->
+
                 <div class="form-group">
 
                     <label for="contact">
+
                         Contact Information
+
                     </label>
+
 
                     <input
                         type="tel"
                         id="contact"
                         name="contact"
                         placeholder="Enter your campus contact number"
-                        required>
+                        required
+                    >
 
                 </div>
 
 
-                <!-- Privacy Notice -->
+
+                <!-- PRIVACY NOTICE -->
+
                 <div class="privacy-notice">
 
                     <div class="privacy-icon">
                         🔒
                     </div>
 
+
                     <div>
 
-                        <strong>Your evidence is private</strong>
+                        <strong>
+                            Your evidence is private
+                        </strong>
 
                         <p>
                             Ownership evidence will only be accessible
@@ -190,18 +356,26 @@
                 </div>
 
 
-                <!-- Buttons -->
+
+                <!-- =================================
+                     BUTTONS
+                ================================== -->
+
                 <div class="claim-actions">
 
                     <a
-                        href="item-details.html"
-                        class="secondary-action-btn">
+                        href="found-items.html"
+                        class="secondary-action-btn"
+                        id="cancelClaimBtn"
+                    >
                         Cancel
                     </a>
 
+
                     <button
                         type="submit"
-                        class="primary-action-btn">
+                        class="primary-action-btn"
+                    >
                         Submit Claim
                     </button>
 
@@ -214,14 +388,77 @@
     </main>
 
 
-    <!-- Footer -->
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
     <footer class="footer">
 
-        <p>
-            © 2026 CampusRecover. Built for safer campus lost & found.
-        </p>
+        <div class="footer-container">
+
+            <div>
+
+                <h3>
+                    CampusRecover
+                </h3>
+
+                <p>
+                    Making campus lost and found
+                    simple and organized.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a href="found-items.html">
+                    Found Items
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © <span class="current-year"></span>
+                CampusRecover. All rights reserved.
+
+            </p>
+
+        </div>
 
     </footer>
 
+
+
+    <!-- =========================================
+         MAIN JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/main.js"></script>
+
 </body>
+
 </html>

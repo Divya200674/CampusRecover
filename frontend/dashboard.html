@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,106 +11,151 @@
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+    <!-- ================= NAVBAR ================= -->
 
-        <div class="logo">
-            CampusRecover
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <div class="logo">
+                <a href="index.html">CampusRecover</a>
+            </div>
+
+            <nav class="nav-links">
+
+                <a href="dashboard.html">Dashboard</a>
+
+                <a href="lost-items.html">Lost Items</a>
+
+                <a href="found-items.html">Found Items</a>
+
+                <a href="my-reports.html">My Reports</a>
+
+                <a href="my-claims.html">My Claims</a>
+
+                <a href="profile.html">Profile</a>
+
+                <a href="login.html" class="logout-btn">Logout</a>
+
+            </nav>
+
         </div>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="report-lost.html">Report Lost</a>
-            <a href="dashboard.html">Dashboard</a>
-        </div>
-
-    </nav>
+    </header>
 
 
-    <!-- Dashboard -->
+    <!-- ================= DASHBOARD ================= -->
+
     <main class="dashboard-container">
 
         <!-- Welcome -->
+
         <section class="dashboard-header">
 
-            <h1>Welcome to CampusRecover 👋</h1>
+            <div>
 
-            <p>
-                Manage your lost and found items from one place.
-            </p>
+                <h1>Welcome back, Divya! 👋</h1>
 
-        </section>
-
-
-        <!-- Statistics -->
-        <section class="stats-container">
-
-            <div class="stat-card">
-
-                <h3>Lost Reports</h3>
-
-                <p class="stat-number">
-                    3
+                <p>
+                    Manage your lost and found items from your campus dashboard.
                 </p>
-
-                <span>
-                    Items you reported lost
-                </span>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <h3>Possible Matches</h3>
-
-                <p class="stat-number">
-                    2
-                </p>
-
-                <span>
-                    Potential matches found
-                </span>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <h3>Claims</h3>
-
-                <p class="stat-number">
-                    1
-                </p>
-
-                <span>
-                    Active claims
-                </span>
 
             </div>
 
         </section>
 
 
-        <!-- Quick Actions -->
-        <section class="quick-actions">
+        <!-- ================= STATISTICS ================= -->
 
-            <h2>Quick Actions</h2>
+        <section class="dashboard-stats">
 
-            <div class="action-grid">
+            <div class="stat-card">
+
+                <div class="stat-icon">📦</div>
+
+                <div>
+
+                    <h3>3</h3>
+
+                    <p>Lost Reports</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🔎</div>
+
+                <div>
+
+                    <h3>2</h3>
+
+                    <p>Found Reports</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">📋</div>
+
+                <div>
+
+                    <h3>2</h3>
+
+                    <p>Claims</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">✅</div>
+
+                <div>
+
+                    <h3>1</h3>
+
+                    <p>Items Returned</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <section class="quick-actions-section">
+
+            <div class="section-heading">
+
+                <h2>Quick Actions</h2>
+
+                <p>
+                    Report an item or find something reported on campus.
+                </p>
+
+            </div>
+
+
+            <div class="quick-actions">
 
                 <a href="report-lost.html" class="action-card">
 
-                    <div class="action-icon">
-                        🔍
-                    </div>
+                    <div class="action-icon">📦</div>
 
                     <h3>Report Lost Item</h3>
 
                     <p>
-                        Report something you lost on campus.
+                        Report something you have lost on campus.
                     </p>
 
                 </a>
@@ -119,15 +163,12 @@
 
                 <a href="report-found.html" class="action-card">
 
-                    <div class="action-icon">
-                        📦
-                    </div>
+                    <div class="action-icon">🔎</div>
 
                     <h3>Report Found Item</h3>
 
                     <p>
-                        Help another student by reporting
-                        something you found.
+                        Help another student by reporting an item you found.
                     </p>
 
                 </a>
@@ -135,14 +176,12 @@
 
                 <a href="lost-items.html" class="action-card">
 
-                    <div class="action-icon">
-                        🔎
-                    </div>
+                    <div class="action-icon">🔍</div>
 
-                    <h3>View Lost Items</h3>
+                    <h3>Search Lost Items</h3>
 
                     <p>
-                        Browse items reported lost by students.
+                        Browse items reported as lost.
                     </p>
 
                 </a>
@@ -150,14 +189,12 @@
 
                 <a href="found-items.html" class="action-card">
 
-                    <div class="action-icon">
-                        📋
-                    </div>
+                    <div class="action-icon">📍</div>
 
-                    <h3>View Found Items</h3>
+                    <h3>Search Found Items</h3>
 
                     <p>
-                        Browse items that have been found.
+                        Check recently found items.
                     </p>
 
                 </a>
@@ -167,7 +204,8 @@
         </section>
 
 
-        <!-- Recent Reports -->
+        <!-- ================= RECENT REPORTS ================= -->
+
         <section class="recent-reports">
 
             <div class="section-heading">
@@ -181,63 +219,90 @@
             </div>
 
 
-            <div class="report-table">
+            <div class="table-container">
 
-                <div class="report-row report-header">
+                <table>
 
-                    <span>Item</span>
-                    <span>Type</span>
-                    <span>Location</span>
-                    <span>Status</span>
+                    <thead>
 
-                </div>
+                        <tr>
 
+                            <th>Item</th>
 
-                <!-- Sample Report -->
+                            <th>Type</th>
 
-                <div class="report-row">
+                            <th>Location</th>
 
-                    <span>Black Wallet</span>
+                            <th>Date</th>
 
-                    <span>Lost</span>
+                            <th>Status</th>
 
-                    <span>Library</span>
+                        </tr>
 
-                    <span class="status lost">
-                        LOST
-                    </span>
-
-                </div>
+                    </thead>
 
 
-                <div class="report-row">
+                    <tbody>
 
-                    <span>Blue Water Bottle</span>
+                        <tr>
 
-                    <span>Lost</span>
+                            <td>Black Smartphone</td>
 
-                    <span>Block A</span>
+                            <td>Lost</td>
 
-                    <span class="status match">
-                        MATCHED
-                    </span>
+                            <td>Library</td>
 
-                </div>
+                            <td>20 Sep 2026</td>
+
+                            <td>
+                                <span class="status-badge status-lost">
+                                    LOST
+                                </span>
+                            </td>
+
+                        </tr>
 
 
-                <div class="report-row">
+                        <tr>
 
-                    <span>Scientific Calculator</span>
+                            <td>Blue Backpack</td>
 
-                    <span>Found</span>
+                            <td>Lost</td>
 
-                    <span>Lab 2</span>
+                            <td>Block A</td>
 
-                    <span class="status found">
-                        FOUND
-                    </span>
+                            <td>18 Sep 2026</td>
 
-                </div>
+                            <td>
+                                <span class="status-badge status-matched">
+                                    MATCHED
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Scientific Calculator</td>
+
+                            <td>Found</td>
+
+                            <td>Lab 2</td>
+
+                            <td>17 Sep 2026</td>
+
+                            <td>
+                                <span class="status-badge status-found">
+                                    FOUND
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -246,18 +311,21 @@
     </main>
 
 
-    <!-- Footer -->
-    <footer>
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
 
         <p>
-            © 2026 CampusRecover | Campus Lost & Found
+            © <span class="current-year">2026</span>
+            CampusRecover. Campus-only Lost & Found Platform.
         </p>
 
     </footer>
 
 
+    <!-- JAVASCRIPT -->
+
     <script src="js/main.js"></script>
 
 </body>
-
 </html>

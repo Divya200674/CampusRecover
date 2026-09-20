@@ -47,34 +47,29 @@
 
     <main class="details-container">
 
-        <div class="details-card">
+        <div class="details-card" id="itemDetailsCard">
 
-
-            <!-- Item Image -->
+            <!-- Content will be loaded by JavaScript -->
 
             <div class="details-image">
 
                 <div class="details-image-placeholder">
-                    📱
+                    📦
                 </div>
 
             </div>
 
 
-            <!-- Item Information -->
-
             <div class="details-content">
 
                 <span class="item-status found">
-                    FOUND
+                    ITEM
                 </span>
 
-                <h1>Black Smartphone</h1>
+                <h1>Loading item...</h1>
 
                 <p class="details-description">
-                    A black smartphone was found near the
-                    library entrance. The phone has a small
-                    scratch near the camera.
+                    Loading item details...
                 </p>
 
 
@@ -88,8 +83,8 @@
                             Category
                         </span>
 
-                        <span>
-                            Mobile Phone
+                        <span id="detailCategory">
+                            -
                         </span>
 
                     </div>
@@ -98,11 +93,11 @@
                     <div class="details-info-row">
 
                         <span class="details-label">
-                            Location Found
+                            Location
                         </span>
 
-                        <span>
-                            Library
+                        <span id="detailLocation">
+                            -
                         </span>
 
                     </div>
@@ -111,11 +106,11 @@
                     <div class="details-info-row">
 
                         <span class="details-label">
-                            Date Found
+                            Date
                         </span>
 
-                        <span>
-                            20 September 2026
+                        <span id="detailDate">
+                            -
                         </span>
 
                     </div>
@@ -127,8 +122,8 @@
                             Approximate Time
                         </span>
 
-                        <span>
-                            11:30 AM
+                        <span id="detailTime">
+                            -
                         </span>
 
                     </div>
@@ -143,8 +138,9 @@
                     <h2>Possible Match</h2>
 
                     <p>
-                        Our system may identify this item as
-                        a possible match with a lost report.
+                        Our system may identify this item
+                        as a possible match with another
+                        report.
                     </p>
 
                     <div class="match-score">
@@ -154,7 +150,7 @@
                         </span>
 
                         <strong>
-                            86%
+                            -
                         </strong>
 
                     </div>
@@ -175,6 +171,7 @@
                     <a
                         href="claim.html"
                         class="primary-action-btn"
+                        id="claimButton"
                     >
                         Claim This Item
                     </a>
@@ -182,8 +179,9 @@
                     <a
                         href="found-items.html"
                         class="secondary-action-btn"
+                        id="backButton"
                     >
-                        Back to Found Items
+                        Back
                     </a>
 
                 </div>

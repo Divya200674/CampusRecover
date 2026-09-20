@@ -2,167 +2,192 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Register - CampusRecover</title>
 
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+<header class="navbar">
+
+    <div class="nav-container">
 
         <div class="logo">
-            CampusRecover
+            <a href="index.html">CampusRecover</a>
         </div>
 
-        <div class="nav-links">
+        <nav class="nav-links">
+
             <a href="index.html">Home</a>
+
             <a href="lost-items.html">Lost Items</a>
+
             <a href="found-items.html">Found Items</a>
-            <a href="report-lost.html">Report Lost</a>
+
             <a href="login.html">Login</a>
-        </div>
 
-    </nav>
+        </nav>
 
+    </div>
 
-    <!-- Register Section -->
-    <section class="auth-section">
-
-        <div class="auth-card">
-
-            <h1>Create Account</h1>
-
-            <p class="auth-subtitle">
-                Join your campus lost & found community
-            </p>
+</header>
 
 
-            <form id="registerForm">
+<main class="auth-container">
 
-                <!-- Full Name -->
-                <div class="form-group">
+    <div class="auth-card">
 
-                    <label for="fullName">
-                        Full Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="fullName"
-                        placeholder="Enter your full name"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- College Email -->
-                <div class="form-group">
-
-                    <label for="email">
-                        College Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your college email"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Student ID -->
-                <div class="form-group">
-
-                    <label for="studentId">
-                        Student ID
-                    </label>
-
-                    <input
-                        type="text"
-                        id="studentId"
-                        placeholder="Enter your student ID"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Password -->
-                <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Create a password"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Confirm Password -->
-                <div class="form-group">
-
-                    <label for="confirmPassword">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm your password"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Register Button -->
-                <button type="submit" class="login-btn">
-                    Create Account
-                </button>
-
-            </form>
-
-
-            <p class="register-text">
-
-                Already have an account?
-
-                <a href="login.html">
-                    Login
-                </a>
-
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
+        <h1>Create Account</h1>
 
         <p>
-            © 2026 CampusRecover | Campus Lost & Found
+            Register using your campus details.
         </p>
 
-    </footer>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
 
 
-    <script src="js/main.js"></script>
+            <div class="form-group">
+
+                <label for="email">
+                    Campus Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your campus email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="studentId">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter your student ID"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <select id="department" required>
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="CSE">
+                        CSE
+                    </option>
+
+                    <option value="ECE">
+                        ECE
+                    </option>
+
+                    <option value="EEE">
+                        EEE
+                    </option>
+
+                    <option value="MECH">
+                        Mechanical
+                    </option>
+
+                    <option value="CIVIL">
+                        Civil
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit" class="submit-btn">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p class="auth-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © <span class="current-year">2026</span>
+        CampusRecover.
+    </p>
+
+</footer>
+
+
+<script src="js/main.js"></script>
 
 </body>
 

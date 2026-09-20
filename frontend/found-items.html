@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Found Items - CampusRecover</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <div class="logo">
+                CampusRecover
+            </div>
+
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a
+                    href="found-items.html"
+                    class="active"
+                >
+                    Found Items
+                </a>
+
+                <a href="my-reports.html">
+                    My Reports
+                </a>
+
+                <a href="my-claims.html">
+                    My Claims
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+                <a
+                    href="login.html"
+                    class="logout-btn"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <main>
+
+        <section class="page-header">
+
+            <div class="page-header-content">
+
+                <span class="section-label">
+                    CAMPUSRECOVER
+                </span>
+
+                <h1>
+                    Found Items
+                </h1>
+
+                <p>
+                    Browse items reported as found around
+                    the campus and check whether your
+                    belongings have been recovered.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             SEARCH AND FILTER
+        ========================================== -->
+
+        <section class="items-section">
+
+            <div class="items-controls">
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="foundSearch"
+                        placeholder="Search found items..."
+                    >
+
+                </div>
+
+
+                <div class="filter-box">
+
+                    <select
+                        id="foundCategoryFilter"
+                    >
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        <option value="wallet">
+                            Wallet
+                        </option>
+
+                        <option value="mobile">
+                            Mobile Phone
+                        </option>
+
+                        <option value="laptop">
+                            Laptop
+                        </option>
+
+                        <option value="bag">
+                            Bag
+                        </option>
+
+                        <option value="books">
+                            Books
+                        </option>
+
+                        <option value="id-card">
+                            ID Card
+                        </option>
+
+                        <option value="water-bottle">
+                            Water Bottle
+                        </option>
+
+                        <option value="electronics">
+                            Electronics
+                        </option>
+
+                        <option value="accessories">
+                            Accessories
+                        </option>
+
+                        <option value="clothing">
+                            Clothing
+                        </option>
+
+                        <option value="keys">
+                            Keys
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 FOUND ITEMS GRID
+            ========================================== -->
+
+            <div
+                class="items-grid"
+                id="foundItemsGrid"
+            >
+
+
+                <!-- =====================================
+                     SAMPLE FOUND ITEM 1
+                ====================================== -->
+
+                <div
+                    class="item-card"
+                    data-category="wallet"
+                    data-name="brown wallet"
+                >
+
+                    <div class="item-image">
+
+                        <div class="placeholder-image">
+                            👛
+                        </div>
+
+                    </div>
+
+
+                    <div class="item-content">
+
+                        <span class="item-status found">
+                            FOUND
+                        </span>
+
+                        <h3>
+                            Brown Wallet
+                        </h3>
+
+                        <p>
+                            <strong>Category:</strong>
+                            Wallet
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            Library
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            18 Sep 2026
+                        </p>
+
+
+                        <a
+                            href="item-details.html"
+                            class="view-btn"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     SAMPLE FOUND ITEM 2
+                ====================================== -->
+
+                <div
+                    class="item-card"
+                    data-category="water-bottle"
+                    data-name="blue water bottle"
+                >
+
+                    <div class="item-image">
+
+                        <div class="placeholder-image">
+                            🧴
+                        </div>
+
+                    </div>
+
+
+                    <div class="item-content">
+
+                        <span class="item-status found">
+                            FOUND
+                        </span>
+
+                        <h3>
+                            Blue Water Bottle
+                        </h3>
+
+                        <p>
+                            <strong>Category:</strong>
+                            Water Bottle
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            Block A
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            17 Sep 2026
+                        </p>
+
+
+                        <a
+                            href="item-details.html"
+                            class="view-btn"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     SAMPLE FOUND ITEM 3
+                ====================================== -->
+
+                <div
+                    class="item-card"
+                    data-category="electronics"
+                    data-name="scientific calculator"
+                >
+
+                    <div class="item-image">
+
+                        <div class="placeholder-image">
+                            🧮
+                        </div>
+
+                    </div>
+
+
+                    <div class="item-content">
+
+                        <span class="item-status found">
+                            FOUND
+                        </span>
+
+                        <h3>
+                            Scientific Calculator
+                        </h3>
+
+                        <p>
+                            <strong>Category:</strong>
+                            Electronics
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            Lab 2
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            16 Sep 2026
+                        </p>
+
+
+                        <a
+                            href="item-details.html"
+                            class="view-btn"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     SAMPLE FOUND ITEM 4
+                ====================================== -->
+
+                <div
+                    class="item-card"
+                    data-category="bag"
+                    data-name="black backpack"
+                >
+
+                    <div class="item-image">
+
+                        <div class="placeholder-image">
+                            🎒
+                        </div>
+
+                    </div>
+
+
+                    <div class="item-content">
+
+                        <span class="item-status found">
+                            FOUND
+                        </span>
+
+                        <h3>
+                            Black Backpack
+                        </h3>
+
+                        <p>
+                            <strong>Category:</strong>
+                            Bag
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            Canteen
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            15 Sep 2026
+                        </p>
+
+
+                        <a
+                            href="item-details.html"
+                            class="view-btn"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================================
+                 NO RESULTS
+            ========================================== -->
+
+            <div
+                id="noFoundItems"
+                class="no-results"
+                style="display: none;"
+            >
+
+                <div class="no-results-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    No Found Items
+                </h3>
+
+                <p>
+                    No items match your current search
+                    or category filter.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             REPORT FOUND CTA
+        ========================================== -->
+
+        <section class="cta-section">
+
+            <div class="cta-content">
+
+                <h2>
+                    Found Something?
+                </h2>
+
+                <p>
+                    Help its owner by reporting the item
+                    on CampusRecover.
+                </p>
+
+
+                <a
+                    href="report-found.html"
+                    class="primary-btn"
+                >
+                    Report Found Item
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div>
+
+                <h3>
+                    CampusRecover
+                </h3>
+
+                <p>
+                    Making campus lost and found
+                    simple and organized.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a href="found-items.html">
+                    Found Items
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © <span class="current-year"></span>
+                CampusRecover. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,118 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusRecover</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>CampusRecover - Lost & Found</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
     <nav class="navbar">
 
-        <div class="logo">
-            CampusRecover
-        </div>
+        <div class="nav-container">
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="report-lost.html">Report Lost</a>
-            <a href="login.html">Login</a>
+            <div class="logo">
+                CampusRecover
+            </div>
+
+
+            <div class="nav-links">
+
+                <a
+                    href="index.html"
+                    class="active"
+                >
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a href="found-items.html">
+                    Found Items
+                </a>
+
+                <a href="my-reports.html">
+                    My Reports
+                </a>
+
+                <a href="my-claims.html">
+                    My Claims
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+                <a
+                    href="login.html"
+                    class="logout-btn"
+                >
+                    Logout
+                </a>
+
+            </div>
+
         </div>
 
     </nav>
 
 
-    <!-- Hero Section -->
-    <section class="hero">
 
-        <div class="hero-content">
+    <!-- =========================================
+         HERO SECTION
+    ========================================== -->
 
-            <h1>
-                Find What Was Lost.<br>
-                Return What Was Found.
-            </h1>
+    <main>
+
+        <section class="hero-section">
+
+            <div class="hero-content">
+
+                <span class="hero-badge">
+                    🎓 Campus-Only Lost & Found
+                </span>
+
+
+                <h1>
+                    Lost Something?
+                    <br>
+                    <span>Let's Help You Find It.</span>
+                </h1>
+
+
+                <p>
+                    CampusRecover helps students report lost and
+                    found items, discover possible matches, and
+                    safely return belongings within the campus.
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="report-lost.html"
+                        class="primary-btn"
+                    >
+                        Report Lost Item
+                    </a>
+
+
+                    <a
+                        href="report-found.html"
+                        class="secondary-btn"
+                    >
+                        Report Found Item
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-image">
+
+                <div class="hero-icon">
+                    🔎
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             HOW IT WORKS
+        ========================================== -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    SIMPLE PROCESS
+                </span>
+
+                <h2>
+                    How CampusRecover Works
+                </h2>
+
+                <p>
+                    Find and recover your belongings in a few
+                    simple steps.
+                </p>
+
+            </div>
+
+
+            <div class="steps-grid">
+
+
+                <!-- STEP 1 -->
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <div class="step-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        Report
+                    </h3>
+
+                    <p>
+                        Report your lost item or submit details
+                        about an item you found on campus.
+                    </p>
+
+                </div>
+
+
+
+                <!-- STEP 2 -->
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <div class="step-icon">
+                        🔍
+                    </div>
+
+                    <h3>
+                        Discover
+                    </h3>
+
+                    <p>
+                        Browse lost and found reports to discover
+                        possible matches based on item details.
+                    </p>
+
+                </div>
+
+
+
+                <!-- STEP 3 -->
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <div class="step-icon">
+                        🤝
+                    </div>
+
+                    <h3>
+                        Claim
+                    </h3>
+
+                    <p>
+                        Submit ownership evidence through the
+                        campus claim process.
+                    </p>
+
+                </div>
+
+
+
+                <!-- STEP 4 -->
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        4
+                    </div>
+
+                    <div class="step-icon">
+                        ✅
+                    </div>
+
+                    <h3>
+                        Recover
+                    </h3>
+
+                    <p>
+                        After verification, safely collect your
+                        item from the authorized campus location.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             QUICK ACTIONS
+        ========================================== -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    GET STARTED
+                </span>
+
+                <h2>
+                    What Would You Like To Do?
+                </h2>
+
+            </div>
+
+
+            <div class="action-grid">
+
+
+                <!-- REPORT LOST -->
+
+                <a
+                    href="report-lost.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        😟
+                    </div>
+
+                    <h3>
+                        I Lost Something
+                    </h3>
+
+                    <p>
+                        Report your lost item and provide
+                        details to help others identify it.
+                    </p>
+
+                    <span class="action-link">
+                        Report Lost →
+                    </span>
+
+                </a>
+
+
+
+                <!-- REPORT FOUND -->
+
+                <a
+                    href="report-found.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        🎒
+                    </div>
+
+                    <h3>
+                        I Found Something
+                    </h3>
+
+                    <p>
+                        Report an item you found so the owner
+                        can find and claim it.
+                    </p>
+
+                    <span class="action-link">
+                        Report Found →
+                    </span>
+
+                </a>
+
+
+
+                <!-- SEARCH LOST -->
+
+                <a
+                    href="lost-items.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        🔎
+                    </div>
+
+                    <h3>
+                        Search Lost Items
+                    </h3>
+
+                    <p>
+                        Browse reported lost items and check
+                        whether your belongings are listed.
+                    </p>
+
+                    <span class="action-link">
+                        Search Lost →
+                    </span>
+
+                </a>
+
+
+
+                <!-- SEARCH FOUND -->
+
+                <a
+                    href="found-items.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        Search Found Items
+                    </h3>
+
+                    <p>
+                        Browse items found around the campus
+                        and check for possible matches.
+                    </p>
+
+                    <span class="action-link">
+                        Search Found →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             FEATURES
+        ========================================== -->
+
+        <section class="section features-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    WHY CAMPUSRECOVER
+                </span>
+
+                <h2>
+                    Built For Campus Communities
+                </h2>
+
+                <p>
+                    A simple and organized way to manage lost
+                    and found belongings within your campus.
+                </p>
+
+            </div>
+
+
+            <div class="features-grid">
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        Campus Only
+                    </h3>
+
+                    <p>
+                        Designed specifically for students and
+                        campus communities.
+                    </p>
+
+                </div>
+
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📍
+                    </div>
+
+                    <h3>
+                        Location Based
+                    </h3>
+
+                    <p>
+                        Record where an item was lost or found
+                        to make searching easier.
+                    </p>
+
+                </div>
+
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔐
+                    </div>
+
+                    <h3>
+                        Safer Claims
+                    </h3>
+
+                    <p>
+                        Ownership claims can include private
+                        evidence for verification.
+                    </p>
+
+                </div>
+
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔔
+                    </div>
+
+                    <h3>
+                        Easy Discovery
+                    </h3>
+
+                    <p>
+                        Quickly browse and search through
+                        available lost and found reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             CTA
+        ========================================== -->
+
+        <section class="cta-section">
+
+            <div class="cta-content">
+
+                <h2>
+                    Help Return Something Today.
+                </h2>
+
+                <p>
+                    A small report could help another student
+                    recover something important.
+                </p>
+
+
+                <div class="cta-buttons">
+
+                    <a
+                        href="report-lost.html"
+                        class="primary-btn"
+                    >
+                        Report Lost Item
+                    </a>
+
+
+                    <a
+                        href="report-found.html"
+                        class="secondary-btn"
+                    >
+                        Report Found Item
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div>
+
+                <h3>
+                    CampusRecover
+                </h3>
+
+                <p>
+                    Making campus lost and found
+                    simple and organized.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+                <a href="found-items.html">
+                    Found Items
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
 
             <p>
-                CampusRecover helps students find lost belongings
-                and return found items within the campus community.
+                © <span class="current-year"></span>
+                CampusRecover. All rights reserved.
             </p>
 
-            <div class="hero-buttons">
-
-                <a href="report-lost.html" class="btn primary-btn">
-                    Report Lost Item
-                </a>
-
-                <a href="report-found.html" class="btn secondary-btn">
-                    Report Found Item
-                </a>
-
-            </div>
-
         </div>
-
-    </section>
-
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-
-        <h2>How CampusRecover Works</h2>
-
-        <div class="steps">
-
-            <div class="step-card">
-                <h3>1. Report</h3>
-                <p>
-                    Report a lost or found item with details,
-                    location and time.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <h3>2. Match</h3>
-                <p>
-                    Our system identifies possible matches
-                    between lost and found reports.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <h3>3. Verify</h3>
-                <p>
-                    Submit ownership evidence and let the
-                    campus team verify the claim.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <h3>4. Recover</h3>
-                <p>
-                    Collect your item through the
-                    authorized campus handover process.
-                </p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
-
-        <p>
-            © 2026 CampusRecover | Campus Lost & Found
-        </p>
 
     </footer>
 
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/main.js"></script>
+
 </body>
+
 </html>

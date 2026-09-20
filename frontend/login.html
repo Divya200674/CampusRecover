@@ -2,110 +2,125 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Login - CampusRecover</title>
 
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+<header class="navbar">
+
+    <div class="nav-container">
 
         <div class="logo">
-            CampusRecover
+            <a href="index.html">CampusRecover</a>
         </div>
 
-        <div class="nav-links">
+        <nav class="nav-links">
+
             <a href="index.html">Home</a>
+
             <a href="lost-items.html">Lost Items</a>
+
             <a href="found-items.html">Found Items</a>
-            <a href="report-lost.html">Report Lost</a>
-            <a href="login.html">Login</a>
-        </div>
 
-    </nav>
+            <a href="register.html">Register</a>
 
+        </nav>
 
-    <!-- Login Section -->
-    <section class="auth-section">
+    </div>
 
-        <div class="auth-card">
-
-            <h1>Welcome Back</h1>
-
-            <p class="auth-subtitle">
-                Login to your CampusRecover account
-            </p>
+</header>
 
 
-            <form id="loginForm">
+<main class="auth-container">
 
-                <!-- College Email -->
-                <div class="form-group">
+    <div class="auth-card">
 
-                    <label for="email">
-                        College Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your college email"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Password -->
-                <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Login Button -->
-                <button type="submit" class="login-btn">
-                    Login
-                </button>
-
-            </form>
-
-
-            <p class="register-text">
-                Don't have an account?
-                <a href="register.html">Create an account</a>
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <footer>
+        <h1>Welcome Back</h1>
 
         <p>
-            © 2026 CampusRecover | Campus Lost & Found
+            Login using your campus account.
         </p>
 
-    </footer>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Campus Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your campus email"
+                    required
+                >
+
+            </div>
 
 
-    <script src="js/main.js"></script>
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit" class="submit-btn">
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-link">
+
+            Don't have an account?
+
+            <a href="register.html">
+                Register here
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © <span class="current-year">2026</span>
+        CampusRecover.
+    </p>
+
+</footer>
+
+
+<script src="js/main.js"></script>
 
 </body>
 
