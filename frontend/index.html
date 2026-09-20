@@ -1,615 +1,801 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>CampusRecover | Campus Lost & Found</title>
 
-    <title>CampusRecover - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <style>
+        /* ==============================
+           HOME PAGE
+        ============================== */
 
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f9fc;
+            color: #172033;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .home-navbar {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid #e8edf5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .home-nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .home-logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .home-logo span {
+            color: #172033;
+        }
+
+        .home-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .home-nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .home-nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .nav-login {
+            border: 1px solid #4f46e5;
+            padding: 9px 18px;
+            border-radius: 9px;
+            color: #4f46e5 !important;
+        }
+
+        .nav-register {
+            background: #4f46e5;
+            color: white !important;
+            padding: 10px 19px;
+            border-radius: 9px;
+        }
+
+        .nav-register:hover {
+            background: #4338ca;
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(99, 102, 241, 0.20),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #ffffff
+                );
+
+            padding: 85px 25px 90px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            line-height: 1.08;
+            margin: 0 0 22px;
+            color: #111827;
+        }
+
+        .hero h1 span {
+            color: #4f46e5;
+        }
+
+        .hero-description {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #5b6475;
+            max-width: 650px;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .hero-btn-primary {
+            background: #4f46e5;
+            color: white;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+        }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            background: #4338ca;
+        }
+
+        .hero-btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #dce2ec;
+        }
+
+        .hero-btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+        /* ==============================
+           HERO VISUAL
+        ============================== */
+
+        .hero-visual {
+            position: relative;
+            min-height: 390px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .visual-card {
+            width: 330px;
+            background: white;
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 25px 70px rgba(31, 41, 55, 0.13);
+            position: relative;
+            z-index: 2;
+        }
+
+        .visual-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .visual-card-header h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .status-dot {
+            width: 11px;
+            height: 11px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .item-preview {
+            padding: 17px;
+            border-radius: 14px;
+            background: #f8fafc;
+            border: 1px solid #edf0f5;
+            margin-bottom: 12px;
+        }
+
+        .item-preview strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .item-preview span {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .match-box {
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 18px;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            border-radius: 14px;
+            padding: 15px 18px;
+            box-shadow: 0 15px 40px rgba(31, 41, 55, 0.12);
+            z-index: 3;
+        }
+
+        .floating-card.one {
+            top: 25px;
+            right: 5px;
+        }
+
+        .floating-card.two {
+            bottom: 25px;
+            left: 5px;
+        }
+
+        .floating-card strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .floating-card small {
+            color: #6b7280;
+        }
+
+        /* ==============================
+           STATS
+        ============================== */
+
+        .stats {
+            background: white;
+            padding: 35px 25px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .stat {
+            padding: 10px;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat h2 {
+            margin: 0;
+            font-size: 32px;
+            color: #4f46e5;
+        }
+
+        .stat p {
+            margin: 7px 0 0;
+            color: #6b7280;
+        }
+
+        /* ==============================
+           SECTION
+        ============================== */
+
+        .home-section {
+            padding: 85px 25px;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .section-heading span {
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .section-heading h2 {
+            font-size: 38px;
+            margin: 12px 0;
+            color: #111827;
+        }
+
+        .section-heading p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* ==============================
+           ACTION CARDS
+        ============================== */
+
+        .action-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .action-card {
+            background: white;
+            border: 1px solid #e6eaf0;
+            border-radius: 20px;
+            padding: 35px;
+            transition: 0.3s;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+        }
+
+        .action-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.09);
+        }
+
+        .action-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            border-radius: 15px;
+            font-size: 27px;
+            margin-bottom: 20px;
+        }
+
+        .action-card h3 {
+            margin: 0 0 10px;
+            font-size: 23px;
+        }
+
+        .action-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .action-link {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* ==============================
+           FEATURES
+        ============================== */
+
+        .features-section {
+            background: #ffffff;
+        }
+
+        .features-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border: 1px solid #e7ebf1;
+            border-radius: 18px;
+            background: #ffffff;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.07);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 10px;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           HOW IT WORKS
+        ============================== */
+
+        .steps-container {
+            max-width: 1050px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 18px;
+            font-weight: 800;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* ==============================
+           SECURITY
+        ============================== */
+
+        .security-section {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1e1b4b
+            );
+            color: white;
+        }
+
+        .security-container {
+            max-width: 1050px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .security-container h2 {
+            font-size: 38px;
+            margin-top: 0;
+        }
+
+        .security-container p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .security-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .security-list li {
+            margin: 17px 0;
+            color: #e2e8f0;
+        }
+
+        .security-list li::before {
+            content: "✓";
+            color: #a5b4fc;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .security-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 35px;
+        }
+
+        .security-card h3 {
+            margin-top: 0;
+        }
+
+        /* ==============================
+           CTA
+        ============================== */
+
+        .cta-section {
+            padding: 80px 25px;
+            background: #eef2ff;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 38px;
+            margin: 0 0 15px;
+        }
+
+        .cta-section p {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .home-footer {
+            background: #111827;
+            color: white;
+            padding: 45px 25px 20px;
+        }
+
+        .footer-container-home {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-container-home h3 {
+            margin-top: 0;
+        }
+
+        .footer-container-home p {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .footer-container-home a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+
+        .footer-container-home a:hover {
+            color: white;
+        }
+
+        .footer-bottom-home {
+            max-width: 1100px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                margin-top: 20px;
+            }
+
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .security-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container-home {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .home-nav-links a:not(.nav-login):not(.nav-register) {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stat {
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 20px;
+            }
+
+            .stat:last-child {
+                border-bottom: none;
+            }
+
+            .action-container {
+                grid-template-columns: 1fr;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container-home {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-card {
+                width: 270px;
+            }
+
+            .floating-card {
+                display: none;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+<!-- ==============================
+     NAVBAR
+============================== -->
 
-    <!-- =========================================
-         NAVBAR
-    ========================================== -->
+<nav class="home-navbar">
 
-    <nav class="navbar">
+    <div class="home-nav-container">
 
-        <div class="nav-container">
+        <a href="index.html" class="home-logo">
+            Campus<span>Recover</span>
+        </a>
 
-            <div class="logo">
-                CampusRecover
-            </div>
+        <div class="home-nav-links">
 
+            <a href="index.html">Home</a>
 
-            <div class="nav-links">
+            <a href="lost-items.html">
+                Lost Items
+            </a>
 
-                <a
-                    href="index.html"
-                    class="active"
-                >
-                    Home
-                </a>
+            <a href="found-items.html">
+                Found Items
+            </a>
 
-                <a href="dashboard.html">
-                    Dashboard
-                </a>
+            <a href="login.html" class="nav-login">
+                Login
+            </a>
 
-                <a href="lost-items.html">
-                    Lost Items
-                </a>
-
-                <a href="found-items.html">
-                    Found Items
-                </a>
-
-                <a href="my-reports.html">
-                    My Reports
-                </a>
-
-                <a href="my-claims.html">
-                    My Claims
-                </a>
-
-                <a href="profile.html">
-                    Profile
-                </a>
-
-                <a
-                    href="login.html"
-                    class="logout-btn"
-                >
-                    Logout
-                </a>
-
-            </div>
+            <a href="register.html" class="nav-register">
+                Get Started
+            </a>
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
+<!-- ==============================
+     HERO
+============================== -->
 
-    <!-- =========================================
-         HERO SECTION
-    ========================================== -->
+<section class="hero">
 
-    <main>
+    <div class="hero-container">
 
-        <section class="hero-section">
+        <div>
 
-            <div class="hero-content">
-
-                <span class="hero-badge">
-                    🎓 Campus-Only Lost & Found
-                </span>
-
-
-                <h1>
-                    Lost Something?
-                    <br>
-                    <span>Let's Help You Find It.</span>
-                </h1>
-
-
-                <p>
-                    CampusRecover helps students report lost and
-                    found items, discover possible matches, and
-                    safely return belongings within the campus.
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <a
-                        href="report-lost.html"
-                        class="primary-btn"
-                    >
-                        Report Lost Item
-                    </a>
-
-
-                    <a
-                        href="report-found.html"
-                        class="secondary-btn"
-                    >
-                        Report Found Item
-                    </a>
-
-                </div>
-
+            <div class="hero-badge">
+                🎓 Built for Campus Communities
             </div>
 
-
-            <div class="hero-image">
-
-                <div class="hero-icon">
-                    🔎
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             HOW IT WORKS
-        ========================================== -->
-
-        <section class="section">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-                    SIMPLE PROCESS
-                </span>
-
-                <h2>
-                    How CampusRecover Works
-                </h2>
-
-                <p>
-                    Find and recover your belongings in a few
-                    simple steps.
-                </p>
-
-            </div>
-
-
-            <div class="steps-grid">
-
-
-                <!-- STEP 1 -->
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        1
-                    </div>
-
-                    <div class="step-icon">
-                        📝
-                    </div>
-
-                    <h3>
-                        Report
-                    </h3>
-
-                    <p>
-                        Report your lost item or submit details
-                        about an item you found on campus.
-                    </p>
-
-                </div>
-
-
-
-                <!-- STEP 2 -->
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        2
-                    </div>
-
-                    <div class="step-icon">
-                        🔍
-                    </div>
-
-                    <h3>
-                        Discover
-                    </h3>
-
-                    <p>
-                        Browse lost and found reports to discover
-                        possible matches based on item details.
-                    </p>
-
-                </div>
-
-
-
-                <!-- STEP 3 -->
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        3
-                    </div>
-
-                    <div class="step-icon">
-                        🤝
-                    </div>
-
-                    <h3>
-                        Claim
-                    </h3>
-
-                    <p>
-                        Submit ownership evidence through the
-                        campus claim process.
-                    </p>
-
-                </div>
-
-
-
-                <!-- STEP 4 -->
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        4
-                    </div>
-
-                    <div class="step-icon">
-                        ✅
-                    </div>
-
-                    <h3>
-                        Recover
-                    </h3>
-
-                    <p>
-                        After verification, safely collect your
-                        item from the authorized campus location.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             QUICK ACTIONS
-        ========================================== -->
-
-        <section class="section">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-                    GET STARTED
-                </span>
-
-                <h2>
-                    What Would You Like To Do?
-                </h2>
-
-            </div>
-
-
-            <div class="action-grid">
-
-
-                <!-- REPORT LOST -->
+            <h1>
+                Lost something?
+                <br>
+                <span>Let's recover it.</span>
+            </h1>
+
+            <p class="hero-description">
+                CampusRecover is a campus-only lost and found platform
+                that helps students report lost items, discover found
+                belongings, and securely verify ownership.
+            </p>
+
+            <div class="hero-buttons">
 
                 <a
                     href="report-lost.html"
-                    class="action-card"
+                    class="hero-btn hero-btn-primary"
                 >
-
-                    <div class="action-icon">
-                        😟
-                    </div>
-
-                    <h3>
-                        I Lost Something
-                    </h3>
-
-                    <p>
-                        Report your lost item and provide
-                        details to help others identify it.
-                    </p>
-
-                    <span class="action-link">
-                        Report Lost →
-                    </span>
-
+                    🔍 I Lost Something
                 </a>
-
-
-
-                <!-- REPORT FOUND -->
 
                 <a
                     href="report-found.html"
-                    class="action-card"
+                    class="hero-btn hero-btn-secondary"
                 >
-
-                    <div class="action-icon">
-                        🎒
-                    </div>
-
-                    <h3>
-                        I Found Something
-                    </h3>
-
-                    <p>
-                        Report an item you found so the owner
-                        can find and claim it.
-                    </p>
-
-                    <span class="action-link">
-                        Report Found →
-                    </span>
-
-                </a>
-
-
-
-                <!-- SEARCH LOST -->
-
-                <a
-                    href="lost-items.html"
-                    class="action-card"
-                >
-
-                    <div class="action-icon">
-                        🔎
-                    </div>
-
-                    <h3>
-                        Search Lost Items
-                    </h3>
-
-                    <p>
-                        Browse reported lost items and check
-                        whether your belongings are listed.
-                    </p>
-
-                    <span class="action-link">
-                        Search Lost →
-                    </span>
-
-                </a>
-
-
-
-                <!-- SEARCH FOUND -->
-
-                <a
-                    href="found-items.html"
-                    class="action-card"
-                >
-
-                    <div class="action-icon">
-                        📦
-                    </div>
-
-                    <h3>
-                        Search Found Items
-                    </h3>
-
-                    <p>
-                        Browse items found around the campus
-                        and check for possible matches.
-                    </p>
-
-                    <span class="action-link">
-                        Search Found →
-                    </span>
-
-                </a>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             FEATURES
-        ========================================== -->
-
-        <section class="section features-section">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-                    WHY CAMPUSRECOVER
-                </span>
-
-                <h2>
-                    Built For Campus Communities
-                </h2>
-
-                <p>
-                    A simple and organized way to manage lost
-                    and found belongings within your campus.
-                </p>
-
-            </div>
-
-
-            <div class="features-grid">
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🎓
-                    </div>
-
-                    <h3>
-                        Campus Only
-                    </h3>
-
-                    <p>
-                        Designed specifically for students and
-                        campus communities.
-                    </p>
-
-                </div>
-
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        📍
-                    </div>
-
-                    <h3>
-                        Location Based
-                    </h3>
-
-                    <p>
-                        Record where an item was lost or found
-                        to make searching easier.
-                    </p>
-
-                </div>
-
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🔐
-                    </div>
-
-                    <h3>
-                        Safer Claims
-                    </h3>
-
-                    <p>
-                        Ownership claims can include private
-                        evidence for verification.
-                    </p>
-
-                </div>
-
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🔔
-                    </div>
-
-                    <h3>
-                        Easy Discovery
-                    </h3>
-
-                    <p>
-                        Quickly browse and search through
-                        available lost and found reports.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             CTA
-        ========================================== -->
-
-        <section class="cta-section">
-
-            <div class="cta-content">
-
-                <h2>
-                    Help Return Something Today.
-                </h2>
-
-                <p>
-                    A small report could help another student
-                    recover something important.
-                </p>
-
-
-                <div class="cta-buttons">
-
-                    <a
-                        href="report-lost.html"
-                        class="primary-btn"
-                    >
-                        Report Lost Item
-                    </a>
-
-
-                    <a
-                        href="report-found.html"
-                        class="secondary-btn"
-                    >
-                        Report Found Item
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
-
-    <footer class="footer">
-
-        <div class="footer-container">
-
-            <div>
-
-                <h3>
-                    CampusRecover
-                </h3>
-
-                <p>
-                    Making campus lost and found
-                    simple and organized.
-                </p>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="dashboard.html">
-                    Dashboard
-                </a>
-
-                <a href="lost-items.html">
-                    Lost Items
-                </a>
-
-                <a href="found-items.html">
-                    Found Items
-                </a>
-
-                <a href="profile.html">
-                    Profile
+                    📦 I Found Something
                 </a>
 
             </div>
@@ -617,25 +803,617 @@
         </div>
 
 
-        <div class="footer-bottom">
+        <!-- HERO VISUAL -->
+
+        <div class="hero-visual">
+
+            <div class="floating-card one">
+
+                <strong>✓ Possible Match</strong>
+
+                <small>
+                    Campus Library
+                </small>
+
+            </div>
+
+
+            <div class="visual-card">
+
+                <div class="visual-card-header">
+
+                    <h3>
+                        Recent Found Item
+                    </h3>
+
+                    <span class="status-dot"></span>
+
+                </div>
+
+
+                <div class="item-preview">
+
+                    <strong>
+                        👜 Black Wallet
+                    </strong>
+
+                    <span>
+                        Found near Library
+                    </span>
+
+                </div>
+
+
+                <div class="item-preview">
+
+                    <strong>
+                        💧 Blue Water Bottle
+                    </strong>
+
+                    <span>
+                        Found in Block A
+                    </span>
+
+                </div>
+
+
+                <div class="match-box">
+
+                    🔐 Ownership verification
+                    required before handover.
+
+                </div>
+
+            </div>
+
+
+            <div class="floating-card two">
+
+                <strong>
+                    🛡 Campus Verified
+                </strong>
+
+                <small>
+                    Secure claim process
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     STATS
+============================== -->
+
+<section class="stats">
+
+    <div class="stats-container">
+
+        <div class="stat">
+
+            <h2>01</h2>
 
             <p>
-                © <span class="current-year"></span>
-                CampusRecover. All rights reserved.
+                Campus-focused platform
             </p>
 
         </div>
 
-    </footer>
+        <div class="stat">
+
+            <h2>24/7</h2>
+
+            <p>
+                Access to item listings
+            </p>
+
+        </div>
+
+        <div class="stat">
+
+            <h2>100%</h2>
+
+            <p>
+                Ownership-focused claims
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 
+<!-- ==============================
+     LOST / FOUND ACTIONS
+============================== -->
 
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
+<section class="home-section">
 
-    <script src="js/main.js"></script>
+    <div class="section-heading">
+
+        <span>START HERE</span>
+
+        <h2>
+            What do you need?
+        </h2>
+
+        <p>
+            Whether you lost something or found something on campus,
+            CampusRecover gives you a simple place to report it.
+        </p>
+
+    </div>
+
+
+    <div class="action-container">
+
+        <div class="action-card">
+
+            <div class="action-icon">
+                🔎
+            </div>
+
+            <h3>
+                I Lost Something
+            </h3>
+
+            <p>
+                Report your lost item with details such as category,
+                location, date and description so it can be discovered
+                by someone who found it.
+            </p>
+
+            <a
+                href="report-lost.html"
+                class="action-link"
+            >
+                Report Lost Item →
+            </a>
+
+        </div>
+
+
+        <div class="action-card">
+
+            <div class="action-icon">
+                📦
+            </div>
+
+            <h3>
+                I Found Something
+            </h3>
+
+            <p>
+                Found something on campus? Add it to the platform so
+                the rightful owner can identify and claim it securely.
+            </p>
+
+            <a
+                href="report-found.html"
+                class="action-link"
+            >
+                Report Found Item →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     FEATURES
+============================== -->
+
+<section class="home-section features-section">
+
+    <div class="section-heading">
+
+        <span>WHY CAMPUSRECOVER</span>
+
+        <h2>
+            More than a lost & found list
+        </h2>
+
+        <p>
+            Designed around the way students actually lose,
+            find and recover belongings on campus.
+        </p>
+
+    </div>
+
+
+    <div class="features-container">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🔍
+            </div>
+
+            <h3>
+                Easy Discovery
+            </h3>
+
+            <p>
+                Search and filter lost and found items by category,
+                location and other useful details.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            <h3>
+                Possible Matches
+            </h3>
+
+            <p>
+                Connect lost reports with relevant found-item
+                information to make discovery easier.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+            <h3>
+                Private Evidence
+            </h3>
+
+            <p>
+                Ownership details are kept private instead of
+                displaying sensitive proof on public listings.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🏫
+            </div>
+
+            <h3>
+                Campus Focused
+            </h3>
+
+            <p>
+                Designed specifically for college students,
+                campus locations and campus verification.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📋
+            </div>
+
+            <h3>
+                Organized Reports
+            </h3>
+
+            <p>
+                Keep track of your reported items and submitted
+                claims from one place.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🤝
+            </div>
+
+            <h3>
+                Secure Handover
+            </h3>
+
+            <p>
+                Claims can be reviewed before an item is returned
+                to its possible owner.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     HOW IT WORKS
+============================== -->
+
+<section class="home-section">
+
+    <div class="section-heading">
+
+        <span>HOW IT WORKS</span>
+
+        <h2>
+            Recover in four simple steps
+        </h2>
+
+        <p>
+            A straightforward process for students and campus
+            verification teams.
+        </p>
+
+    </div>
+
+
+    <div class="steps-container">
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <h3>
+                Report
+            </h3>
+
+            <p>
+                Report your lost item or a found item.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <h3>
+                Discover
+            </h3>
+
+            <p>
+                Search through relevant campus listings.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <h3>
+                Claim
+            </h3>
+
+            <p>
+                Submit private ownership evidence.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <h3>
+                Verify
+            </h3>
+
+            <p>
+                Campus staff review the claim before handover.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     SECURITY
+============================== -->
+
+<section class="home-section security-section">
+
+    <div class="security-container">
+
+        <div>
+
+            <h2>
+                Built around trust.
+            </h2>
+
+            <p>
+                Finding an item is only the first step.
+                CampusRecover focuses on making sure the item
+                reaches the right person through a verification
+                based claim process.
+            </p>
+
+            <ul class="security-list">
+
+                <li>
+                    Private ownership evidence
+                </li>
+
+                <li>
+                    Campus verification workflow
+                </li>
+
+                <li>
+                    Organized claim tracking
+                </li>
+
+                <li>
+                    Public listings without private proof
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="security-card">
+
+            <h3>
+                🔐 Campus Verification
+            </h3>
+
+            <p>
+                A possible match does not automatically mean
+                ownership. Claimants provide private evidence,
+                while authorized campus staff can review the
+                information before handover.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     CTA
+============================== -->
+
+<section class="cta-section">
+
+    <h2>
+        Ready to recover what matters?
+    </h2>
+
+    <p>
+        Join your campus lost and found community today.
+    </p>
+
+    <a
+        href="register.html"
+        class="hero-btn hero-btn-primary"
+    >
+        Create Your Account →
+    </a>
+
+</section>
+
+
+<!-- ==============================
+     FOOTER
+============================== -->
+
+<footer class="home-footer">
+
+    <div class="footer-container-home">
+
+        <div>
+
+            <h3>
+                CampusRecover
+            </h3>
+
+            <p>
+                A campus-focused lost and found platform
+                designed to make reporting, discovery and
+                verification simpler.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Platform
+            </h3>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="report-lost.html">
+                Report Lost
+            </a>
+
+            <a href="report-found.html">
+                Report Found
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Account
+            </h3>
+
+            <a href="login.html">
+                Login
+            </a>
+
+            <a href="register.html">
+                Register
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom-home">
+
+        © <span class="current-year"></span>
+        CampusRecover. All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
 
 </body>
-
 </html>

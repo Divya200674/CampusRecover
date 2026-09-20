@@ -1,454 +1,302 @@
-// =====================================================
-// CampusRecover - Main JavaScript
-// =====================================================
+// ============================================================
+// CAMPUSRECOVER - MAIN JAVASCRIPT
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Common functions
+    setCurrentYear();
+    setupLogout();
+
+    // Report forms
+    setupFoundForm();
+    setupLostForm();
+
+    // Listing pages
+    displayFoundItems();
+    displayLostItems();
+
+    // Details and claim pages
+    displayItemDetails();
+    displayClaimItem();
+    setupClaimForm();
+});
 
 
-// =====================================================
-// PAGE INITIALIZATION
-// =====================================================
+// ============================================================
+// CURRENT YEAR
+// ============================================================
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    console.log("CampusRecover JavaScript loaded successfully!");
-
-
-    // =================================================
-    // CURRENT YEAR
-    // =================================================
+function setCurrentYear() {
 
     const yearElements =
         document.querySelectorAll(".current-year");
 
-    yearElements.forEach(function (element) {
-
+    yearElements.forEach(element => {
         element.textContent =
             new Date().getFullYear();
-
     });
+}
 
 
-    // =================================================
-    // LOGOUT
-    // =================================================
+// ============================================================
+// LOGOUT
+// ============================================================
 
-    const logoutButtons =
+function setupLogout() {
+
+    const logoutLinks =
         document.querySelectorAll(".logout-btn");
 
-    logoutButtons.forEach(function (button) {
+    logoutLinks.forEach(link => {
 
-        button.addEventListener("click", function (event) {
+        link.addEventListener("click", function () {
 
-            event.preventDefault();
-
-            const confirmLogout =
-                confirm("Are you sure you want to logout?");
-
-            if (confirmLogout) {
-
-                window.location.href =
-                    "login.html";
-
-            }
+            localStorage.removeItem("currentUser");
 
         });
 
     });
+}
 
 
-    // =================================================
-    // FOUND ITEM FORM
-    // =================================================
+// ============================================================
+// REPORT FOUND ITEM
+// ============================================================
 
-    const foundItemForm =
+function setupFoundForm() {
+
+    const form =
         document.getElementById("foundItemForm");
 
-    if (foundItemForm) {
-
-        foundItemForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                const itemName =
-                    document.getElementById("itemName")
-                        .value
-                        .trim();
-
-                const category =
-                    document.getElementById("category")
-                        .value;
-
-                const description =
-                    document.getElementById("description")
-                        .value
-                        .trim();
-
-                const location =
-                    document.getElementById("location")
-                        .value;
-
-                const dateFound =
-                    document.getElementById("dateFound")
-                        .value;
-
-                const timeFound =
-                    document.getElementById("timeFound")
-                        .value;
-
-                const additionalInfo =
-                    document.getElementById("additionalInfo")
-                        .value
-                        .trim();
-
-                const photoInput =
-                    document.getElementById("itemPhoto");
-
-                const photoFile =
-                    photoInput
-                        ? photoInput.files[0]
-                        : null;
-
-
-                // -----------------------------------------
-                // VALIDATION
-                // -----------------------------------------
-
-                if (
-                    itemName === "" ||
-                    category === "" ||
-                    description === "" ||
-                    location === "" ||
-                    dateFound === "" ||
-                    timeFound === ""
-                ) {
-
-                    alert(
-                        "Please fill in all required fields."
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    photoFile &&
-                    !photoFile.type.startsWith("image/")
-                ) {
-
-                    alert(
-                        "Please select a valid image file."
-                    );
-
-                    return;
-
-                }
-
-
-                // -----------------------------------------
-                // IMAGE
-                // -----------------------------------------
-
-                if (photoFile) {
-
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload =
-                        function (event) {
-
-                            saveFoundItem(
-
-                                itemName,
-                                category,
-                                description,
-                                location,
-                                dateFound,
-                                timeFound,
-                                additionalInfo,
-                                event.target.result
-
-                            );
-
-                        };
-
-
-                    reader.onerror =
-                        function () {
-
-                            alert(
-                                "Unable to read the selected image."
-                            );
-
-                        };
-
-
-                    reader.readAsDataURL(photoFile);
-
-                }
-
-                else {
-
-                    saveFoundItem(
-
-                        itemName,
-                        category,
-                        description,
-                        location,
-                        dateFound,
-                        timeFound,
-                        additionalInfo,
-                        ""
-
-                    );
-
-                }
-
-            }
-        );
-
+    if (!form) {
+        return;
     }
 
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const itemName =
+            document.getElementById("itemName")?.value.trim();
+
+        const category =
+            document.getElementById("category")?.value;
+
+        const description =
+            document.getElementById("description")?.value.trim();
+
+        const location =
+            document.getElementById("location")?.value.trim();
+
+        const dateFound =
+            document.getElementById("dateFound")?.value;
+
+        const timeFound =
+            document.getElementById("timeFound")?.value;
+
+        const additionalInfo =
+            document.getElementById("additionalInfo")?.value.trim();
 
 
-    // =================================================
-    // LOST ITEM FORM
-    // =================================================
+        if (
+            !itemName ||
+            !category ||
+            !description ||
+            !location ||
+            !dateFound
+        ) {
 
-    const lostItemForm =
+            alert(
+                "Please fill in all required fields."
+            );
+
+            return;
+        }
+
+
+        const newItem = {
+
+            id: Date.now(),
+
+            itemName: itemName,
+
+            category: category,
+
+            description: description,
+
+            location: location,
+
+            dateFound: dateFound,
+
+            timeFound: timeFound,
+
+            additionalInfo: additionalInfo,
+
+            status: "FOUND",
+
+            createdAt:
+                new Date().toISOString()
+        };
+
+
+        let foundItems =
+            JSON.parse(
+                localStorage.getItem("foundItems")
+            ) || [];
+
+
+        foundItems.push(newItem);
+
+
+        localStorage.setItem(
+            "foundItems",
+            JSON.stringify(foundItems)
+        );
+
+
+        alert(
+            "Found item reported successfully!"
+        );
+
+
+        window.location.href =
+            "found-items.html";
+    });
+}
+
+
+// ============================================================
+// REPORT LOST ITEM
+// ============================================================
+
+function setupLostForm() {
+
+    const form =
         document.getElementById("lostItemForm");
 
-    if (lostItemForm) {
+    if (!form) {
+        return;
+    }
 
-        lostItemForm.addEventListener(
-            "submit",
-            function (event) {
+    form.addEventListener("submit", function (event) {
 
-                event.preventDefault();
-
-
-                const itemName =
-                    document.getElementById("itemName")
-                        .value
-                        .trim();
-
-                const category =
-                    document.getElementById("category")
-                        .value;
-
-                const description =
-                    document.getElementById("description")
-                        .value
-                        .trim();
-
-                const location =
-                    document.getElementById("location")
-                        .value;
-
-                const lostDate =
-                    document.getElementById("lostDate")
-                        .value;
-
-                const lostTime =
-                    document.getElementById("lostTime")
-                        .value;
-
-                const additionalInfo =
-                    document.getElementById("additionalInfo")
-                        .value
-                        .trim();
-
-                const imageInput =
-                    document.getElementById("itemImage");
-
-                const imageFile =
-                    imageInput
-                        ? imageInput.files[0]
-                        : null;
+        event.preventDefault();
 
 
-                // -----------------------------------------
-                // VALIDATION
-                // -----------------------------------------
+        const itemName =
+            document.getElementById("itemName")?.value.trim();
 
-                if (
-                    itemName === "" ||
-                    category === "" ||
-                    description === "" ||
-                    location === "" ||
-                    lostDate === "" ||
-                    lostTime === ""
-                ) {
+        const category =
+            document.getElementById("category")?.value;
 
-                    alert(
-                        "Please fill in all required fields."
-                    );
+        const description =
+            document.getElementById("description")?.value.trim();
 
-                    return;
+        const location =
+            document.getElementById("location")?.value.trim();
 
-                }
+        const lostDate =
+            document.getElementById("lostDate")?.value;
 
+        const lostTime =
+            document.getElementById("lostTime")?.value;
 
-                if (
-                    imageFile &&
-                    !imageFile.type.startsWith("image/")
-                ) {
-
-                    alert(
-                        "Please select a valid image file."
-                    );
-
-                    return;
-
-                }
+        const additionalInfo =
+            document.getElementById("additionalInfo")?.value.trim();
 
 
-                // -----------------------------------------
-                // IMAGE
-                // -----------------------------------------
+        if (
+            !itemName ||
+            !category ||
+            !description ||
+            !location ||
+            !lostDate
+        ) {
 
-                if (imageFile) {
+            alert(
+                "Please fill in all required fields."
+            );
 
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload =
-                        function (event) {
-
-                            saveLostItem(
-
-                                itemName,
-                                category,
-                                description,
-                                location,
-                                lostDate,
-                                lostTime,
-                                additionalInfo,
-                                event.target.result
-
-                            );
-
-                        };
+            return;
+        }
 
 
-                    reader.onerror =
-                        function () {
+        const newItem = {
 
-                            alert(
-                                "Unable to read the selected image."
-                            );
+            id: Date.now(),
 
-                        };
+            itemName: itemName,
+
+            category: category,
+
+            description: description,
+
+            location: location,
+
+            lostDate: lostDate,
+
+            lostTime: lostTime,
+
+            additionalInfo: additionalInfo,
+
+            status: "LOST",
+
+            createdAt:
+                new Date().toISOString()
+        };
 
 
-                    reader.readAsDataURL(imageFile);
+        let lostItems =
+            JSON.parse(
+                localStorage.getItem("lostItems")
+            ) || [];
 
-                }
 
-                else {
+        lostItems.push(newItem);
 
-                    saveLostItem(
 
-                        itemName,
-                        category,
-                        description,
-                        location,
-                        lostDate,
-                        lostTime,
-                        additionalInfo,
-                        ""
-
-                    );
-
-                }
-
-            }
+        localStorage.setItem(
+            "lostItems",
+            JSON.stringify(lostItems)
         );
 
+
+        alert(
+            "Lost item reported successfully!"
+        );
+
+
+        window.location.href =
+            "lost-items.html";
+    });
+}
+
+
+// ============================================================
+// DISPLAY FOUND ITEMS
+// ============================================================
+
+function displayFoundItems() {
+
+    const grid =
+        document.getElementById("foundItemsGrid");
+
+    if (!grid) {
+        return;
     }
 
 
+    const searchInput =
+        document.getElementById("foundSearch");
 
-    // =================================================
-    // DISPLAY FOUND ITEMS
-    // =================================================
+    const categoryFilter =
+        document.getElementById(
+            "foundCategoryFilter"
+        );
 
-    displayFoundItems();
-
-
-
-    // =================================================
-    // DISPLAY LOST ITEMS
-    // =================================================
-
-    displayLostItems();
-
-
-
-    // =================================================
-    // SEARCH
-    // =================================================
-
-    setupFoundItemSearch();
-
-    setupLostItemSearch();
-
-
-
-    // =================================================
-    // CLAIM PAGE
-    // =================================================
-
-    displayClaimItem();
-
-    setupClaimForm();
-
-});
-
-
-
-// =====================================================
-// SAVE FOUND ITEM
-// =====================================================
-
-function saveFoundItem(
-    itemName,
-    category,
-    description,
-    location,
-    dateFound,
-    timeFound,
-    additionalInfo,
-    photoData
-) {
-
-    const foundItem = {
-
-        id: Date.now(),
-
-        itemName: itemName,
-
-        category: category,
-
-        description: description,
-
-        location: location,
-
-        dateFound: dateFound,
-
-        timeFound: timeFound,
-
-        additionalInfo: additionalInfo,
-
-        photo: photoData,
-
-        status: "FOUND"
-
-    };
+    const noResults =
+        document.getElementById("noFoundItems");
 
 
     let foundItems =
@@ -457,92 +305,241 @@ function saveFoundItem(
         ) || [];
 
 
-    foundItems.push(foundItem);
+    function renderItems() {
+
+        const searchText =
+            searchInput
+                ? searchInput.value
+                    .toLowerCase()
+                    .trim()
+                : "";
 
 
-    try {
+        const selectedCategory =
+            categoryFilter
+                ? categoryFilter.value
+                : "";
 
-        localStorage.setItem(
-            "foundItems",
-            JSON.stringify(foundItems)
+
+        const filteredItems =
+            foundItems.filter(item => {
+
+                const itemName =
+                    String(item.itemName || "")
+                        .toLowerCase();
+
+                const description =
+                    String(item.description || "")
+                        .toLowerCase();
+
+                const location =
+                    String(item.location || "")
+                        .toLowerCase();
+
+
+                const matchesSearch =
+                    itemName.includes(searchText) ||
+                    description.includes(searchText) ||
+                    location.includes(searchText);
+
+
+                const matchesCategory =
+                    !selectedCategory ||
+                    item.category === selectedCategory;
+
+
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+            });
+
+
+        grid.innerHTML = "";
+
+
+        if (filteredItems.length === 0) {
+
+            if (noResults) {
+                noResults.style.display =
+                    "block";
+            }
+
+            return;
+        }
+
+
+        if (noResults) {
+            noResults.style.display =
+                "none";
+        }
+
+
+        filteredItems.forEach(item => {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "item-card";
+
+
+            card.innerHTML = `
+
+                <div class="item-card-top">
+
+                    ${getItemIcon(item.category)}
+
+                </div>
+
+
+                <div class="item-card-content">
+
+                    <span class="found-badge">
+                        FOUND
+                    </span>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            item.itemName
+                        )}
+                    </h3>
+
+
+                    <p class="item-description">
+
+                        ${escapeHTML(
+                            item.description
+                        )}
+
+                    </p>
+
+
+                    <div class="item-details-list">
+
+
+                        <div class="item-detail-row">
+
+                            📂
+
+                            <strong>
+                                Category:
+                            </strong>
+
+                            ${formatCategory(
+                                item.category
+                            )}
+
+                        </div>
+
+
+                        <div class="item-detail-row">
+
+                            📍
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            ${escapeHTML(
+                                item.location
+                            )}
+
+                        </div>
+
+
+                        <div class="item-detail-row">
+
+                            📅
+
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${formatDate(
+                                item.dateFound
+                            )}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <a
+                        href="item-details.html?id=${encodeURIComponent(
+                            item.id
+                        )}&type=found"
+                        class="view-details-btn"
+                    >
+                        View Details →
+                    </a>
+
+
+                </div>
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+    }
+
+
+    renderItems();
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            renderItems
         );
 
     }
 
-    catch (error) {
 
-        console.error(error);
+    if (categoryFilter) {
 
-        alert(
-            "The image may be too large. Please use a smaller image."
+        categoryFilter.addEventListener(
+            "change",
+            renderItems
         );
 
-        return;
-
     }
-
-
-    alert(
-        "Found item reported successfully!"
-    );
-
-
-    const form =
-        document.getElementById("foundItemForm");
-
-
-    if (form) {
-
-        form.reset();
-
-    }
-
-
-    window.location.href =
-        "found-items.html";
 
 }
 
 
+// ============================================================
+// DISPLAY LOST ITEMS
+// ============================================================
 
-// =====================================================
-// SAVE LOST ITEM
-// =====================================================
+function displayLostItems() {
 
-function saveLostItem(
-    itemName,
-    category,
-    description,
-    location,
-    lostDate,
-    lostTime,
-    additionalInfo,
-    imageData
-) {
+    const grid =
+        document.getElementById("lostItemsGrid");
 
-    const lostItem = {
+    if (!grid) {
+        return;
+    }
 
-        id: Date.now(),
 
-        itemName: itemName,
+    const searchInput =
+        document.getElementById("lostSearch");
 
-        category: category,
+    const categoryFilter =
+        document.getElementById(
+            "lostCategoryFilter"
+        );
 
-        description: description,
-
-        location: location,
-
-        lostDate: lostDate,
-
-        lostTime: lostTime,
-
-        additionalInfo: additionalInfo,
-
-        photo: imageData,
-
-        status: "LOST"
-
-    };
+    const noResults =
+        document.getElementById(
+            "noLostItems"
+        );
 
 
     let lostItems =
@@ -551,787 +548,218 @@ function saveLostItem(
         ) || [];
 
 
-    lostItems.push(lostItem);
+    function renderItems() {
 
+        const searchText =
+            searchInput
+                ? searchInput.value
+                    .toLowerCase()
+                    .trim()
+                : "";
 
-    try {
 
-        localStorage.setItem(
-            "lostItems",
-            JSON.stringify(lostItems)
-        );
+        const selectedCategory =
+            categoryFilter
+                ? categoryFilter.value
+                : "";
 
-    }
 
-    catch (error) {
+        const filteredItems =
+            lostItems.filter(item => {
 
-        console.error(error);
+                const itemName =
+                    String(item.itemName || "")
+                        .toLowerCase();
 
-        alert(
-            "The image may be too large. Please use a smaller image."
-        );
+                const description =
+                    String(item.description || "")
+                        .toLowerCase();
 
-        return;
+                const location =
+                    String(item.location || "")
+                        .toLowerCase();
 
-    }
 
+                const matchesSearch =
+                    itemName.includes(searchText) ||
+                    description.includes(searchText) ||
+                    location.includes(searchText);
 
-    console.log(
-        "Lost Item Report:",
-        lostItem
-    );
 
+                const matchesCategory =
+                    !selectedCategory ||
+                    item.category === selectedCategory;
 
-    alert(
-        "Lost item reported successfully!"
-    );
 
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+            });
 
-    const form =
-        document.getElementById("lostItemForm");
 
+        grid.innerHTML = "";
 
-    if (form) {
 
-        form.reset();
+        if (filteredItems.length === 0) {
 
-    }
+            if (noResults) {
+                noResults.style.display =
+                    "block";
+            }
 
-
-    window.location.href =
-        "lost-items.html";
-
-}
-
-
-
-// =====================================================
-// DISPLAY FOUND ITEMS
-// =====================================================
-
-function displayFoundItems() {
-
-    const grid =
-        document.getElementById("foundItemsGrid");
-
-
-    if (!grid) {
-
-        return;
-
-    }
-
-
-    const foundItems =
-        JSON.parse(
-            localStorage.getItem("foundItems")
-        ) || [];
-
-
-    foundItems.forEach(function (item) {
-
-        const card =
-            createFoundItemCard(item);
-
-
-        grid.insertAdjacentHTML(
-            "beforeend",
-            card
-        );
-
-    });
-
-}
-
-
-
-// =====================================================
-// CREATE FOUND ITEM CARD
-// =====================================================
-
-function createFoundItemCard(item) {
-
-    const categoryName =
-        formatCategory(item.category);
-
-
-    const locationName =
-        formatLocation(item.location);
-
-
-    let imageHTML =
-        `<div class="placeholder-image">📦</div>`;
-
-
-    if (item.photo) {
-
-        imageHTML = `
-            <img
-                src="${item.photo}"
-                alt="${escapeHTML(item.itemName)}"
-                class="item-photo"
-            >
-        `;
-
-    }
-
-
-    return `
-
-        <div
-            class="item-card dynamic-item"
-            data-category="${item.category}"
-            data-name="${escapeHTML(
-                item.itemName.toLowerCase()
-            )}"
-        >
-
-            <div class="item-image">
-
-                ${imageHTML}
-
-            </div>
-
-
-            <div class="item-content">
-
-                <span class="item-status found">
-                    FOUND
-                </span>
-
-
-                <h3>
-                    ${escapeHTML(item.itemName)}
-                </h3>
-
-
-                <p>
-                    <strong>Category:</strong>
-                    ${categoryName}
-                </p>
-
-
-                <p>
-                    <strong>Location:</strong>
-                    ${locationName}
-                </p>
-
-
-                <p>
-                    <strong>Date:</strong>
-                    ${formatDate(item.dateFound)}
-                </p>
-
-
-                <p>
-                    <strong>Time:</strong>
-                    ${item.timeFound}
-                </p>
-
-
-                <a
-                    href="item-details.html?id=${item.id}&type=found"
-                    class="view-btn"
-                >
-                    View Details
-                </a>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-
-// =====================================================
-// DISPLAY LOST ITEMS
-// =====================================================
-
-function displayLostItems() {
-
-    const grid =
-        document.getElementById("lostItemsGrid");
-
-
-    if (!grid) {
-
-        return;
-
-    }
-
-
-    const lostItems =
-        JSON.parse(
-            localStorage.getItem("lostItems")
-        ) || [];
-
-
-    lostItems.forEach(function (item) {
-
-        const card =
-            createLostItemCard(item);
-
-
-        grid.insertAdjacentHTML(
-            "beforeend",
-            card
-        );
-
-    });
-
-}
-
-
-
-// =====================================================
-// CREATE LOST ITEM CARD
-// =====================================================
-
-function createLostItemCard(item) {
-
-    const categoryName =
-        formatCategory(item.category);
-
-
-    const locationName =
-        formatLocation(item.location);
-
-
-    let imageHTML =
-        `<div class="placeholder-image">📦</div>`;
-
-
-    if (item.photo) {
-
-        imageHTML = `
-            <img
-                src="${item.photo}"
-                alt="${escapeHTML(item.itemName)}"
-                class="item-photo"
-            >
-        `;
-
-    }
-
-
-    return `
-
-        <div
-            class="item-card dynamic-item"
-            data-category="${item.category}"
-            data-name="${escapeHTML(
-                item.itemName.toLowerCase()
-            )}"
-        >
-
-            <div class="item-image">
-
-                ${imageHTML}
-
-            </div>
-
-
-            <div class="item-content">
-
-                <span class="item-status lost">
-                    LOST
-                </span>
-
-
-                <h3>
-                    ${escapeHTML(item.itemName)}
-                </h3>
-
-
-                <p>
-                    <strong>Category:</strong>
-                    ${categoryName}
-                </p>
-
-
-                <p>
-                    <strong>Location:</strong>
-                    ${locationName}
-                </p>
-
-
-                <p>
-                    <strong>Date:</strong>
-                    ${formatDate(item.lostDate)}
-                </p>
-
-
-                <p>
-                    <strong>Time:</strong>
-                    ${item.lostTime}
-                </p>
-
-
-                <a
-                    href="item-details.html?id=${item.id}&type=lost"
-                    class="view-btn"
-                >
-                    View Details
-                </a>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-
-// =====================================================
-// FOUND ITEM SEARCH
-// =====================================================
-
-function setupFoundItemSearch() {
-
-    const searchInput =
-        document.getElementById("foundSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "foundCategoryFilter"
-        );
-
-
-    if (
-        !searchInput ||
-        !categoryFilter
-    ) {
-
-        return;
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        filterFoundItems
-    );
-
-
-    categoryFilter.addEventListener(
-        "change",
-        filterFoundItems
-    );
-
-}
-
-
-
-// =====================================================
-// FILTER FOUND ITEMS
-// =====================================================
-
-function filterFoundItems() {
-
-    const searchInput =
-        document.getElementById("foundSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "foundCategoryFilter"
-        );
-
-
-    const cards =
-        document.querySelectorAll(
-            "#foundItemsGrid .item-card"
-        );
-
-
-    if (
-        !searchInput ||
-        !categoryFilter
-    ) {
-
-        return;
-
-    }
-
-
-    const searchText =
-        searchInput.value
-            .toLowerCase()
-            .trim();
-
-
-    const selectedCategory =
-        categoryFilter.value;
-
-
-    let visibleCount = 0;
-
-
-    cards.forEach(function (card) {
-
-        const name =
-            card
-                .getAttribute("data-name")
-                .toLowerCase();
-
-
-        const category =
-            card.getAttribute(
-                "data-category"
-            );
-
-
-        const matchesSearch =
-            name.includes(searchText);
-
-
-        const matchesCategory =
-            selectedCategory === "" ||
-            category === selectedCategory;
-
-
-        if (
-            matchesSearch &&
-            matchesCategory
-        ) {
-
-            card.style.display = "";
-
-            visibleCount++;
-
+            return;
         }
 
-        else {
 
-            card.style.display = "none";
-
+        if (noResults) {
+            noResults.style.display =
+                "none";
         }
 
-    });
+
+        filteredItems.forEach(item => {
+
+            const card =
+                document.createElement("div");
 
 
-    const noResults =
-        document.getElementById(
-            "noFoundItems"
+            card.className =
+                "item-card";
+
+
+            card.innerHTML = `
+
+                <div class="item-card-top">
+
+                    ${getItemIcon(item.category)}
+
+                </div>
+
+
+                <div class="item-card-content">
+
+                    <span class="lost-badge">
+                        LOST
+                    </span>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            item.itemName
+                        )}
+                    </h3>
+
+
+                    <p class="item-description">
+
+                        ${escapeHTML(
+                            item.description
+                        )}
+
+                    </p>
+
+
+                    <div class="item-details-list">
+
+
+                        <div class="item-detail-row">
+
+                            📂
+
+                            <strong>
+                                Category:
+                            </strong>
+
+                            ${formatCategory(
+                                item.category
+                            )}
+
+                        </div>
+
+
+                        <div class="item-detail-row">
+
+                            📍
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            ${escapeHTML(
+                                item.location
+                            )}
+
+                        </div>
+
+
+                        <div class="item-detail-row">
+
+                            📅
+
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${formatDate(
+                                item.lostDate
+                            )}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <a
+                        href="item-details.html?id=${encodeURIComponent(
+                            item.id
+                        )}&type=lost"
+                        class="view-details-btn"
+                    >
+                        View Details →
+                    </a>
+
+
+                </div>
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+    }
+
+
+    renderItems();
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            renderItems
         );
 
+    }
 
-    if (noResults) {
 
-        noResults.style.display =
-            visibleCount === 0
-                ? "block"
-                : "none";
+    if (categoryFilter) {
+
+        categoryFilter.addEventListener(
+            "change",
+            renderItems
+        );
 
     }
 
 }
 
 
-
-// =====================================================
-// LOST ITEM SEARCH
-// =====================================================
-
-function setupLostItemSearch() {
-
-    const searchInput =
-        document.getElementById("lostSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "lostCategoryFilter"
-        );
-
-
-    if (
-        !searchInput ||
-        !categoryFilter
-    ) {
-
-        return;
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        filterLostItems
-    );
-
-
-    categoryFilter.addEventListener(
-        "change",
-        filterLostItems
-    );
-
-}
-
-
-
-// =====================================================
-// FILTER LOST ITEMS
-// =====================================================
-
-function filterLostItems() {
-
-    const searchInput =
-        document.getElementById("lostSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "lostCategoryFilter"
-        );
-
-
-    const cards =
-        document.querySelectorAll(
-            "#lostItemsGrid .item-card"
-        );
-
-
-    if (
-        !searchInput ||
-        !categoryFilter
-    ) {
-
-        return;
-
-    }
-
-
-    const searchText =
-        searchInput.value
-            .toLowerCase()
-            .trim();
-
-
-    const selectedCategory =
-        categoryFilter.value;
-
-
-    let visibleCount = 0;
-
-
-    cards.forEach(function (card) {
-
-        const name =
-            card
-                .getAttribute("data-name")
-                .toLowerCase();
-
-
-        const category =
-            card.getAttribute(
-                "data-category"
-            );
-
-
-        const matchesSearch =
-            name.includes(searchText);
-
-
-        const matchesCategory =
-            selectedCategory === "" ||
-            category === selectedCategory;
-
-
-        if (
-            matchesSearch &&
-            matchesCategory
-        ) {
-
-            card.style.display = "";
-
-            visibleCount++;
-
-        }
-
-        else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-
-    const noResults =
-        document.getElementById(
-            "noLostItems"
-        );
-
-
-    if (noResults) {
-
-        noResults.style.display =
-            visibleCount === 0
-                ? "block"
-                : "none";
-
-    }
-
-}
-
-
-
-// =====================================================
-// FORMAT CATEGORY
-// =====================================================
-
-function formatCategory(category) {
-
-    const categoryNames = {
-
-        "wallet": "Wallet",
-
-        "mobile": "Mobile Phone",
-
-        "laptop": "Laptop",
-
-        "bag": "Bag",
-
-        "books": "Books",
-
-        "id-card": "ID Card",
-
-        "water-bottle": "Water Bottle",
-
-        "bottle": "Water Bottle",
-
-        "electronics": "Electronics",
-
-        "accessories": "Accessories",
-
-        "clothing": "Clothing",
-
-        "keys": "Keys",
-
-        "other": "Other"
-
-    };
-
-
-    return (
-        categoryNames[category] ||
-        category
-    );
-
-}
-
-
-
-// =====================================================
-// FORMAT LOCATION
-// =====================================================
-
-function formatLocation(location) {
-
-    const locations = {
-
-        "library": "Library",
-
-        "block-a": "Block A",
-
-        "block-b": "Block B",
-
-        "block-c": "Block C",
-
-        "canteen": "Canteen",
-
-        "lab": "Laboratory",
-
-        "lab-1": "Lab 1",
-
-        "lab-2": "Lab 2",
-
-        "lab-3": "Lab 3",
-
-        "playground": "Playground",
-
-        "auditorium": "Auditorium",
-
-        "parking": "Parking Area",
-
-        "sports-ground": "Sports Ground",
-
-        "other": "Other"
-
-    };
-
-
-    return (
-        locations[location] ||
-        location
-    );
-
-}
-
-
-
-// =====================================================
-// FORMAT DATE
-// =====================================================
-
-function formatDate(dateString) {
-
-    if (!dateString) {
-
-        return "";
-
-    }
-
-
-    const date =
-        new Date(
-            dateString + "T00:00:00"
-        );
-
-
-    return date.toLocaleDateString(
-        "en-GB",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        }
-    );
-
-}
-
-
-
-// =====================================================
-// ESCAPE HTML
-// =====================================================
-
-function escapeHTML(value) {
-
-    const div =
-        document.createElement("div");
-
-
-    div.textContent =
-        value;
-
-
-    return div.innerHTML;
-
-}
-
-
-
-// =====================================================
+// ============================================================
 // ITEM DETAILS PAGE
-// =====================================================
+// ============================================================
 
 function displayItemDetails() {
 
@@ -1342,400 +770,7 @@ function displayItemDetails() {
 
 
     if (!detailsCard) {
-
         return;
-
-    }
-
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const itemId =
-        params.get("id");
-
-
-    const itemType =
-        params.get("type");
-
-
-    if (
-        !itemId ||
-        !itemType
-    ) {
-
-        detailsCard.innerHTML = `
-
-            <div class="details-content">
-
-                <h1>
-                    Item Not Found
-                </h1>
-
-                <p>
-                    The item details could not be loaded.
-                </p>
-
-                <div class="details-actions">
-
-                    <a
-                        href="lost-items.html"
-                        class="secondary-action-btn"
-                    >
-                        Back to Lost Items
-                    </a>
-
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let items = [];
-
-
-    if (itemType === "lost") {
-
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "lostItems"
-                )
-            ) || [];
-
-    }
-
-
-    if (itemType === "found") {
-
-        items =
-            JSON.parse(
-                localStorage.getItem(
-                    "foundItems"
-                )
-            ) || [];
-
-    }
-
-
-    const item =
-        items.find(function (currentItem) {
-
-            return (
-                String(currentItem.id) ===
-                String(itemId)
-            );
-
-        });
-
-
-    if (!item) {
-
-        detailsCard.innerHTML = `
-
-            <div class="details-content">
-
-                <h1>
-                    Item Not Found
-                </h1>
-
-                <p>
-                    This item may have been removed
-                    or is not available in this browser.
-                </p>
-
-                <div class="details-actions">
-
-                    <a
-                        href="${
-                            itemType === "lost"
-                                ? "lost-items.html"
-                                : "found-items.html"
-                        }"
-                        class="secondary-action-btn"
-                    >
-                        Back to Items
-                    </a>
-
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    const status =
-        itemType === "lost"
-            ? "LOST"
-            : "FOUND";
-
-
-    const statusClass =
-        itemType === "lost"
-            ? "lost"
-            : "found";
-
-
-    const category =
-        formatCategory(
-            item.category
-        );
-
-
-    const location =
-        formatLocation(
-            item.location
-        );
-
-
-    const date =
-        itemType === "lost"
-            ? formatDate(item.lostDate)
-            : formatDate(item.dateFound);
-
-
-    const time =
-        itemType === "lost"
-            ? item.lostTime
-            : item.timeFound;
-
-
-    let imageHTML =
-        `<div class="details-image-placeholder">📦</div>`;
-
-
-    if (item.photo) {
-
-        imageHTML = `
-
-            <img
-                src="${item.photo}"
-                alt="${escapeHTML(item.itemName)}"
-                class="details-item-photo"
-            >
-
-        `;
-
-    }
-
-
-    detailsCard.innerHTML = `
-
-        <div class="details-image">
-
-            ${imageHTML}
-
-        </div>
-
-
-        <div class="details-content">
-
-            <span class="item-status ${statusClass}">
-                ${status}
-            </span>
-
-
-            <h1>
-                ${escapeHTML(item.itemName)}
-            </h1>
-
-
-            <p class="details-description">
-                ${escapeHTML(item.description)}
-            </p>
-
-
-            <div class="details-info">
-
-                <div class="details-info-row">
-
-                    <span class="details-label">
-                        Category
-                    </span>
-
-                    <span>
-                        ${category}
-                    </span>
-
-                </div>
-
-
-                <div class="details-info-row">
-
-                    <span class="details-label">
-                        Location
-                    </span>
-
-                    <span>
-                        ${location}
-                    </span>
-
-                </div>
-
-
-                <div class="details-info-row">
-
-                    <span class="details-label">
-                        Date
-                    </span>
-
-                    <span>
-                        ${date}
-                    </span>
-
-                </div>
-
-
-                <div class="details-info-row">
-
-                    <span class="details-label">
-                        Approximate Time
-                    </span>
-
-                    <span>
-                        ${time}
-                    </span>
-
-                </div>
-
-
-                ${
-                    item.additionalInfo
-                        ? `
-
-                    <div class="details-info-row">
-
-                        <span class="details-label">
-                            Additional Information
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                item.additionalInfo
-                            )}
-                        </span>
-
-                    </div>
-
-                    `
-                        : ""
-                }
-
-            </div>
-
-
-
-            <!-- POSSIBLE MATCH -->
-
-            <div class="possible-match">
-
-                <h2>
-                    Possible Match
-                </h2>
-
-
-                <p>
-                    This item may be matched with
-                    another report based on the
-                    available information.
-                </p>
-
-
-                <div class="match-score">
-
-                    <span>
-                        Possible Match Score
-                    </span>
-
-                    <strong>
-                        Not calculated
-                    </strong>
-
-                </div>
-
-
-                <small>
-
-                    This is only a possible match.
-                    Ownership must be verified
-                    through the campus claim process.
-
-                </small>
-
-            </div>
-
-
-
-            <!-- ACTIONS -->
-
-            <div class="details-actions">
-
-                <a
-                    href="claim.html?id=${item.id}&type=${itemType}"
-                    class="primary-action-btn"
-                >
-                    Claim This Item
-                </a>
-
-
-                <a
-                    href="${
-                        itemType === "lost"
-                            ? "lost-items.html"
-                            : "found-items.html"
-                    }"
-                    class="secondary-action-btn"
-                >
-                    Back to ${
-                        itemType === "lost"
-                            ? "Lost Items"
-                            : "Found Items"
-                    }
-                </a>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-
-// =====================================================
-// CLAIM PAGE - DISPLAY ITEM
-// =====================================================
-
-function displayClaimItem() {
-
-    const claimForm =
-        document.getElementById(
-            "claimForm"
-        );
-
-
-    // -----------------------------------------
-    // If this is not the Claim page,
-    // do nothing.
-    // -----------------------------------------
-
-    if (!claimForm) {
-
-        return;
-
     }
 
 
@@ -1754,64 +789,57 @@ function displayClaimItem() {
 
 
     console.log(
-        "Claim Item ID:",
+        "Item Details ID:",
         itemId
     );
 
 
     console.log(
-        "Claim Item Type:",
+        "Item Details Type:",
         itemType
     );
 
 
-    // -----------------------------------------
-    // Validate URL
-    // -----------------------------------------
+    // --------------------------------------------------------
+    // INVALID URL
+    // --------------------------------------------------------
 
-    if (
-        !itemId ||
-        !itemType
-    ) {
+    if (!itemId || !itemType) {
 
-        document.getElementById(
-            "claimItemName"
-        ).textContent =
-            "Invalid Claim";
+        detailsCard.innerHTML = `
 
+            <div class="empty-state">
 
-        document.getElementById(
-            "claimCategory"
-        ).textContent =
-            "-";
+                <div style="font-size:55px;">
+                    🔎
+                </div>
 
+                <h2>
+                    Item Not Found
+                </h2>
 
-        document.getElementById(
-            "claimLocation"
-        ).textContent =
-            "-";
+                <p>
+                    The item information is missing
+                    or the link is invalid.
+                </p>
 
+                <a
+                    href="found-items.html"
+                    class="primary-action-btn"
+                >
+                    Back to Found Items
+                </a>
 
-        document.getElementById(
-            "claimDate"
-        ).textContent =
-            "-";
-
-
-        document.getElementById(
-            "claimStatus"
-        ).textContent =
-            "INVALID";
-
+            </div>
+        `;
 
         return;
-
     }
 
 
-    // -----------------------------------------
-    // Get correct items
-    // -----------------------------------------
+    // --------------------------------------------------------
+    // GET ITEMS
+    // --------------------------------------------------------
 
     let items = [];
 
@@ -1840,147 +868,318 @@ function displayClaimItem() {
     }
 
 
-    // -----------------------------------------
-    // Find item
-    // -----------------------------------------
+    // --------------------------------------------------------
+    // FIND ITEM
+    // --------------------------------------------------------
 
     const item =
-        items.find(function (currentItem) {
-
-            return (
-                String(currentItem.id) ===
-                String(itemId)
-            );
-
-        });
+        items.find(
+            currentItem =>
+                String(
+                    currentItem.id
+                ) === String(itemId)
+        );
 
 
-    // -----------------------------------------
-    // Item not found
-    // -----------------------------------------
+    // --------------------------------------------------------
+    // ITEM NOT FOUND
+    // --------------------------------------------------------
 
     if (!item) {
 
-        document.getElementById(
-            "claimItemName"
-        ).textContent =
-            "Item Not Found";
+        detailsCard.innerHTML = `
 
+            <div class="empty-state">
 
-        document.getElementById(
-            "claimCategory"
-        ).textContent =
-            "-";
+                <div style="font-size:55px;">
+                    📦
+                </div>
 
+                <h2>
+                    Item Not Found
+                </h2>
 
-        document.getElementById(
-            "claimLocation"
-        ).textContent =
-            "-";
+                <p>
+                    This item could not be found
+                    in your saved reports.
+                </p>
 
+                <a
+                    href="${
+                        itemType === "lost"
+                            ? "lost-items.html"
+                            : "found-items.html"
+                    }"
+                    class="primary-action-btn"
+                >
+                    Back to Items
+                </a>
 
-        document.getElementById(
-            "claimDate"
-        ).textContent =
-            "-";
+            </div>
 
-
-        document.getElementById(
-            "claimStatus"
-        ).textContent =
-            "UNAVAILABLE";
-
+        `;
 
         return;
-
     }
 
 
-    // -----------------------------------------
-    // Display item information
-    // -----------------------------------------
+    // --------------------------------------------------------
+    // ITEM DATA
+    // --------------------------------------------------------
 
-    document.getElementById(
-        "claimItemName"
-    ).textContent =
-        item.itemName;
-
-
-    document.getElementById(
-        "claimCategory"
-    ).textContent =
-        formatCategory(
-            item.category
-        );
+    const date =
+        itemType === "found"
+            ? item.dateFound
+            : item.lostDate;
 
 
-    document.getElementById(
-        "claimLocation"
-    ).textContent =
-        formatLocation(
-            item.location
-        );
+    const time =
+        itemType === "found"
+            ? item.timeFound
+            : item.lostTime;
 
 
-    if (itemType === "found") {
-
-        document.getElementById(
-            "claimDate"
-        ).textContent =
-            formatDate(
-                item.dateFound
-            );
-
-    }
-
-    else {
-
-        document.getElementById(
-            "claimDate"
-        ).textContent =
-            formatDate(
-                item.lostDate
-            );
-
-    }
-
-
-    document.getElementById(
-        "claimStatus"
-    ).textContent =
+    const status =
         itemType === "found"
             ? "FOUND"
             : "LOST";
 
 
-    // -----------------------------------------
-    // Cancel button
-    // -----------------------------------------
-
-    const cancelButton =
-        document.getElementById(
-            "cancelClaimBtn"
-        );
+    const backPage =
+        itemType === "found"
+            ? "found-items.html"
+            : "lost-items.html";
 
 
-    if (cancelButton) {
+    // --------------------------------------------------------
+    // DISPLAY DETAILS
+    // --------------------------------------------------------
 
-        cancelButton.href =
+    detailsCard.innerHTML = `
+
+        <div class="details-header">
+
+            <div class="details-icon">
+
+                ${getItemIcon(
+                    item.category
+                )}
+
+            </div>
+
+
+            <div>
+
+                <span class="section-label">
+
+                    ${status}
+
+                </span>
+
+
+                <h1>
+
+                    ${escapeHTML(
+                        item.itemName
+                    )}
+
+                </h1>
+
+
+                <p>
+
+                    ${escapeHTML(
+                        item.description
+                    )}
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-grid">
+
+
+            <div class="detail-box">
+
+                <span class="detail-label">
+                    Category
+                </span>
+
+                <span class="detail-value">
+
+                    ${formatCategory(
+                        item.category
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span class="detail-label">
+                    Location
+                </span>
+
+                <span class="detail-value">
+
+                    📍
+                    ${escapeHTML(
+                        item.location
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span class="detail-label">
+
+                    ${
+                        itemType === "found"
+                            ? "Date Found"
+                            : "Date Lost"
+                    }
+
+                </span>
+
+                <span class="detail-value">
+
+                    ${formatDate(date)}
+
+                </span>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span class="detail-label">
+                    Approximate Time
+                </span>
+
+                <span class="detail-value">
+
+                    ${
+                        time
+                            ? escapeHTML(time)
+                            : "Not specified"
+                    }
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        ${
+            item.additionalInfo
+                ? `
+
+                    <div class="additional-info">
+
+                        <h3>
+                            Additional Information
+                        </h3>
+
+                        <p>
+
+                            ${escapeHTML(
+                                item.additionalInfo
+                            )}
+
+                        </p>
+
+                    </div>
+
+                `
+                : ""
+        }
+
+
+        ${
             itemType === "found"
-                ? "found-items.html"
-                : "lost-items.html";
+                ? `
 
-    }
+                    <div class="possible-match-box">
 
+                        <div class="match-icon">
+                            🔐
+                        </div>
+
+                        <div>
+
+                            <span class="section-label">
+                                POSSIBLE MATCH
+                            </span>
+
+                            <h3>
+                                Think this item is yours?
+                            </h3>
+
+                            <p>
+                                Submit private ownership
+                                evidence for campus
+                                verification.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `
+                : ""
+        }
+
+
+        <div class="details-actions">
+
+
+            ${
+                itemType === "found"
+                    ? `
+
+                        <a
+                            href="claim.html?id=${encodeURIComponent(
+                                item.id
+                            )}&type=found"
+                            class="primary-action-btn"
+                        >
+                            🔐 Claim This Item
+                        </a>
+
+                    `
+                    : ""
+            }
+
+
+            <a
+                href="${backPage}"
+                class="secondary-action-btn"
+            >
+                ← Back to Items
+            </a>
+
+
+        </div>
+
+    `;
 }
 
 
+// ============================================================
+// CLAIM PAGE
+// ============================================================
 
-// =====================================================
-// CLAIM FORM - SUBMIT
-// =====================================================
-
-function setupClaimForm() {
+function displayClaimItem() {
 
     const claimForm =
         document.getElementById(
@@ -1988,27 +1187,329 @@ function setupClaimForm() {
         );
 
 
-    // -----------------------------------------
-    // If not Claim page, stop.
-    // -----------------------------------------
-
     if (!claimForm) {
+        return;
+    }
+
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const itemId =
+        params.get("id");
+
+
+    const itemType =
+        params.get("type");
+
+
+    console.log(
+        "========== CLAIM PAGE =========="
+    );
+
+
+    console.log(
+        "Claim Item ID:",
+        itemId
+    );
+
+
+    console.log(
+        "Claim Item Type:",
+        itemType
+    );
+
+
+    console.log(
+        "Current URL:",
+        window.location.href
+    );
+
+
+    const claimItemName =
+        document.getElementById(
+            "claimItemName"
+        );
+
+
+    const claimCategory =
+        document.getElementById(
+            "claimCategory"
+        );
+
+
+    const claimLocation =
+        document.getElementById(
+            "claimLocation"
+        );
+
+
+    const claimDate =
+        document.getElementById(
+            "claimDate"
+        );
+
+
+    const claimStatus =
+        document.getElementById(
+            "claimStatus"
+        );
+
+
+    // --------------------------------------------------------
+    // INVALID URL
+    // --------------------------------------------------------
+
+    if (!itemId || !itemType) {
+
+        if (claimItemName) {
+            claimItemName.textContent =
+                "Invalid Claim";
+        }
+
+
+        if (claimCategory) {
+            claimCategory.textContent =
+                "-";
+        }
+
+
+        if (claimLocation) {
+            claimLocation.textContent =
+                "-";
+        }
+
+
+        if (claimDate) {
+            claimDate.textContent =
+                "-";
+        }
+
+
+        if (claimStatus) {
+            claimStatus.textContent =
+                "INVALID";
+        }
+
+
+        console.error(
+            "Claim page opened without item ID or item type."
+        );
+
 
         return;
+    }
+
+
+    // --------------------------------------------------------
+    // GET DATA
+    // --------------------------------------------------------
+
+    let items = [];
+
+
+    if (itemType === "found") {
+
+        items =
+            JSON.parse(
+                localStorage.getItem(
+                    "foundItems"
+                )
+            ) || [];
 
     }
 
 
-    claimForm.addEventListener(
+    else if (itemType === "lost") {
+
+        items =
+            JSON.parse(
+                localStorage.getItem(
+                    "lostItems"
+                )
+            ) || [];
+
+    }
+
+
+    else {
+
+        if (claimItemName) {
+            claimItemName.textContent =
+                "Invalid Claim";
+        }
+
+
+        if (claimStatus) {
+            claimStatus.textContent =
+                "INVALID";
+        }
+
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // FIND ITEM
+    // --------------------------------------------------------
+
+    const item =
+        items.find(
+            currentItem =>
+                String(
+                    currentItem.id
+                ) === String(itemId)
+        );
+
+
+    // --------------------------------------------------------
+    // ITEM NOT FOUND
+    // --------------------------------------------------------
+
+    if (!item) {
+
+        if (claimItemName) {
+            claimItemName.textContent =
+                "Item Not Found";
+        }
+
+
+        if (claimCategory) {
+            claimCategory.textContent =
+                "-";
+        }
+
+
+        if (claimLocation) {
+            claimLocation.textContent =
+                "-";
+        }
+
+
+        if (claimDate) {
+            claimDate.textContent =
+                "-";
+        }
+
+
+        if (claimStatus) {
+            claimStatus.textContent =
+                "NOT FOUND";
+        }
+
+
+        console.error(
+            "Item does not exist in localStorage:",
+            itemId
+        );
+
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // DISPLAY ITEM
+    // --------------------------------------------------------
+
+    if (claimItemName) {
+
+        claimItemName.textContent =
+            item.itemName;
+
+    }
+
+
+    if (claimCategory) {
+
+        claimCategory.textContent =
+            formatCategory(
+                item.category
+            );
+
+    }
+
+
+    if (claimLocation) {
+
+        claimLocation.textContent =
+            item.location;
+
+    }
+
+
+    if (claimDate) {
+
+        const date =
+            itemType === "found"
+                ? item.dateFound
+                : item.lostDate;
+
+
+        claimDate.textContent =
+            formatDate(date);
+
+    }
+
+
+    if (claimStatus) {
+
+        claimStatus.textContent =
+            itemType === "found"
+                ? "FOUND"
+                : "LOST";
+
+    }
+
+
+    // Store information on form
+
+    claimForm.dataset.itemId =
+        itemId;
+
+
+    claimForm.dataset.itemType =
+        itemType;
+
+
+    console.log(
+        "Claim item successfully loaded:",
+        item
+    );
+}
+
+
+// ============================================================
+// CLAIM FORM
+// ============================================================
+
+function setupClaimForm() {
+
+    const form =
+        document.getElementById(
+            "claimForm"
+        );
+
+
+    if (!form) {
+        return;
+    }
+
+
+    form.addEventListener(
         "submit",
         function (event) {
 
             event.preventDefault();
 
 
-            // -------------------------------------
-            // Get URL information
-            // -------------------------------------
+            // ------------------------------------------------
+            // GET URL PARAMETERS
+            // ------------------------------------------------
 
             const params =
                 new URLSearchParams(
@@ -2024,40 +1525,49 @@ function setupClaimForm() {
                 params.get("type");
 
 
-            if (
-                !itemId ||
-                !itemType
-            ) {
+            // ------------------------------------------------
+            // VALIDATE
+            // ------------------------------------------------
+
+            if (!itemId || !itemType) {
 
                 alert(
-                    "Invalid claim information."
+                    "Invalid claim. Please open the claim page from an item."
                 );
 
                 return;
-
             }
 
 
-            // -------------------------------------
-            // Get form values
-            // -------------------------------------
+            // ------------------------------------------------
+            // FORM VALUES
+            // ------------------------------------------------
 
             const claimReason =
-                document.getElementById(
-                    "claimReason"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "claimReason"
+                    )
+                    ?.value
+                    .trim();
 
 
             const ownershipDetails =
-                document.getElementById(
-                    "ownershipDetails"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "ownershipDetails"
+                    )
+                    ?.value
+                    .trim();
 
 
             const contact =
-                document.getElementById(
-                    "contact"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "contact"
+                    )
+                    ?.value
+                    .trim();
 
 
             const proofInput =
@@ -2066,14 +1576,14 @@ function setupClaimForm() {
                 );
 
 
-            // -------------------------------------
-            // Validate required fields
-            // -------------------------------------
+            // ------------------------------------------------
+            // VALIDATION
+            // ------------------------------------------------
 
             if (
-                claimReason === "" ||
-                ownershipDetails === "" ||
-                contact === ""
+                !claimReason ||
+                !ownershipDetails ||
+                !contact
             ) {
 
                 alert(
@@ -2081,25 +1591,12 @@ function setupClaimForm() {
                 );
 
                 return;
-
             }
 
 
-            // -------------------------------------
-            // Get existing claims
-            // -------------------------------------
-
-            let claims =
-                JSON.parse(
-                    localStorage.getItem(
-                        "claims"
-                    )
-                ) || [];
-
-
-            // -------------------------------------
-            // Create claim
-            // -------------------------------------
+            // ------------------------------------------------
+            // CREATE CLAIM
+            // ------------------------------------------------
 
             const newClaim = {
 
@@ -2109,12 +1606,14 @@ function setupClaimForm() {
 
                 itemType: itemType,
 
-                claimReason: claimReason,
+                claimReason:
+                    claimReason,
 
                 ownershipDetails:
                     ownershipDetails,
 
-                contact: contact,
+                contact:
+                    contact,
 
                 proofFileName:
                     proofInput &&
@@ -2131,46 +1630,277 @@ function setupClaimForm() {
             };
 
 
-            // -------------------------------------
-            // Save claim
-            // -------------------------------------
+            // ------------------------------------------------
+            // SAVE CLAIM
+            // ------------------------------------------------
 
-            claims.push(
-                newClaim
-            );
+            let claims =
+                JSON.parse(
+                    localStorage.getItem(
+                        "claims"
+                    )
+                ) || [];
+
+
+            claims.push(newClaim);
 
 
             localStorage.setItem(
                 "claims",
-                JSON.stringify(
-                    claims
-                )
+                JSON.stringify(claims)
             );
 
 
-            console.log(
-                "Claim submitted:",
-                newClaim
-            );
-
-
-            // -------------------------------------
-            // Success message
-            // -------------------------------------
+            // ------------------------------------------------
+            // SUCCESS
+            // ------------------------------------------------
 
             alert(
                 "Claim submitted successfully! Your claim is pending campus verification."
             );
 
 
-            // -------------------------------------
-            // Go to My Claims
-            // -------------------------------------
-
             window.location.href =
                 "my-claims.html";
 
         }
     );
+}
 
+
+// ============================================================
+// ITEM ICON
+// ============================================================
+
+function getItemIcon(category) {
+
+    if (!category) {
+        return "📦";
+    }
+
+
+    const value =
+        category
+            .toLowerCase();
+
+
+    if (
+        value.includes("wallet") ||
+        value.includes("purse")
+    ) {
+
+        return "👛";
+
+    }
+
+
+    if (
+        value.includes("electronics") ||
+        value.includes("electronic") ||
+        value.includes("laptop")
+    ) {
+
+        return "💻";
+
+    }
+
+
+    if (
+        value.includes("phone") ||
+        value.includes("mobile")
+    ) {
+
+        return "📱";
+
+    }
+
+
+    if (
+        value.includes("book") ||
+        value.includes("document")
+    ) {
+
+        return "📚";
+
+    }
+
+
+    if (
+        value.includes("clothing") ||
+        value.includes("dress") ||
+        value.includes("shirt")
+    ) {
+
+        return "👕";
+
+    }
+
+
+    if (
+        value.includes("accessor") ||
+        value.includes("watch")
+    ) {
+
+        return "⌚";
+
+    }
+
+
+    if (
+        value.includes("bottle")
+    ) {
+
+        return "🧴";
+
+    }
+
+
+    if (
+        value.includes("bag") ||
+        value.includes("backpack")
+    ) {
+
+        return "🎒";
+
+    }
+
+
+    if (
+        value.includes("key")
+    ) {
+
+        return "🔑";
+
+    }
+
+
+    if (
+        value.includes("id") ||
+        value.includes("card")
+    ) {
+
+        return "🪪";
+
+    }
+
+
+    return "📦";
+}
+
+
+// ============================================================
+// FORMAT CATEGORY
+// ============================================================
+
+function formatCategory(category) {
+
+    if (!category) {
+        return "-";
+    }
+
+
+    return String(category)
+        .replace(/[-_]/g, " ")
+        .replace(
+            /\b\w/g,
+            letter =>
+                letter.toUpperCase()
+        );
+}
+
+
+// ============================================================
+// FORMAT LOCATION
+// ============================================================
+
+function formatLocation(location) {
+
+    if (!location) {
+        return "-";
+    }
+
+
+    return String(location);
+}
+
+
+// ============================================================
+// FORMAT DATE
+// ============================================================
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "-";
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return dateString;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+}
+
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }

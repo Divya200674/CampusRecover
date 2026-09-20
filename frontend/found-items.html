@@ -1,578 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Found Items | CampusRecover</title>
 
-    <title>Found Items - CampusRecover</title>
+    <link rel="stylesheet" href="css/style.css">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f6f8fc;
+            color: #172033;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .page-navbar {
+            background: white;
+            border-bottom: 1px solid #e8ebf2;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .page-nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 17px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-logo {
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 800;
+            color: #4f46e5;
+        }
+
+        .page-logo span {
+            color: #172033;
+        }
+
+        .page-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .page-nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .page-nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .page-nav-links .active {
+            color: #4f46e5;
+        }
+
+        .logout-btn {
+            color: #dc2626 !important;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .found-hero {
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(99, 102, 241, 0.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #ffffff
+                );
+
+            padding: 65px 25px 70px;
+        }
+
+        .found-hero-container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: #e0e7ff;
+            color: #4338ca;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .found-hero h1 {
+            font-size: 45px;
+            margin: 18px 0 12px;
+            color: #111827;
+        }
+
+        .found-hero h1 span {
+            color: #4f46e5;
+        }
+
+        .found-hero p {
+            max-width: 700px;
+            color: #667085;
+            font-size: 17px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* =========================
+           SEARCH AREA
+        ========================= */
+
+        .search-section {
+            max-width: 1150px;
+            margin: -28px auto 0;
+            padding: 0 25px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.10);
+
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 15px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .search-box input,
+        .category-select {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #dfe4ec;
+            border-radius: 11px;
+            padding: 0 16px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+        }
+
+        .search-box input {
+            padding-left: 48px;
+        }
+
+        .search-box input:focus,
+        .category-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.10);
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .found-content {
+            max-width: 1150px;
+            margin: auto;
+            padding: 55px 25px 90px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .content-header h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .report-found-btn {
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 19px;
+            border-radius: 9px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .report-found-btn:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           ITEM GRID
+        ========================= */
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .item-card {
+            background: white;
+            border: 1px solid #e7ebf1;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: 0.3s ease;
+            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.04);
+        }
+
+        .item-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+            border-color: #d5d9ff;
+        }
+
+        .item-card-top {
+            height: 145px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 55px;
+        }
+
+        .item-card-content {
+            padding: 22px;
+        }
+
+        .found-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #dcfce7;
+            color: #15803d;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .item-card h3 {
+            margin: 0 0 9px;
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .item-description {
+            color: #6b7280;
+            line-height: 1.55;
+            font-size: 14px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            min-height: 43px;
+        }
+
+        .item-details-list {
+            margin: 18px 0;
+            padding-top: 15px;
+            border-top: 1px solid #edf0f4;
+        }
+
+        .item-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 9px 0;
+            color: #667085;
+            font-size: 13px;
+        }
+
+        .item-detail-row strong {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .view-details-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+
+            background: #4f46e5;
+            color: white;
+
+            padding: 12px;
+            border-radius: 9px;
+
+            font-weight: 700;
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background: #4338ca;
+        }
+
+        /* =========================
+           NO RESULTS
+        ========================= */
+
+        .no-results {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 18px;
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .no-results-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .no-results h3 {
+            margin: 5px 0 10px;
+        }
+
+        .no-results p {
+            color: #6b7280;
+        }
+
+        /* =========================
+           BOTTOM CTA
+        ========================= */
+
+        .found-cta {
+            margin-top: 55px;
+            background: #111827;
+            border-radius: 20px;
+            padding: 35px;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .found-cta h2 {
+            margin: 0 0 8px;
+            font-size: 24px;
+        }
+
+        .found-cta p {
+            margin: 0;
+            color: #cbd5e1;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #4f46e5;
+            text-decoration: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .page-footer {
+            background: #0f172a;
+            color: white;
+            padding: 35px 25px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1150px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-inner h3 {
+            margin-top: 0;
+        }
+
+        .footer-inner p {
+            color: #94a3b8;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1150px;
+            margin: 25px auto 0;
+            padding-top: 18px;
+            border-top: 1px solid #1e293b;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-nav-links a:nth-child(3),
+            .page-nav-links a:nth-child(4),
+            .page-nav-links a:nth-child(5),
+            .page-nav-links a:nth-child(6) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .found-hero h1 {
+                font-size: 36px;
+            }
+
+            .search-card {
+                grid-template-columns: 1fr;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .found-cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-    <!-- =========================================
-         NAVBAR
-    ========================================== -->
+<!-- =========================
+     NAVBAR
+========================= -->
 
-    <nav class="navbar">
+<nav class="page-navbar">
 
-        <div class="nav-container">
+    <div class="page-nav-container">
 
-            <div class="logo">
-                CampusRecover
-            </div>
+        <a href="index.html" class="page-logo">
+            Campus<span>Recover</span>
+        </a>
 
+        <div class="page-nav-links">
 
-            <div class="nav-links">
+            <a href="index.html">
+                Home
+            </a>
 
-                <a href="index.html">
-                    Home
-                </a>
+            <a href="dashboard.html">
+                Dashboard
+            </a>
 
-                <a href="dashboard.html">
-                    Dashboard
-                </a>
+            <a href="lost-items.html">
+                Lost Items
+            </a>
 
-                <a href="lost-items.html">
-                    Lost Items
-                </a>
+            <a href="found-items.html" class="active">
+                Found Items
+            </a>
 
-                <a
-                    href="found-items.html"
-                    class="active"
-                >
-                    Found Items
-                </a>
+            <a href="my-reports.html">
+                My Reports
+            </a>
 
-                <a href="my-reports.html">
-                    My Reports
-                </a>
+            <a href="my-claims.html">
+                My Claims
+            </a>
 
-                <a href="my-claims.html">
-                    My Claims
-                </a>
+            <a href="profile.html">
+                Profile
+            </a>
 
-                <a href="profile.html">
-                    Profile
-                </a>
-
-                <a
-                    href="login.html"
-                    class="logout-btn"
-                >
-                    Logout
-                </a>
-
-            </div>
+            <a href="login.html" class="logout-btn">
+                Logout
+            </a>
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
+<!-- =========================
+     HERO
+========================= -->
 
-    <!-- =========================================
-         PAGE HEADER
-    ========================================== -->
+<section class="found-hero">
 
-    <main>
+    <div class="found-hero-container">
 
-        <section class="page-header">
+        <span class="hero-label">
+            📦 FOUND ITEMS
+        </span>
 
-            <div class="page-header-content">
+        <h1>
+            Items waiting to be
+            <span>reunited.</span>
+        </h1>
 
-                <span class="section-label">
-                    CAMPUSRECOVER
-                </span>
+        <p>
+            Browse items found around campus. Search by item,
+            location or category and check the details to see
+            whether something belongs to you.
+        </p>
 
-                <h1>
-                    Found Items
-                </h1>
+    </div>
 
-                <p>
-                    Browse items reported as found around
-                    the campus and check whether your
-                    belongings have been recovered.
-                </p>
-
-            </div>
-
-        </section>
+</section>
 
 
+<!-- =========================
+     SEARCH
+========================= -->
 
-        <!-- =========================================
-             SEARCH AND FILTER
-        ========================================== -->
+<section class="search-section">
 
-        <section class="items-section">
+    <div class="search-card">
 
-            <div class="items-controls">
+        <div class="search-box">
 
-                <div class="search-box">
+            <span>🔍</span>
 
-                    <input
-                        type="text"
-                        id="foundSearch"
-                        placeholder="Search found items..."
-                    >
-
-                </div>
-
-
-                <div class="filter-box">
-
-                    <select
-                        id="foundCategoryFilter"
-                    >
-
-                        <option value="">
-                            All Categories
-                        </option>
-
-                        <option value="wallet">
-                            Wallet
-                        </option>
-
-                        <option value="mobile">
-                            Mobile Phone
-                        </option>
-
-                        <option value="laptop">
-                            Laptop
-                        </option>
-
-                        <option value="bag">
-                            Bag
-                        </option>
-
-                        <option value="books">
-                            Books
-                        </option>
-
-                        <option value="id-card">
-                            ID Card
-                        </option>
-
-                        <option value="water-bottle">
-                            Water Bottle
-                        </option>
-
-                        <option value="electronics">
-                            Electronics
-                        </option>
-
-                        <option value="accessories">
-                            Accessories
-                        </option>
-
-                        <option value="clothing">
-                            Clothing
-                        </option>
-
-                        <option value="keys">
-                            Keys
-                        </option>
-
-                        <option value="other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =========================================
-                 FOUND ITEMS GRID
-            ========================================== -->
-
-            <div
-                class="items-grid"
-                id="foundItemsGrid"
+            <input
+                type="text"
+                id="foundSearch"
+                placeholder="Search found items, locations..."
             >
-
-
-                <!-- =====================================
-                     SAMPLE FOUND ITEM 1
-                ====================================== -->
-
-                <div
-                    class="item-card"
-                    data-category="wallet"
-                    data-name="brown wallet"
-                >
-
-                    <div class="item-image">
-
-                        <div class="placeholder-image">
-                            👛
-                        </div>
-
-                    </div>
-
-
-                    <div class="item-content">
-
-                        <span class="item-status found">
-                            FOUND
-                        </span>
-
-                        <h3>
-                            Brown Wallet
-                        </h3>
-
-                        <p>
-                            <strong>Category:</strong>
-                            Wallet
-                        </p>
-
-                        <p>
-                            <strong>Location:</strong>
-                            Library
-                        </p>
-
-                        <p>
-                            <strong>Date:</strong>
-                            18 Sep 2026
-                        </p>
-
-
-                        <a
-                            href="item-details.html"
-                            class="view-btn"
-                        >
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- =====================================
-                     SAMPLE FOUND ITEM 2
-                ====================================== -->
-
-                <div
-                    class="item-card"
-                    data-category="water-bottle"
-                    data-name="blue water bottle"
-                >
-
-                    <div class="item-image">
-
-                        <div class="placeholder-image">
-                            🧴
-                        </div>
-
-                    </div>
-
-
-                    <div class="item-content">
-
-                        <span class="item-status found">
-                            FOUND
-                        </span>
-
-                        <h3>
-                            Blue Water Bottle
-                        </h3>
-
-                        <p>
-                            <strong>Category:</strong>
-                            Water Bottle
-                        </p>
-
-                        <p>
-                            <strong>Location:</strong>
-                            Block A
-                        </p>
-
-                        <p>
-                            <strong>Date:</strong>
-                            17 Sep 2026
-                        </p>
-
-
-                        <a
-                            href="item-details.html"
-                            class="view-btn"
-                        >
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- =====================================
-                     SAMPLE FOUND ITEM 3
-                ====================================== -->
-
-                <div
-                    class="item-card"
-                    data-category="electronics"
-                    data-name="scientific calculator"
-                >
-
-                    <div class="item-image">
-
-                        <div class="placeholder-image">
-                            🧮
-                        </div>
-
-                    </div>
-
-
-                    <div class="item-content">
-
-                        <span class="item-status found">
-                            FOUND
-                        </span>
-
-                        <h3>
-                            Scientific Calculator
-                        </h3>
-
-                        <p>
-                            <strong>Category:</strong>
-                            Electronics
-                        </p>
-
-                        <p>
-                            <strong>Location:</strong>
-                            Lab 2
-                        </p>
-
-                        <p>
-                            <strong>Date:</strong>
-                            16 Sep 2026
-                        </p>
-
-
-                        <a
-                            href="item-details.html"
-                            class="view-btn"
-                        >
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- =====================================
-                     SAMPLE FOUND ITEM 4
-                ====================================== -->
-
-                <div
-                    class="item-card"
-                    data-category="bag"
-                    data-name="black backpack"
-                >
-
-                    <div class="item-image">
-
-                        <div class="placeholder-image">
-                            🎒
-                        </div>
-
-                    </div>
-
-
-                    <div class="item-content">
-
-                        <span class="item-status found">
-                            FOUND
-                        </span>
-
-                        <h3>
-                            Black Backpack
-                        </h3>
-
-                        <p>
-                            <strong>Category:</strong>
-                            Bag
-                        </p>
-
-                        <p>
-                            <strong>Location:</strong>
-                            Canteen
-                        </p>
-
-                        <p>
-                            <strong>Date:</strong>
-                            15 Sep 2026
-                        </p>
-
-
-                        <a
-                            href="item-details.html"
-                            class="view-btn"
-                        >
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =========================================
-                 NO RESULTS
-            ========================================== -->
-
-            <div
-                id="noFoundItems"
-                class="no-results"
-                style="display: none;"
-            >
-
-                <div class="no-results-icon">
-                    🔍
-                </div>
-
-                <h3>
-                    No Found Items
-                </h3>
-
-                <p>
-                    No items match your current search
-                    or category filter.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             REPORT FOUND CTA
-        ========================================== -->
-
-        <section class="cta-section">
-
-            <div class="cta-content">
-
-                <h2>
-                    Found Something?
-                </h2>
-
-                <p>
-                    Help its owner by reporting the item
-                    on CampusRecover.
-                </p>
-
-
-                <a
-                    href="report-found.html"
-                    class="primary-btn"
-                >
-                    Report Found Item
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
-
-    <footer class="footer">
-
-        <div class="footer-container">
-
-            <div>
-
-                <h3>
-                    CampusRecover
-                </h3>
-
-                <p>
-                    Making campus lost and found
-                    simple and organized.
-                </p>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="dashboard.html">
-                    Dashboard
-                </a>
-
-                <a href="lost-items.html">
-                    Lost Items
-                </a>
-
-                <a href="found-items.html">
-                    Found Items
-                </a>
-
-                <a href="profile.html">
-                    Profile
-                </a>
-
-            </div>
 
         </div>
 
+        <select
+            id="foundCategoryFilter"
+            class="category-select"
+        >
 
-        <div class="footer-bottom">
+            <option value="">
+                All Categories
+            </option>
+
+            <option value="electronics">
+                Electronics
+            </option>
+
+            <option value="wallet">
+                Wallet
+            </option>
+
+            <option value="documents">
+                Documents
+            </option>
+
+            <option value="clothing">
+                Clothing
+            </option>
+
+            <option value="accessories">
+                Accessories
+            </option>
+
+            <option value="books">
+                Books
+            </option>
+
+            <option value="other">
+                Other
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ITEMS
+========================= -->
+
+<main class="found-content">
+
+    <div class="content-header">
+
+        <div>
+            <h2>
+                Recently Found
+            </h2>
+        </div>
+
+        <a
+            href="report-found.html"
+            class="report-found-btn"
+        >
+            + Report Found Item
+        </a>
+
+    </div>
+
+
+    <!-- IMPORTANT:
+         main.js dynamically inserts cards here.
+    -->
+
+    <div
+        class="items-grid"
+        id="foundItemsGrid"
+    >
+    </div>
+
+
+    <div
+        class="no-results"
+        id="noFoundItems"
+        style="display: none;"
+    >
+
+        <div class="no-results-icon">
+            🔎
+        </div>
+
+        <h3>
+            No matching items found
+        </h3>
+
+        <p>
+            Try another search term or category.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <div class="found-cta">
+
+        <div>
+
+            <h2>
+                Found something on campus?
+            </h2>
 
             <p>
-                © <span class="current-year"></span>
-                CampusRecover. All rights reserved.
+                Help return it to its rightful owner.
             </p>
 
         </div>
 
-    </footer>
+        <a
+            href="report-found.html"
+            class="cta-btn"
+        >
+            Report Found Item →
+        </a>
+
+    </div>
+
+</main>
 
 
+<!-- =========================
+     FOOTER
+========================= -->
 
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
+<footer class="page-footer">
 
-    <script src="js/main.js"></script>
+    <div class="footer-inner">
+
+        <div>
+
+            <h3>
+                CampusRecover
+            </h3>
+
+            <p>
+                Making campus lost and found simple,
+                organized and trustworthy.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © <span class="current-year"></span>
+        CampusRecover. All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
 
 </body>
-
 </html>
