@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Claims - CampusRecover</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .admin-label {
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .more-evidence {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .view-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusRecover
+        </div>
+
+        <div class="admin-label">
+            Admin / Verification Panel
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <h1>Claims Management</h1>
+
+        <p class="subtitle">
+            Review student claims and ownership evidence.
+        </p>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Item</th>
+                        <th>Student</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>CR-001</td>
+                        <td>Black Laptop</td>
+                        <td>Student A</td>
+                        <td>18 Sep 2026</td>
+
+                        <td>
+                            <span class="status pending">
+                                PENDING
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="view-btn" onclick="window.location.href='claim-details.html'">
+    View
+</button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>CR-002</td>
+                        <td>Blue Backpack</td>
+                        <td>Student B</td>
+                        <td>18 Sep 2026</td>
+
+                        <td>
+                            <span class="status pending">
+                                PENDING
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="view-btn" onclick="window.location.href='claim-details.html'">
+    View
+</button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>CR-003</td>
+                        <td>Scientific Calculator</td>
+                        <td>Student C</td>
+                        <td>17 Sep 2026</td>
+
+                        <td>
+                            <span class="status more-evidence">
+                                MORE_EVIDENCE
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="view-btn" onclick="window.location.href='claim-details.html'">
+    View
+</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
