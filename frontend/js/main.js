@@ -1,74 +1,69 @@
-// ============================================================
-// CAMPUSRECOVER - MAIN JAVASCRIPT
-// ============================================================
-
-
-// ============================================================
-// BACKEND API
-// ============================================================
-
 const API_BASE_URL = "http://localhost:3000";
 
 
-// ============================================================
-// PAGE INITIALIZATION
-// ============================================================
+/* =====================================================
+   PAGE INITIALIZATION
+===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Common functions
     setCurrentYear();
+
     setupLogout();
 
-    // Report forms
     setupFoundForm();
+
     setupLostForm();
 
-    // Listing pages
     displayFoundItems();
+
     displayLostItems();
 
-    // Details and claim pages
     displayItemDetails();
+
     displayClaimItem();
+
     setupClaimForm();
 
 });
 
 
-// ============================================================
-// CURRENT YEAR
-// ============================================================
+/* =====================================================
+   CURRENT YEAR
+===================================================== */
 
 function setCurrentYear() {
 
-    const yearElements =
-        document.querySelectorAll(".current-year");
+    document
+        .querySelectorAll(".current-year")
+        .forEach(element => {
 
-    yearElements.forEach(element => {
+            element.textContent =
+                new Date().getFullYear();
 
-        element.textContent =
-            new Date().getFullYear();
-
-    });
+        });
 
 }
 
 
-// ============================================================
-// LOGOUT
-// ============================================================
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 function setupLogout() {
 
-    const logoutLinks =
+    const logoutButtons =
         document.querySelectorAll(".logout-btn");
 
-    logoutLinks.forEach(link => {
 
-        link.addEventListener("click", function () {
+    logoutButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
 
             localStorage.removeItem("currentUser");
+
+            window.location.href =
+                "login.html";
 
         });
 
@@ -77,14 +72,206 @@ function setupLogout() {
 }
 
 
-// ============================================================
-// REPORT FOUND ITEM
-// ============================================================
+/* =====================================================
+   REPORT LOST ITEM
+===================================================== */
+
+function setupLostForm() {
+
+    const form =
+        document.getElementById("lostItemForm");
+
+
+    if (!form) {
+        return;
+    }
+
+
+    form.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+
+        const submitButton =
+            form.querySelector(
+                ".submit-report-btn"
+            );
+
+
+        const originalText =
+            submitButton
+                ? submitButton.innerHTML
+                : "";
+
+
+        if (submitButton) {
+
+            submitButton.disabled = true;
+
+            submitButton.innerHTML =
+                "⏳ Submitting...";
+
+        }
+
+
+        const itemName =
+            document
+                .getElementById("itemName")
+                .value
+                .trim();
+
+
+        const category =
+            document
+                .getElementById("category")
+                .value;
+
+
+        const description =
+            document
+                .getElementById("description")
+                .value
+                .trim();
+
+
+        const location =
+            document
+                .getElementById("location")
+                .value;
+
+
+        const lostDate =
+            document
+                .getElementById("lostDate")
+                .value;
+
+
+        const lostTime =
+            document
+                .getElementById("lostTime")
+                .value;
+
+
+        const additionalInfoElement =
+            document.getElementById(
+                "additionalInfo"
+            );
+
+
+        const additionalInfo =
+            additionalInfoElement
+                ? additionalInfoElement.value.trim()
+                : "";
+
+
+        const data = {
+
+            itemName,
+
+            category,
+
+            description,
+
+            location,
+
+            lostDate,
+
+            lostTime,
+
+            additionalInfo
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/lost-items`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(data)
+
+                    }
+                );
+
+
+            const result =
+                await response.json()
+                    .catch(() => ({}));
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.message ||
+                    "Failed to report lost item."
+                );
+
+            }
+
+
+            alert(
+                "✅ Lost item reported successfully!"
+            );
+
+
+            form.reset();
+
+
+            window.location.href =
+                "my-reports.html";
+
+
+        } catch (error) {
+
+            console.error(
+                "Lost item error:",
+                error
+            );
+
+
+            alert(
+                "❌ Unable to submit the lost item.\n\n" +
+                "Please make sure the backend is running."
+            );
+
+
+            if (submitButton) {
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.innerHTML =
+                    originalText;
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   REPORT FOUND ITEM
+===================================================== */
 
 function setupFoundForm() {
 
     const form =
-        document.getElementById("foundItemForm");
+        document.getElementById(
+            "foundItemForm"
+        );
+
 
     if (!form) {
         return;
@@ -93,96 +280,64 @@ function setupFoundForm() {
 
     form.addEventListener(
         "submit",
-        async function (event) {
+        async event => {
 
             event.preventDefault();
 
 
-            const itemName =
-                document
-                    .getElementById("itemName")
-                    ?.value
-                    .trim();
+            const data = {
 
+                itemName:
+                    document
+                        .getElementById(
+                            "itemName"
+                        )
+                        .value
+                        .trim(),
 
-            const category =
-                document
-                    .getElementById("category")
-                    ?.value;
+                category:
+                    document
+                        .getElementById(
+                            "category"
+                        )
+                        .value,
 
+                description:
+                    document
+                        .getElementById(
+                            "description"
+                        )
+                        .value
+                        .trim(),
 
-            const description =
-                document
-                    .getElementById("description")
-                    ?.value
-                    .trim();
+                location:
+                    document
+                        .getElementById(
+                            "location"
+                        )
+                        .value,
 
+                dateFound:
+                    document
+                        .getElementById(
+                            "dateFound"
+                        )
+                        .value,
 
-            const location =
-                document
-                    .getElementById("location")
-                    ?.value
-                    .trim();
+                timeFound:
+                    document
+                        .getElementById(
+                            "timeFound"
+                        )
+                        .value,
 
-
-            const dateFound =
-                document
-                    .getElementById("dateFound")
-                    ?.value;
-
-
-            const timeFound =
-                document
-                    .getElementById("timeFound")
-                    ?.value;
-
-
-            const additionalInfo =
-                document
-                    .getElementById("additionalInfo")
-                    ?.value
-                    .trim();
-
-
-            // ------------------------------------------------
-            // VALIDATION
-            // ------------------------------------------------
-
-            if (
-                !itemName ||
-                !category ||
-                !description ||
-                !location ||
-                !dateFound
-            ) {
-
-                alert(
-                    "Please fill in all required fields."
-                );
-
-                return;
-            }
-
-
-            // ------------------------------------------------
-            // DATA FOR BACKEND
-            // ------------------------------------------------
-
-            const itemData = {
-
-                itemName: itemName,
-
-                category: category,
-
-                description: additionalInfo
-                    ? `${description} Additional information: ${additionalInfo}`
-                    : description,
-
-                location: location,
-
-                date: dateFound,
-
-                time: timeFound || ""
+                additionalInfo:
+                    document
+                        .getElementById(
+                            "additionalInfo"
+                        )
+                        ?.value
+                        .trim() || ""
 
             };
 
@@ -201,40 +356,27 @@ function setupFoundForm() {
                             },
 
                             body:
-                                JSON.stringify(itemData)
+                                JSON.stringify(data)
+
                         }
                     );
 
 
-                const result =
-                    await response.json();
-
-
                 if (!response.ok) {
 
-                    console.error(
-                        "Backend error:",
-                        result
+                    throw new Error(
+                        "Failed to report found item"
                     );
 
-                    alert(
-                        result.message ||
-                        "Failed to report found item."
-                    );
-
-                    return;
                 }
 
 
-                console.log(
-                    "Found item saved:",
-                    result
-                );
-
-
                 alert(
-                    "Found item reported successfully!"
+                    "✅ Found item reported successfully!"
                 );
+
+
+                form.reset();
 
 
                 window.location.href =
@@ -243,14 +385,12 @@ function setupFoundForm() {
 
             } catch (error) {
 
-                console.error(
-                    "Error connecting to backend:",
-                    error
-                );
+                console.error(error);
 
 
                 alert(
-                    "Could not connect to the backend. Please make sure the backend server is running on port 3000."
+                    "❌ Unable to submit found item.\n\n" +
+                    "Please make sure the backend is running."
                 );
 
             }
@@ -261,563 +401,22 @@ function setupFoundForm() {
 }
 
 
-// ============================================================
-// REPORT LOST ITEM
-// ============================================================
-
-function setupLostForm() {
-
-    const form =
-        document.getElementById("lostItemForm");
-
-    if (!form) {
-        return;
-    }
-
-
-    form.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-
-            const itemName =
-                document
-                    .getElementById("itemName")
-                    ?.value
-                    .trim();
-
-
-            const category =
-                document
-                    .getElementById("category")
-                    ?.value;
-
-
-            const description =
-                document
-                    .getElementById("description")
-                    ?.value
-                    .trim();
-
-
-            const location =
-                document
-                    .getElementById("location")
-                    ?.value
-                    .trim();
-
-
-            const lostDate =
-                document
-                    .getElementById("lostDate")
-                    ?.value;
-
-
-            const lostTime =
-                document
-                    .getElementById("lostTime")
-                    ?.value;
-
-
-            const additionalInfo =
-                document
-                    .getElementById("additionalInfo")
-                    ?.value
-                    .trim();
-
-
-            // ------------------------------------------------
-            // VALIDATION
-            // ------------------------------------------------
-
-            if (
-                !itemName ||
-                !category ||
-                !description ||
-                !location ||
-                !lostDate
-            ) {
-
-                alert(
-                    "Please fill in all required fields."
-                );
-
-                return;
-            }
-
-
-            // ------------------------------------------------
-            // DATA FOR BACKEND
-            // ------------------------------------------------
-
-            const itemData = {
-
-                itemName: itemName,
-
-                category: category,
-
-                description: additionalInfo
-                    ? `${description} Additional information: ${additionalInfo}`
-                    : description,
-
-                location: location,
-
-                date: lostDate,
-
-                time: lostTime || ""
-
-            };
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_BASE_URL}/lost-items`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(itemData)
-                        }
-                    );
-
-
-                const result =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    console.error(
-                        "Backend error:",
-                        result
-                    );
-
-                    alert(
-                        result.message ||
-                        "Failed to report lost item."
-                    );
-
-                    return;
-                }
-
-
-                console.log(
-                    "Lost item saved:",
-                    result
-                );
-
-
-                alert(
-                    "Lost item reported successfully!"
-                );
-
-
-                window.location.href =
-                    "lost-items.html";
-
-
-            } catch (error) {
-
-                console.error(
-                    "Error connecting to backend:",
-                    error
-                );
-
-
-                alert(
-                    "Could not connect to the backend. Please make sure the backend server is running on port 3000."
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// DISPLAY FOUND ITEMS
-// ============================================================
-
-async function displayFoundItems() {
-
-    const grid =
-        document.getElementById("foundItemsGrid");
-
-    if (!grid) {
-        return;
-    }
-
-
-    const searchInput =
-        document.getElementById("foundSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "foundCategoryFilter"
-        );
-
-
-    const noResults =
-        document.getElementById("noFoundItems");
-
-
-    let foundItems = [];
-
-
-    // --------------------------------------------------------
-    // GET DATA FROM BACKEND
-    // --------------------------------------------------------
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/found-items`
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.message ||
-                "Failed to load found items."
-            );
-
-        }
-
-
-        foundItems =
-            result.items ||
-            result.data ||
-            result ||
-            [];
-
-
-        if (!Array.isArray(foundItems)) {
-            foundItems = [];
-        }
-
-
-        foundItems =
-            foundItems.map(
-                normalizeItem
-            );
-
-
-    } catch (error) {
-
-        console.error(
-            "Failed to load found items:",
-            error
-        );
-
-
-        grid.innerHTML = `
-
-            <div class="empty-state">
-
-                <div style="font-size:55px;">
-                    ⚠️
-                </div>
-
-                <h2>
-                    Unable to Load Items
-                </h2>
-
-                <p>
-                    Please make sure the CampusRecover
-                    backend is running.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    // --------------------------------------------------------
-    // RENDER ITEMS
-    // --------------------------------------------------------
-
-    function renderItems() {
-
-        const searchText =
-            searchInput
-                ? searchInput.value
-                    .toLowerCase()
-                    .trim()
-                : "";
-
-
-        const selectedCategory =
-            categoryFilter
-                ? categoryFilter.value
-                : "";
-
-
-        const filteredItems =
-            foundItems.filter(item => {
-
-                const itemName =
-                    String(
-                        item.itemName || ""
-                    )
-                    .toLowerCase();
-
-
-                const description =
-                    String(
-                        item.description || ""
-                    )
-                    .toLowerCase();
-
-
-                const location =
-                    String(
-                        item.location || ""
-                    )
-                    .toLowerCase();
-
-
-                const matchesSearch =
-                    itemName.includes(searchText) ||
-                    description.includes(searchText) ||
-                    location.includes(searchText);
-
-
-                const matchesCategory =
-                    !selectedCategory ||
-                    item.category === selectedCategory;
-
-
-                return (
-                    matchesSearch &&
-                    matchesCategory
-                );
-
-            });
-
-
-        grid.innerHTML = "";
-
-
-        if (filteredItems.length === 0) {
-
-            if (noResults) {
-
-                noResults.style.display =
-                    "block";
-
-            }
-
-            return;
-        }
-
-
-        if (noResults) {
-
-            noResults.style.display =
-                "none";
-
-        }
-
-
-        filteredItems.forEach(item => {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "item-card";
-
-
-            card.innerHTML = `
-
-                <div class="item-card-top">
-
-                    ${getItemIcon(
-                        item.category
-                    )}
-
-                </div>
-
-
-                <div class="item-card-content">
-
-                    <span class="found-badge">
-                        FOUND
-                    </span>
-
-
-                    <h3>
-                        ${escapeHTML(
-                            item.itemName
-                        )}
-                    </h3>
-
-
-                    <p class="item-description">
-
-                        ${escapeHTML(
-                            item.description
-                        )}
-
-                    </p>
-
-
-                    <div class="item-details-list">
-
-
-                        <div class="item-detail-row">
-
-                            📂
-
-                            <strong>
-                                Category:
-                            </strong>
-
-                            ${formatCategory(
-                                item.category
-                            )}
-
-                        </div>
-
-
-                        <div class="item-detail-row">
-
-                            📍
-
-                            <strong>
-                                Location:
-                            </strong>
-
-                            ${escapeHTML(
-                                item.location
-                            )}
-
-                        </div>
-
-
-                        <div class="item-detail-row">
-
-                            📅
-
-                            <strong>
-                                Date:
-                            </strong>
-
-                            ${formatDate(
-                                item.dateFound
-                            )}
-
-                        </div>
-
-
-                    </div>
-
-
-                    <a
-                        href="item-details.html?id=${encodeURIComponent(
-                            item.id
-                        )}&type=found"
-                        class="view-details-btn"
-                    >
-                        View Details →
-                    </a>
-
-
-                </div>
-
-            `;
-
-
-            grid.appendChild(card);
-
-        });
-
-    }
-
-
-    renderItems();
-
-
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            renderItems
-        );
-
-    }
-
-
-    if (categoryFilter) {
-
-        categoryFilter.addEventListener(
-            "change",
-            renderItems
-        );
-
-    }
-
-}
-
-
-// ============================================================
-// DISPLAY LOST ITEMS
-// ============================================================
+/* =====================================================
+   DISPLAY LOST ITEMS
+===================================================== */
 
 async function displayLostItems() {
 
-    const grid =
-        document.getElementById("lostItemsGrid");
+    const container =
+        document.getElementById(
+            "lostItemsContainer"
+        );
 
-    if (!grid) {
+
+    if (!container) {
         return;
     }
 
-
-    const searchInput =
-        document.getElementById("lostSearch");
-
-
-    const categoryFilter =
-        document.getElementById(
-            "lostCategoryFilter"
-        );
-
-
-    const noResults =
-        document.getElementById(
-            "noLostItems"
-        );
-
-
-    let lostItems = [];
-
-
-    // --------------------------------------------------------
-    // GET DATA FROM BACKEND
-    // --------------------------------------------------------
 
     try {
 
@@ -827,60 +426,140 @@ async function displayLostItems() {
             );
 
 
-        const result =
-            await response.json();
-
-
         if (!response.ok) {
 
             throw new Error(
-                result.message ||
-                "Failed to load lost items."
+                "Unable to load lost items"
             );
 
         }
 
 
-        lostItems =
-            result.items ||
-            result.data ||
-            result ||
-            [];
+        const items =
+            await response.json();
 
 
-        if (!Array.isArray(lostItems)) {
-            lostItems = [];
-        }
+        renderItems(
+            container,
+            items,
+            "lost"
+        );
 
 
-        lostItems =
-            lostItems.map(
-                normalizeItem
-            );
+        setupItemFilters(
+            "lost",
+            items
+        );
 
 
     } catch (error) {
 
         console.error(
-            "Failed to load lost items:",
+            "Lost items error:",
             error
         );
 
 
-        grid.innerHTML = `
+        container.innerHTML = `
 
             <div class="empty-state">
 
-                <div style="font-size:55px;">
+                <div class="empty-icon">
                     ⚠️
                 </div>
 
-                <h2>
-                    Unable to Load Items
-                </h2>
+                <h3>
+                    Unable to load lost items
+                </h3>
 
                 <p>
-                    Please make sure the CampusRecover
+                    Make sure the CampusRecover
+                    backend is running on
+                    http://localhost:3000
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY FOUND ITEMS
+===================================================== */
+
+async function displayFoundItems() {
+
+    const container =
+        document.getElementById(
+            "foundItemsContainer"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/found-items`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load found items"
+            );
+
+        }
+
+
+        const items =
+            await response.json();
+
+
+        renderItems(
+            container,
+            items,
+            "found"
+        );
+
+
+        setupItemFilters(
+            "found",
+            items
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Found items error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Unable to load found items
+                </h3>
+
+                <p>
+                    Make sure the CampusRecover
                     backend is running.
                 </p>
 
@@ -888,222 +567,373 @@ async function displayLostItems() {
 
         `;
 
+    }
+
+}
+
+
+/* =====================================================
+   RENDER ITEMS
+===================================================== */
+
+function renderItems(
+    container,
+    items,
+    type
+) {
+
+    if (
+        !items ||
+        items.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ${
+                        type === "lost"
+                            ? "🔍"
+                            : "📦"
+                    }
+                </div>
+
+                <h3>
+                    No ${type} items found
+                </h3>
+
+                <p>
+                    ${
+                        type === "lost"
+                            ? "No students have reported lost items yet."
+                            : "No found items have been reported yet."
+                    }
+                </p>
+
+                <a
+                    href="${
+                        type === "lost"
+                            ? "report-lost.html"
+                            : "report-found.html"
+                    }"
+                    class="empty-action-btn"
+                >
+                    ${
+                        type === "lost"
+                            ? "Report Lost Item"
+                            : "Report Found Item"
+                    }
+                </a>
+
+            </div>
+
+        `;
+
         return;
+
     }
 
 
-    // --------------------------------------------------------
-    // RENDER ITEMS
-    // --------------------------------------------------------
+    container.innerHTML =
+        items.map(
+            item =>
+                createItemCard(
+                    item,
+                    type
+                )
+        ).join("");
 
-    function renderItems() {
-
-        const searchText =
-            searchInput
-                ? searchInput.value
-                    .toLowerCase()
-                    .trim()
-                : "";
+}
 
 
-        const selectedCategory =
-            categoryFilter
-                ? categoryFilter.value
-                : "";
+/* =====================================================
+   ITEM CARD
+===================================================== */
+
+function createItemCard(
+    item,
+    type
+) {
+
+    const id =
+        item.id ||
+        item._id ||
+        "";
 
 
-        const filteredItems =
-            lostItems.filter(item => {
-
-                const itemName =
-                    String(
-                        item.itemName || ""
-                    )
-                    .toLowerCase();
+    const itemName =
+        item.itemName ||
+        item.name ||
+        "Unnamed Item";
 
 
-                const description =
-                    String(
-                        item.description || ""
-                    )
-                    .toLowerCase();
+    const description =
+        item.description ||
+        "No description available.";
 
 
-                const location =
-                    String(
-                        item.location || ""
-                    )
-                    .toLowerCase();
+    const category =
+        item.category ||
+        "Other";
 
 
-                const matchesSearch =
-                    itemName.includes(searchText) ||
-                    description.includes(searchText) ||
-                    location.includes(searchText);
+    const location =
+        item.location ||
+        "Unknown";
 
 
-                const matchesCategory =
-                    !selectedCategory ||
-                    item.category === selectedCategory;
+    const date =
+        type === "lost"
+            ? (
+                item.lostDate ||
+                item.dateLost ||
+                "Unknown"
+            )
+            : (
+                item.dateFound ||
+                item.foundDate ||
+                "Unknown"
+            );
 
 
-                return (
-                    matchesSearch &&
-                    matchesCategory
-                );
-
-            });
+    const icon =
+        getItemIcon(category);
 
 
-        grid.innerHTML = "";
+    return `
 
+        <div class="item-card">
 
-        if (filteredItems.length === 0) {
+            <div class="item-card-top">
 
-            if (noResults) {
-
-                noResults.style.display =
-                    "block";
-
-            }
-
-            return;
-        }
-
-
-        if (noResults) {
-
-            noResults.style.display =
-                "none";
-
-        }
-
-
-        filteredItems.forEach(item => {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "item-card";
-
-
-            card.innerHTML = `
-
-                <div class="item-card-top">
-
-                    ${getItemIcon(
-                        item.category
-                    )}
-
+                <div class="item-card-icon">
+                    ${icon}
                 </div>
 
+                <span
+                    class="${
+                        type === "lost"
+                            ? "lost-badge"
+                            : "found-badge"
+                    }"
+                >
+                    ${
+                        type === "lost"
+                            ? "LOST"
+                            : "FOUND"
+                    }
+                </span>
 
-                <div class="item-card-content">
-
-                    <span class="lost-badge">
-                        LOST
-                    </span>
+            </div>
 
 
-                    <h3>
+            <div class="item-card-content">
+
+                <h3>
+                    ${escapeHTML(itemName)}
+                </h3>
+
+
+                <p class="item-description">
+
+                    ${escapeHTML(description)}
+
+                </p>
+
+
+                <div class="item-details-list">
+
+                    <div class="item-detail-row">
+
+                        📂
+
+                        <strong>
+                            Category:
+                        </strong>
+
                         ${escapeHTML(
-                            item.itemName
+                            formatCategory(category)
                         )}
-                    </h3>
-
-
-                    <p class="item-description">
-
-                        ${escapeHTML(
-                            item.description
-                        )}
-
-                    </p>
-
-
-                    <div class="item-details-list">
-
-
-                        <div class="item-detail-row">
-
-                            📂
-
-                            <strong>
-                                Category:
-                            </strong>
-
-                            ${formatCategory(
-                                item.category
-                            )}
-
-                        </div>
-
-
-                        <div class="item-detail-row">
-
-                            📍
-
-                            <strong>
-                                Location:
-                            </strong>
-
-                            ${escapeHTML(
-                                item.location
-                            )}
-
-                        </div>
-
-
-                        <div class="item-detail-row">
-
-                            📅
-
-                            <strong>
-                                Date:
-                            </strong>
-
-                            ${formatDate(
-                                item.lostDate
-                            )}
-
-                        </div>
-
 
                     </div>
 
 
-                    <a
-                        href="item-details.html?id=${encodeURIComponent(
-                            item.id
-                        )}&type=lost"
-                        class="view-details-btn"
-                    >
-                        View Details →
-                    </a>
+                    <div class="item-detail-row">
 
+                        📍
+
+                        <strong>
+                            Location:
+                        </strong>
+
+                        ${escapeHTML(
+                            formatLocation(location)
+                        )}
+
+                    </div>
+
+
+                    <div class="item-detail-row">
+
+                        📅
+
+                        <strong>
+                            Date:
+                        </strong>
+
+                        ${escapeHTML(
+                            formatDate(date)
+                        )}
+
+                    </div>
 
                 </div>
 
-            `;
+
+                <a
+                    href="item-details.html?id=${encodeURIComponent(id)}&type=${type}"
+                    class="view-details-btn"
+                >
+                    View Details →
+                </a>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 
-            grid.appendChild(card);
+/* =====================================================
+   SEARCH + CATEGORY FILTER
+===================================================== */
 
-        });
+function setupItemFilters(
+    type,
+    originalItems
+) {
 
+    const searchInput =
+        document.getElementById(
+            `${type}Search`
+        );
+
+
+    const categoryFilter =
+        document.getElementById(
+            `${type}CategoryFilter`
+        );
+
+
+    if (
+        !searchInput &&
+        !categoryFilter
+    ) {
+        return;
     }
 
 
-    renderItems();
+    const applyFilters = () => {
+
+        let filtered =
+            [...originalItems];
+
+
+        const search =
+            searchInput
+                ? searchInput.value
+                    .trim()
+                    .toLowerCase()
+                : "";
+
+
+        const category =
+            categoryFilter
+                ? categoryFilter.value
+                    .trim()
+                    .toLowerCase()
+                : "";
+
+
+        if (search) {
+
+            filtered =
+                filtered.filter(item => {
+
+                    const text = `
+
+                        ${
+                            item.itemName ||
+                            item.name ||
+                            ""
+                        }
+
+                        ${
+                            item.description ||
+                            ""
+                        }
+
+                        ${
+                            item.location ||
+                            ""
+                        }
+
+                        ${
+                            item.category ||
+                            ""
+                        }
+
+                    `.toLowerCase();
+
+
+                    return text.includes(
+                        search
+                    );
+
+                });
+
+        }
+
+
+        if (category) {
+
+            filtered =
+                filtered.filter(item =>
+
+                    String(
+                        item.category || ""
+                    )
+                    .toLowerCase()
+                    .includes(category)
+
+                );
+
+        }
+
+
+        const container =
+            document.getElementById(
+                `${type}ItemsContainer`
+            );
+
+
+        renderItems(
+            container,
+            filtered,
+            type
+        );
+
+    };
 
 
     if (searchInput) {
 
         searchInput.addEventListener(
             "input",
-            renderItems
+            applyFilters
         );
 
     }
@@ -1113,7 +943,7 @@ async function displayLostItems() {
 
         categoryFilter.addEventListener(
             "change",
-            renderItems
+            applyFilters
         );
 
     }
@@ -1121,19 +951,19 @@ async function displayLostItems() {
 }
 
 
-// ============================================================
-// ITEM DETAILS PAGE
-// ============================================================
+/* =====================================================
+   ITEM DETAILS
+===================================================== */
 
 async function displayItemDetails() {
 
-    const detailsCard =
+    const container =
         document.getElementById(
-            "itemDetailsCard"
+            "itemDetailsContainer"
         );
 
 
-    if (!detailsCard) {
+    if (!container) {
         return;
     }
 
@@ -1144,395 +974,211 @@ async function displayItemDetails() {
         );
 
 
-    const itemId =
+    const id =
         params.get("id");
 
 
-    const itemType =
-        params.get("type");
+    const type =
+        params.get("type") ||
+        "found";
 
 
-    console.log(
-        "Item Details ID:",
-        itemId
-    );
+    if (!id) {
 
-
-    console.log(
-        "Item Details Type:",
-        itemType
-    );
-
-
-    // --------------------------------------------------------
-    // INVALID URL
-    // --------------------------------------------------------
-
-    if (!itemId || !itemType) {
-
-        detailsCard.innerHTML = `
+        container.innerHTML = `
 
             <div class="empty-state">
 
-                <div style="font-size:55px;">
-                    🔎
+                <div class="empty-icon">
+                    ⚠️
                 </div>
 
-                <h2>
-                    Item Not Found
-                </h2>
+                <h3>
+                    Invalid Item
+                </h3>
 
                 <p>
-                    The item information is missing
-                    or the link is invalid.
+                    No item ID was provided.
                 </p>
-
-                <a
-                    href="found-items.html"
-                    class="primary-action-btn"
-                >
-                    Back to Found Items
-                </a>
 
             </div>
 
         `;
 
         return;
+
     }
-
-
-    // --------------------------------------------------------
-    // GET ITEM FROM BACKEND
-    // --------------------------------------------------------
-
-    let item;
 
 
     try {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/items/${encodeURIComponent(
-                    itemId
-                )}`
+                `${API_BASE_URL}/items/${encodeURIComponent(id)}`
             );
-
-
-        const result =
-            await response.json();
 
 
         if (!response.ok) {
 
             throw new Error(
-                result.message ||
-                "Item not found."
+                "Item not found"
             );
 
         }
 
 
-        item =
-            result.item ||
-            result.data ||
-            result;
+        const item =
+            await response.json();
 
 
-        item =
-            normalizeItem(item);
+        container.innerHTML = `
 
+            <div class="details-card">
 
-    } catch (error) {
+                <div class="details-badge">
 
-        console.error(
-            "Failed to load item:",
-            error
-        );
+                    ${
+                        type === "lost"
+                            ? "🔍 LOST ITEM"
+                            : "📦 FOUND ITEM"
+                    }
 
-
-        detailsCard.innerHTML = `
-
-            <div class="empty-state">
-
-                <div style="font-size:55px;">
-                    📦
                 </div>
-
-                <h2>
-                    Item Not Found
-                </h2>
-
-                <p>
-                    This item could not be loaded
-                    from the backend.
-                </p>
-
-                <a
-                    href="${
-                        itemType === "lost"
-                            ? "lost-items.html"
-                            : "found-items.html"
-                    }"
-                    class="primary-action-btn"
-                >
-                    Back to Items
-                </a>
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    if (!item || !item.id) {
-
-        detailsCard.innerHTML = `
-
-            <div class="empty-state">
-
-                <div style="font-size:55px;">
-                    📦
-                </div>
-
-                <h2>
-                    Item Not Found
-                </h2>
-
-                <p>
-                    This item could not be found.
-                </p>
-
-                <a
-                    href="${
-                        itemType === "lost"
-                            ? "lost-items.html"
-                            : "found-items.html"
-                    }"
-                    class="primary-action-btn"
-                >
-                    Back to Items
-                </a>
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    // --------------------------------------------------------
-    // ITEM DATA
-    // --------------------------------------------------------
-
-    const date =
-        itemType === "found"
-            ? item.dateFound
-            : item.lostDate;
-
-
-    const time =
-        itemType === "found"
-            ? item.timeFound
-            : item.lostTime;
-
-
-    const status =
-        item.status ||
-        (
-            itemType === "found"
-                ? "FOUND"
-                : "LOST"
-        );
-
-
-    const backPage =
-        itemType === "found"
-            ? "found-items.html"
-            : "lost-items.html";
-
-
-    // --------------------------------------------------------
-    // DISPLAY DETAILS
-    // --------------------------------------------------------
-
-    detailsCard.innerHTML = `
-
-        <div class="details-header">
-
-            <div class="details-icon">
-
-                ${getItemIcon(
-                    item.category
-                )}
-
-            </div>
-
-
-            <div>
-
-                <span class="section-label">
-
-                    ${escapeHTML(status)}
-
-                </span>
 
 
                 <h1>
-
                     ${escapeHTML(
-                        item.itemName
+                        item.itemName ||
+                        "Unnamed Item"
                     )}
-
                 </h1>
 
 
-                <p>
+                <p class="details-description">
 
                     ${escapeHTML(
-                        item.description
+                        item.description ||
+                        "No description"
                     )}
 
                 </p>
 
-            </div>
 
-        </div>
+                <div class="details-grid">
 
-
-        <div class="details-grid">
-
-
-            <div class="detail-box">
-
-                <span class="detail-label">
-                    Category
-                </span>
-
-                <span class="detail-value">
-
-                    ${formatCategory(
-                        item.category
-                    )}
-
-                </span>
-
-            </div>
+                    <div>
+                        <span>Category</span>
+                        <strong>
+                            ${escapeHTML(
+                                formatCategory(
+                                    item.category
+                                )
+                            )}
+                        </strong>
+                    </div>
 
 
-            <div class="detail-box">
-
-                <span class="detail-label">
-                    Location
-                </span>
-
-                <span class="detail-value">
-
-                    📍
-                    ${escapeHTML(
-                        item.location
-                    )}
-
-                </span>
-
-            </div>
+                    <div>
+                        <span>Location</span>
+                        <strong>
+                            ${escapeHTML(
+                                formatLocation(
+                                    item.location
+                                )
+                            )}
+                        </strong>
+                    </div>
 
 
-            <div class="detail-box">
+                    <div>
+                        <span>Date</span>
+                        <strong>
+                            ${escapeHTML(
+                                formatDate(
+                                    type === "lost"
+                                        ? item.lostDate
+                                        : item.dateFound
+                                )
+                            )}
+                        </strong>
+                    </div>
 
-                <span class="detail-label">
-
-                    ${
-                        itemType === "found"
-                            ? "Date Found"
-                            : "Date Lost"
-                    }
-
-                </span>
-
-                <span class="detail-value">
-
-                    ${formatDate(date)}
-
-                </span>
-
-            </div>
+                </div>
 
 
-            <div class="detail-box">
+                ${
+                    type === "found"
+                        ? `
+                            <a
+                                href="claim.html?id=${encodeURIComponent(id)}&type=found"
+                                class="claim-button"
+                            >
+                                Claim This Item
+                            </a>
+                        `
+                        : ""
+                }
 
-                <span class="detail-label">
-                    Approximate Time
-                </span>
 
-                <span class="detail-value">
-
-                    ${
-                        time
-                            ? escapeHTML(time)
-                            : "Not specified"
-                    }
-
-                </span>
+                <a
+                    href="${
+                        type === "lost"
+                            ? "lost-items.html"
+                            : "found-items.html"
+                    }"
+                    class="back-button"
+                >
+                    ← Back
+                </a>
 
             </div>
 
-
-        </div>
-
-
-        <div class="details-actions">
+        `;
 
 
-            ${
-                itemType === "found"
-                    ? `
+    } catch (error) {
 
-                        <a
-                            href="claim.html?id=${encodeURIComponent(
-                                item.id
-                            )}&type=found"
-                            class="primary-action-btn"
-                        >
-                            🔐 Claim This Item
-                        </a>
-
-                    `
-                    : ""
-            }
+        console.error(error);
 
 
-            <a
-                href="${backPage}"
-                class="secondary-action-btn"
-            >
-                ← Back to Items
-            </a>
+        container.innerHTML = `
 
+            <div class="empty-state">
 
-        </div>
+                <div class="empty-icon">
+                    ⚠️
+                </div>
 
-    `;
+                <h3>
+                    Item not found
+                </h3>
+
+                <p>
+                    The requested item could not be loaded.
+                </p>
+
+            </div>
+
+        `;
+
+    }
 
 }
 
 
-// ============================================================
-// CLAIM PAGE
-// ============================================================
+/* =====================================================
+   CLAIM ITEM
+===================================================== */
 
 async function displayClaimItem() {
 
-    const claimForm =
+    const container =
         document.getElementById(
-            "claimForm"
+            "claimItemContainer"
         );
 
 
-    if (!claimForm) {
+    if (!container) {
         return;
     }
 
@@ -1543,265 +1189,109 @@ async function displayClaimItem() {
         );
 
 
-    const itemId =
+    const id =
         params.get("id");
 
 
-    const itemType =
-        params.get("type");
+    if (!id) {
 
-
-    console.log(
-        "========== CLAIM PAGE =========="
-    );
-
-
-    console.log(
-        "Claim Item ID:",
-        itemId
-    );
-
-
-    console.log(
-        "Claim Item Type:",
-        itemType
-    );
-
-
-    const claimItemName =
-        document.getElementById(
-            "claimItemName"
-        );
-
-
-    const claimCategory =
-        document.getElementById(
-            "claimCategory"
-        );
-
-
-    const claimLocation =
-        document.getElementById(
-            "claimLocation"
-        );
-
-
-    const claimDate =
-        document.getElementById(
-            "claimDate"
-        );
-
-
-    const claimStatus =
-        document.getElementById(
-            "claimStatus"
-        );
-
-
-    // --------------------------------------------------------
-    // INVALID URL
-    // --------------------------------------------------------
-
-    if (!itemId || !itemType) {
-
-        if (claimItemName) {
-            claimItemName.textContent =
-                "Invalid Claim";
-        }
-
-
-        if (claimCategory) {
-            claimCategory.textContent =
-                "-";
-        }
-
-
-        if (claimLocation) {
-            claimLocation.textContent =
-                "-";
-        }
-
-
-        if (claimDate) {
-            claimDate.textContent =
-                "-";
-        }
-
-
-        if (claimStatus) {
-            claimStatus.textContent =
-                "INVALID";
-        }
-
+        container.innerHTML =
+            "<p>Invalid claim.</p>";
 
         return;
+
     }
-
-
-    // --------------------------------------------------------
-    // GET ITEM FROM BACKEND
-    // --------------------------------------------------------
-
-    let item;
 
 
     try {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/items/${encodeURIComponent(
-                    itemId
-                )}`
+                `${API_BASE_URL}/items/${encodeURIComponent(id)}`
             );
-
-
-        const result =
-            await response.json();
 
 
         if (!response.ok) {
 
             throw new Error(
-                result.message ||
-                "Item not found."
+                "Unable to load item"
             );
 
         }
 
 
-        item =
-            result.item ||
-            result.data ||
-            result;
+        const item =
+            await response.json();
 
 
-        item =
-            normalizeItem(item);
+        container.innerHTML = `
 
+            <div class="claim-item-preview">
+
+                <span class="found-badge">
+                    FOUND
+                </span>
+
+                <h2>
+                    ${escapeHTML(
+                        item.itemName ||
+                        "Unnamed Item"
+                    )}
+                </h2>
+
+                <p>
+                    ${escapeHTML(
+                        item.description ||
+                        ""
+                    )}
+                </p>
+
+                <div>
+                    📂
+                    ${escapeHTML(
+                        formatCategory(
+                            item.category
+                        )
+                    )}
+                </div>
+
+                <div>
+                    📍
+                    ${escapeHTML(
+                        formatLocation(
+                            item.location
+                        )
+                    )}
+                </div>
+
+                <div>
+                    📅
+                    ${escapeHTML(
+                        formatDate(
+                            item.dateFound
+                        )
+                    )}
+                </div>
+
+            </div>
+
+        `;
 
     } catch (error) {
 
-        console.error(
-            "Failed to load claim item:",
-            error
-        );
+        console.error(error);
 
-
-        if (claimItemName) {
-
-            claimItemName.textContent =
-                "Item Not Found";
-
-        }
-
-
-        if (claimCategory) {
-
-            claimCategory.textContent =
-                "-";
-
-        }
-
-
-        if (claimLocation) {
-
-            claimLocation.textContent =
-                "-";
-
-        }
-
-
-        if (claimDate) {
-
-            claimDate.textContent =
-                "-";
-
-        }
-
-
-        if (claimStatus) {
-
-            claimStatus.textContent =
-                "NOT FOUND";
-
-        }
-
-
-        return;
-    }
-
-
-    // --------------------------------------------------------
-    // DISPLAY ITEM
-    // --------------------------------------------------------
-
-    if (claimItemName) {
-
-        claimItemName.textContent =
-            item.itemName;
+        container.innerHTML =
+            "<p>Unable to load item.</p>";
 
     }
-
-
-    if (claimCategory) {
-
-        claimCategory.textContent =
-            formatCategory(
-                item.category
-            );
-
-    }
-
-
-    if (claimLocation) {
-
-        claimLocation.textContent =
-            item.location;
-
-    }
-
-
-    if (claimDate) {
-
-        claimDate.textContent =
-            formatDate(
-                item.dateFound ||
-                item.lostDate
-            );
-
-    }
-
-
-    if (claimStatus) {
-
-        claimStatus.textContent =
-            item.status ||
-            "FOUND";
-
-    }
-
-
-    // Store information on form
-
-    claimForm.dataset.itemId =
-        itemId;
-
-
-    claimForm.dataset.itemType =
-        itemType;
-
-
-    console.log(
-        "Claim item successfully loaded:",
-        item
-    );
 
 }
 
 
-// ============================================================
-// CLAIM FORM
-// ============================================================
+/* =====================================================
+   CLAIM FORM
+===================================================== */
 
 function setupClaimForm() {
 
@@ -1818,14 +1308,10 @@ function setupClaimForm() {
 
     form.addEventListener(
         "submit",
-        async function (event) {
+        async event => {
 
             event.preventDefault();
 
-
-            // ------------------------------------------------
-            // GET URL PARAMETERS
-            // ------------------------------------------------
 
             const params =
                 new URLSearchParams(
@@ -1837,114 +1323,24 @@ function setupClaimForm() {
                 params.get("id");
 
 
-            const itemType =
-                params.get("type");
-
-
-            // ------------------------------------------------
-            // VALIDATE
-            // ------------------------------------------------
-
-            if (!itemId || !itemType) {
-
-                alert(
-                    "Invalid claim. Please open the claim page from an item."
-                );
-
-                return;
-            }
-
-
-            // ------------------------------------------------
-            // FORM VALUES
-            // ------------------------------------------------
-
-            const claimReason =
+            const reason =
                 document
                     .getElementById(
                         "claimReason"
                     )
                     ?.value
-                    .trim();
+                    .trim() || "";
 
 
-            const ownershipDetails =
-                document
-                    .getElementById(
-                        "ownershipDetails"
-                    )
-                    ?.value
-                    .trim();
-
-
-            const contact =
-                document
-                    .getElementById(
-                        "contact"
-                    )
-                    ?.value
-                    .trim();
-
-
-            const proofInput =
-                document.getElementById(
-                    "proof"
-                );
-
-
-            // ------------------------------------------------
-            // VALIDATION
-            // ------------------------------------------------
-
-            if (
-                !claimReason ||
-                !ownershipDetails ||
-                !contact
-            ) {
+            if (!itemId) {
 
                 alert(
-                    "Please fill in all required fields."
+                    "Invalid item."
                 );
 
                 return;
+
             }
-
-
-            // ------------------------------------------------
-            // BACKEND CLAIM DATA
-            // ------------------------------------------------
-            //
-            // Current backend API accepts:
-            //
-            // {
-            //     itemId: "...",
-            //     reason: "..."
-            // }
-            //
-            // So we combine the claim information
-            // into the reason field.
-            //
-            // Contact/proof are not currently stored by
-            // the backend because they are not in the
-            // current API contract.
-            // ------------------------------------------------
-
-            const reason =
-
-                `Claim reason: ${claimReason}\n\n` +
-
-                `Ownership details: ${ownershipDetails}\n\n` +
-
-                `Contact: ${contact}`;
-
-
-            const claimData = {
-
-                itemId: itemId,
-
-                reason: reason
-
-            };
 
 
             try {
@@ -1953,6 +1349,7 @@ function setupClaimForm() {
                     await fetch(
                         `${API_BASE_URL}/claims`,
                         {
+
                             method: "POST",
 
                             headers: {
@@ -1961,43 +1358,26 @@ function setupClaimForm() {
                             },
 
                             body:
-                                JSON.stringify(
-                                    claimData
-                                )
+                                JSON.stringify({
+                                    itemId,
+                                    reason
+                                })
+
                         }
                     );
 
 
-                const result =
-                    await response.json();
-
-
                 if (!response.ok) {
 
-                    console.error(
-                        "Claim backend error:",
-                        result
+                    throw new Error(
+                        "Unable to submit claim"
                     );
 
-
-                    alert(
-                        result.message ||
-                        "Failed to submit claim."
-                    );
-
-
-                    return;
                 }
 
 
-                console.log(
-                    "Claim saved:",
-                    result
-                );
-
-
                 alert(
-                    "Claim submitted successfully! Your claim is pending campus verification."
+                    "✅ Claim submitted successfully!"
                 );
 
 
@@ -2007,14 +1387,10 @@ function setupClaimForm() {
 
             } catch (error) {
 
-                console.error(
-                    "Claim connection error:",
-                    error
-                );
-
+                console.error(error);
 
                 alert(
-                    "Could not connect to the backend. Please make sure the backend server is running."
+                    "❌ Unable to submit claim."
                 );
 
             }
@@ -2025,198 +1401,73 @@ function setupClaimForm() {
 }
 
 
-// ============================================================
-// NORMALIZE BACKEND ITEM
-// ============================================================
-
-function normalizeItem(item) {
-
-    if (!item) {
-        return null;
-    }
-
-
-    return {
-
-        // Backend uses itemId
-        // Frontend uses id
-        id:
-            item.itemId ??
-            item.id,
-
-
-        itemId:
-            item.itemId ??
-            item.id,
-
-
-        itemName:
-            item.itemName || "",
-
-
-        category:
-            item.category || "",
-
-
-        description:
-            item.description || "",
-
-
-        location:
-            item.location || "",
-
-
-        // Backend uses date
-        // Frontend previously used dateFound/lostDate
-
-        dateFound:
-            item.dateFound ??
-            item.date ??
-            "",
-
-
-        lostDate:
-            item.lostDate ??
-            item.date ??
-            "",
-
-
-        timeFound:
-            item.timeFound ??
-            item.time ??
-            "",
-
-
-        lostTime:
-            item.lostTime ??
-            item.time ??
-            "",
-
-
-        status:
-            item.status || "",
-
-
-        createdAt:
-            item.createdAt || ""
-
-    };
-
-}
-
-
-// ============================================================
-// ITEM ICON
-// ============================================================
+/* =====================================================
+   HELPERS
+===================================================== */
 
 function getItemIcon(category) {
 
-    if (!category) {
-        return "📦";
-    }
-
-
     const value =
-        category.toLowerCase();
+        String(
+            category || ""
+        ).toLowerCase();
 
 
     if (
-        value.includes("wallet") ||
-        value.includes("purse")
+        value.includes("mobile") ||
+        value.includes("phone")
     ) {
-
-        return "👛";
-
-    }
-
-
-    if (
-        value.includes("electronics") ||
-        value.includes("electronic") ||
-        value.includes("laptop")
-    ) {
-
-        return "💻";
-
-    }
-
-
-    if (
-        value.includes("phone") ||
-        value.includes("mobile")
-    ) {
-
         return "📱";
-
     }
 
 
     if (
-        value.includes("book") ||
-        value.includes("document")
+        value.includes("laptop") ||
+        value.includes("computer")
     ) {
+        return "💻";
+    }
 
+
+    if (
+        value.includes("wallet")
+    ) {
+        return "👛";
+    }
+
+
+    if (
+        value.includes("id")
+    ) {
+        return "🪪";
+    }
+
+
+    if (
+        value.includes("book")
+    ) {
         return "📚";
-
     }
 
 
     if (
-        value.includes("clothing") ||
-        value.includes("dress") ||
-        value.includes("shirt")
+        value.includes("bag")
     ) {
-
-        return "👕";
-
-    }
-
-
-    if (
-        value.includes("accessor") ||
-        value.includes("watch")
-    ) {
-
-        return "⌚";
-
-    }
-
-
-    if (
-        value.includes("bottle")
-    ) {
-
-        return "🧴";
-
-    }
-
-
-    if (
-        value.includes("bag") ||
-        value.includes("backpack")
-    ) {
-
         return "🎒";
-
     }
 
 
     if (
         value.includes("key")
     ) {
-
         return "🔑";
-
     }
 
 
     if (
-        value.includes("id") ||
-        value.includes("card")
+        value.includes("electronic")
     ) {
-
-        return "🪪";
-
+        return "🎧";
     }
 
 
@@ -2225,126 +1476,94 @@ function getItemIcon(category) {
 }
 
 
-// ============================================================
-// FORMAT CATEGORY
-// ============================================================
-
 function formatCategory(category) {
 
     if (!category) {
-        return "-";
+        return "Other";
     }
 
 
     return String(category)
-        .replace(
-            /[-_]/g,
-            " "
-        )
-        .replace(
-            /\b\w/g,
-            letter =>
-                letter.toUpperCase()
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, char =>
+            char.toUpperCase()
         );
 
 }
 
-
-// ============================================================
-// FORMAT LOCATION
-// ============================================================
 
 function formatLocation(location) {
 
     if (!location) {
-        return "-";
+        return "Unknown";
     }
 
 
-    return String(location);
+    return String(location)
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, char =>
+            char.toUpperCase()
+        );
 
 }
 
 
-// ============================================================
-// FORMAT DATE
-// ============================================================
+function formatDate(date) {
 
-function formatDate(dateString) {
-
-    if (!dateString) {
-        return "-";
+    if (!date) {
+        return "Unknown";
     }
 
 
-    const date =
-        new Date(dateString);
+    try {
+
+        const parsed =
+            new Date(date);
 
 
-    if (
-        isNaN(
-            date.getTime()
-        )
-    ) {
+        if (
+            Number.isNaN(
+                parsed.getTime()
+            )
+        ) {
 
-        return dateString;
+            return String(date);
 
-    }
-
-
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
         }
-    );
+
+
+        return parsed.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    } catch {
+
+        return String(date);
+
+    }
 
 }
 
-
-// ============================================================
-// ESCAPE HTML
-// ============================================================
 
 function escapeHTML(value) {
 
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
+    const div =
+        document.createElement(
+            "div"
         );
+
+
+    div.textContent =
+        String(
+            value ?? ""
+        );
+
+
+    return div.innerHTML;
 
 }

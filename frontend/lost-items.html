@@ -5,93 +5,177 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Lost Items - CampusRecover</title>
+    <title>Lost Items | CampusRecover</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
 </head>
 
+
 <body>
 
-    <!-- ================= NAVIGATION ================= -->
 
-    <nav class="navbar">
+<!-- ================= NAVBAR ================= -->
 
-        <div class="logo">
-            <a href="index.html">CampusRecover</a>
-        </div>
+<nav class="navbar">
 
-        <div class="nav-links">
+    <div class="nav-container">
 
-            <a href="index.html">Home</a>
-
-            <a href="lost-items.html">
-                Lost Items
-            </a>
-
-            <a href="found-items.html">
-                Found Items
-            </a>
-
-            <a href="report-lost.html">
-                Report Lost
-            </a>
-
-            <a href="report-found.html">
-                Report Found
-            </a>
-
-            <a href="dashboard.html">
-                Dashboard
-            </a>
-
-        </div>
-
-    </nav>
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Campus<span>Recover</span>
+        </a>
 
 
-    <!-- ================= LOST ITEMS ================= -->
+        <ul class="nav-links">
 
-    <main class="items-container">
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
 
-        <section class="items-header">
+            <li>
+                <a
+                    href="lost-items.html"
+                    class="active"
+                >
+                    Lost Items
+                </a>
+            </li>
 
-            <h1>Lost Items</h1>
+            <li>
+                <a href="found-items.html">
+                    Found Items
+                </a>
+            </li>
 
-            <p>
-                Browse items reported lost by students
-                on campus.
-            </p>
+            <li>
+                <a href="my-reports.html">
+                    My Reports
+                </a>
+            </li>
 
-        </section>
+            <li>
+                <a href="my-claims.html">
+                    My Claims
+                </a>
+            </li>
+
+        </ul>
 
 
-        <!-- ================= SEARCH ================= -->
+        <div class="nav-profile">
 
-        <section class="search-filter-section">
-
-            <input
-                type="text"
-                id="lostSearch"
-                placeholder="Search lost items..."
+            <a
+                href="profile.html"
+                class="profile-link"
             >
+                👤 Profile
+            </a>
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
 
 
-            <select id="lostCategoryFilter">
+
+<!-- ================= MAIN ================= -->
+
+<main class="listing-page">
+
+    <div class="listing-container">
+
+
+        <!-- HEADER -->
+
+        <div class="listing-header">
+
+            <div>
+
+                <span class="page-label">
+                    CAMPUS LOST & FOUND
+                </span>
+
+                <h1>
+                    Lost Items
+                </h1>
+
+                <p>
+                    Browse items reported missing by students on campus.
+                </p>
+
+            </div>
+
+
+            <a
+                href="report-lost.html"
+                class="header-primary-btn"
+            >
+                🔍 Report Lost Item
+            </a>
+
+        </div>
+
+
+
+        <!-- SEARCH -->
+
+        <div class="search-filter-bar">
+
+            <div class="search-box">
+
+                <span>
+                    🔎
+                </span>
+
+                <input
+                    type="text"
+                    id="lostSearch"
+                    placeholder="Search lost items..."
+                >
+
+            </div>
+
+
+            <select
+                id="lostCategoryFilter"
+                class="category-filter"
+            >
 
                 <option value="">
                     All Categories
                 </option>
 
-                <option value="electronics">
-                    Electronics
+                <option value="wallet">
+                    Wallet
                 </option>
 
-                <option value="wallet">
-                    Wallet / Purse
+                <option value="mobile">
+                    Mobile
+                </option>
+
+                <option value="laptop">
+                    Laptop
                 </option>
 
                 <option value="id-card">
@@ -99,27 +183,23 @@
                 </option>
 
                 <option value="books">
-                    Books / Notes
+                    Books
                 </option>
 
                 <option value="bag">
                     Bag
                 </option>
 
-                <option value="clothing">
-                    Clothing
-                </option>
-
                 <option value="keys">
                     Keys
                 </option>
 
-                <option value="bottle">
-                    Water Bottle
+                <option value="electronics">
+                    Electronics
                 </option>
 
-                <option value="accessories">
-                    Accessories
+                <option value="documents">
+                    Documents
                 </option>
 
                 <option value="other">
@@ -128,221 +208,56 @@
 
             </select>
 
-        </section>
+        </div>
 
 
-        <!-- ================= ITEMS GRID ================= -->
 
-        <section
-            class="items-grid"
-            id="lostItemsGrid"
-        >
-
-
-            <!-- Sample Lost Item -->
-
-            <div
-                class="item-card"
-                data-category="electronics"
-                data-name="black smartphone"
-            >
-
-                <div class="item-image">
-
-                    <div class="placeholder-image">
-                        📱
-                    </div>
-
-                </div>
-
-
-                <div class="item-content">
-
-                    <span class="item-status lost">
-                        LOST
-                    </span>
-
-
-                    <h3>
-                        Black Smartphone
-                    </h3>
-
-
-                    <p>
-                        <strong>Location:</strong>
-                        Library
-                    </p>
-
-
-                    <p>
-                        <strong>Date:</strong>
-                        20 Sep 2026
-                    </p>
-
-
-                    <a
-                        href="item-details.html"
-                        class="view-btn"
-                    >
-                        View Details
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- Sample Lost Item -->
-
-            <div
-                class="item-card"
-                data-category="wallet"
-                data-name="black wallet"
-            >
-
-                <div class="item-image">
-
-                    <div class="placeholder-image">
-                        👛
-                    </div>
-
-                </div>
-
-
-                <div class="item-content">
-
-                    <span class="item-status lost">
-                        LOST
-                    </span>
-
-
-                    <h3>
-                        Black Wallet
-                    </h3>
-
-
-                    <p>
-                        <strong>Location:</strong>
-                        Block A
-                    </p>
-
-
-                    <p>
-                        <strong>Date:</strong>
-                        19 Sep 2026
-                    </p>
-
-
-                    <a
-                        href="item-details.html"
-                        class="view-btn"
-                    >
-                        View Details
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- Sample Lost Item -->
-
-            <div
-                class="item-card"
-                data-category="bag"
-                data-name="blue backpack"
-            >
-
-                <div class="item-image">
-
-                    <div class="placeholder-image">
-                        🎒
-                    </div>
-
-                </div>
-
-
-                <div class="item-content">
-
-                    <span class="item-status lost">
-                        LOST
-                    </span>
-
-
-                    <h3>
-                        Blue Backpack
-                    </h3>
-
-
-                    <p>
-                        <strong>Location:</strong>
-                        Block B
-                    </p>
-
-
-                    <p>
-                        <strong>Date:</strong>
-                        18 Sep 2026
-                    </p>
-
-
-                    <a
-                        href="item-details.html"
-                        class="view-btn"
-                    >
-                        View Details
-                    </a>
-
-                </div>
-
-            </div>
-
-
-        </section>
-
-
-        <!-- ================= NO RESULTS ================= -->
+        <!-- ITEMS -->
 
         <div
-            id="noLostItems"
-            class="no-results"
-            style="display: none;"
+            id="lostItemsContainer"
+            class="items-grid"
         >
 
-            <h3>
-                No lost items found
-            </h3>
+            <div class="loading-state">
 
-            <p>
-                Try another search or category.
-            </p>
+                <div class="loading-spinner"></div>
+
+                <p>
+                    Loading lost items...
+                </p>
+
+            </div>
 
         </div>
 
-    </main>
+
+    </div>
+
+</main>
 
 
-    <!-- ================= FOOTER ================= -->
 
-    <footer class="footer">
+<!-- ================= FOOTER ================= -->
 
-        <p>
+<footer class="footer">
 
-            © <span class="current-year">
-                2026
-            </span>
+    <p>
 
-            CampusRecover.
-            Campus-only Lost & Found Platform.
+        ©
+        <span class="current-year"></span>
 
-        </p>
+        CampusRecover.
 
-    </footer>
+        Helping campus belongings find their owners.
+
+    </p>
+
+</footer>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
 
-    <script src="js/main.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 

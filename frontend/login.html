@@ -1,78 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CampusRecover</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Login - CampusRecover</title>
-
-    <link rel="stylesheet" href="css/style.css">
+```
+<link rel="stylesheet" href="css/style.css">
+```
 
 </head>
 
 <body>
 
-<header class="navbar">
-
-    <div class="nav-container">
-
-        <div class="logo">
-            <a href="index.html">CampusRecover</a>
-        </div>
-
-        <nav class="nav-links">
-
-            <a href="index.html">Home</a>
-
-            <a href="lost-items.html">Lost Items</a>
-
-            <a href="found-items.html">Found Items</a>
-
-            <a href="register.html">Register</a>
-
-        </nav>
-
+```
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="index.html">CampusRecover</a>
     </div>
 
-</header>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="lost-items.html">Lost Items</a>
+        <a href="found-items.html">Found Items</a>
+        <a href="login.html" class="active">Login</a>
+        <a href="register.html">Register</a>
+    </div>
+</nav>
 
+<!-- Login Section -->
+<main class="auth-page">
 
-<main class="auth-container">
+    <div class="auth-container">
 
-    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon">🔐</div>
 
-        <h1>Welcome Back</h1>
+            <h1>Welcome Back</h1>
 
-        <p>
-            Login using your campus account.
-        </p>
+            <p>
+                Login to your CampusRecover account
+            </p>
+        </div>
 
-
-        <form id="loginForm">
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
 
             <div class="form-group">
-
                 <label for="email">
-                    Campus Email
+                    Email Address
                 </label>
 
                 <input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Enter your campus email"
+                    placeholder="Enter your email"
                     required
                 >
-
             </div>
 
-
             <div class="form-group">
-
                 <label for="password">
                     Password
                 </label>
@@ -84,44 +74,153 @@
                     placeholder="Enter your password"
                     required
                 >
-
             </div>
 
+            <div class="form-options">
+                <label class="remember-me">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                    >
+                    <span>Remember me</span>
+                </label>
 
-            <button type="submit" class="submit-btn">
+                <a href="#" class="forgot-password">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
                 Login
             </button>
 
+            <div
+                id="loginMessage"
+                class="auth-message"
+            ></div>
+
         </form>
 
-
-        <p class="auth-link">
-
-            Don't have an account?
-
-            <a href="register.html">
-                Register here
-            </a>
-
-        </p>
+        <!-- Register Link -->
+        <div class="auth-footer">
+            <p>
+                Don't have an account?
+                <a href="register.html">Create an account</a>
+            </p>
+        </div>
 
     </div>
 
 </main>
 
-
+<!-- Footer -->
 <footer class="footer">
 
-    <p>
-        © <span class="current-year">2026</span>
-        CampusRecover.
-    </p>
+    <div class="footer-content">
+
+        <div>
+            <h3>CampusRecover</h3>
+
+            <p>
+                A simple platform to help students
+                recover lost belongings on campus.
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="lost-items.html">Lost Items</a>
+            <a href="found-items.html">Found Items</a>
+            <a href="register.html">Register</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © 2026 CampusRecover. All rights reserved.
+        </p>
+    </div>
 
 </footer>
 
-
 <script src="js/main.js"></script>
 
-</body>
+<script>
+    const loginForm = document.getElementById("loginForm");
 
+    loginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("loginMessage");
+
+        message.textContent = "";
+        message.className = "auth-message";
+
+        if (!email || !password) {
+            message.textContent = "Please enter your email and password.";
+            message.classList.add("error-message");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:3000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                }
+
+                if (data.user) {
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(data.user)
+                    );
+                }
+
+                message.textContent = "Login successful!";
+                message.classList.add("success-message");
+
+                setTimeout(function() {
+                    window.location.href = "dashboard.html";
+                }, 800);
+
+            } else {
+                message.textContent =
+                    data.message || "Invalid email or password.";
+
+                message.classList.add("error-message");
+            }
+
+        } catch (error) {
+
+            console.error("Login error:", error);
+
+            message.textContent =
+                "Unable to connect to the server. Please make sure the backend is running.";
+
+            message.classList.add("error-message");
+        }
+    });
+</script>
+```
+
+</body>
 </html>

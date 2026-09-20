@@ -2,250 +2,204 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Profile - CampusRecover</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>Profile | CampusRecover</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
 
 <body>
 
-    <!-- Navbar -->
+    <!-- ================= NAVBAR ================= -->
+
     <nav class="navbar">
 
-        <div class="logo">
-            CampusRecover
-        </div>
+        <div class="nav-container">
 
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="my-reports.html">My Reports</a>
-            <a href="my-claims.html">My Claims</a>
-            <a href="profile.html">Profile</a>
+            <a
+                href="index.html"
+                class="logo"
+            >
+                Campus<span>Recover</span>
+            </a>
+
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="lost-items.html">
+                        Lost Items
+                    </a>
+                </li>
+
+                <li>
+                    <a href="found-items.html">
+                        Found Items
+                    </a>
+                </li>
+
+                <li>
+                    <a href="my-reports.html">
+                        My Reports
+                    </a>
+                </li>
+
+                <li>
+                    <a href="my-claims.html">
+                        My Claims
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="nav-profile">
+
+                <a
+                    href="profile.html"
+                    class="profile-link"
+                >
+                    👤 Profile
+                </a>
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            </div>
+
         </div>
 
     </nav>
 
 
-    <!-- Profile -->
+    <!-- ================= HEADER ================= -->
+
+    <header class="page-header">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            Manage your CampusRecover account information.
+        </p>
+
+    </header>
+
+
+    <!-- ================= PROFILE ================= -->
+
     <main class="profile-container">
 
-        <div class="profile-header">
+        <div class="profile-card">
 
-            <h1>My Profile</h1>
+            <div class="profile-avatar">
+                👤
+            </div>
 
-            <p>
-                Manage your campus account information.
+            <h2>
+                Campus Student
+            </h2>
+
+            <p style="color:#667085; margin-top:5px;">
+                CampusRecover User
             </p>
 
-        </div>
+            <hr
+                style="
+                    margin:25px 0;
+                    border:none;
+                    border-top:1px solid #e2e8f0;
+                "
+            >
 
+            <div
+                style="
+                    text-align:left;
+                    display:grid;
+                    gap:15px;
+                "
+            >
 
-        <div class="profile-grid">
+                <div class="detail-box">
 
-            <!-- Profile Card -->
-            <section class="profile-card">
+                    <span class="detail-label">
+                        Account
+                    </span>
 
-                <div class="profile-avatar">
-                    D
-                </div>
-
-                <h2>Divya</h2>
-
-                <p class="profile-role">
-                    Student
-                </p>
-
-                <span class="verified-badge">
-                    ✓ Campus Account Verified
-                </span>
-
-            </section>
-
-
-            <!-- Account Information -->
-            <section class="profile-info-card">
-
-                <div class="profile-section-header">
-
-                    <div>
-                        <h2>Account Information</h2>
-                        <p>Your registered campus details.</p>
-                    </div>
-
-                </div>
-
-
-                <div class="profile-details">
-
-                    <div class="profile-detail">
-                        <span>Name</span>
-                        <strong>Divya</strong>
-                    </div>
-
-                    <div class="profile-detail">
-                        <span>Email</span>
-                        <strong>divya@student.college.edu</strong>
-                    </div>
-
-                    <div class="profile-detail">
-                        <span>Student ID</span>
-                        <strong>24WH1A0574</strong>
-                    </div>
-
-                    <div class="profile-detail">
-                        <span>Department</span>
-                        <strong>Computer Science & Engineering</strong>
-                    </div>
-
-                    <div class="profile-detail">
-                        <span>Campus</span>
-                        <strong>College Campus</strong>
-                    </div>
-
-                    <div class="profile-detail">
-                        <span>Account Status</span>
-                        <strong class="account-active">
-                            Active
-                        </strong>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- Activity Summary -->
-            <section class="profile-activity-card">
-
-                <h2>My CampusRecover Activity</h2>
-
-                <div class="profile-stats">
-
-                    <div class="profile-stat">
-                        <strong>3</strong>
-                        <span>Lost Reports</span>
-                    </div>
-
-                    <div class="profile-stat">
-                        <strong>2</strong>
-                        <span>Found Reports</span>
-                    </div>
-
-                    <div class="profile-stat">
-                        <strong>2</strong>
-                        <span>Claims</span>
-                    </div>
-
-                    <div class="profile-stat">
-                        <strong>1</strong>
-                        <span>Items Returned</span>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- Privacy & Security -->
-            <section class="profile-security-card">
-
-                <h2>Privacy & Security</h2>
-
-                <div class="security-item">
-
-                    <div>
-                        <strong>Campus-only access</strong>
-
-                        <p>
-                            Your account is limited to the verified
-                            campus network.
-                        </p>
-                    </div>
-
-                    <span class="security-status">
-                        Enabled
+                    <span class="detail-value">
+                        Student
                     </span>
 
                 </div>
 
 
-                <div class="security-item">
+                <div class="detail-box">
 
-                    <div>
-                        <strong>Ownership evidence</strong>
+                    <span class="detail-label">
+                        Platform
+                    </span>
 
-                        <p>
-                            Evidence submitted for claims is private
-                            and visible only to authorized reviewers.
-                        </p>
-                    </div>
-
-                    <span class="security-status">
-                        Protected
+                    <span class="detail-value">
+                        CampusRecover
                     </span>
 
                 </div>
 
 
-                <div class="security-item">
+                <div class="detail-box">
 
-                    <div>
-                        <strong>Account authentication</strong>
+                    <span class="detail-label">
+                        Purpose
+                    </span>
 
-                        <p>
-                            Campus authentication will be handled
-                            through secure sign-in.
-                        </p>
-                    </div>
-
-                    <span class="security-status">
-                        Secure
+                    <span class="detail-value">
+                        Campus Lost & Found
                     </span>
 
                 </div>
 
-            </section>
-
-
-            <!-- Actions -->
-            <section class="profile-actions-card">
-
-                <h2>Account Actions</h2>
-
-                <div class="profile-actions">
-
-                    <a href="dashboard.html"
-                       class="secondary-action-btn">
-                        Back to Dashboard
-                    </a>
-
-                    <a href="login.html"
-                       class="profile-logout-btn">
-                        Logout
-                    </a>
-
-                </div>
-
-            </section>
+            </div>
 
         </div>
 
     </main>
 
 
-    <!-- Footer -->
+    <!-- ================= FOOTER ================= -->
+
     <footer class="footer">
 
         <p>
-            © 2026 CampusRecover. Built for safer campus lost & found.
+            © <span id="currentYear"></span>
+            CampusRecover. Helping campus belongings find their owners.
         </p>
 
     </footer>
+
+
+    <script src="js/main.js"></script>
 
 </body>
 

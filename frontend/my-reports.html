@@ -2,309 +2,719 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Reports - CampusRecover</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>My Reports | CampusRecover</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
 
-        <div class="logo">
-            CampusRecover
-        </div>
+<!-- ================= NAVBAR ================= -->
 
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="my-reports.html">My Reports</a>
-        </div>
+<nav class="navbar">
 
-    </nav>
+    <div class="nav-container">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Campus<span>Recover</span>
+        </a>
 
 
-    <!-- Main Container -->
-    <main class="reports-container">
+        <ul class="nav-links">
 
-        <!-- Page Header -->
-        <div class="reports-header">
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
 
-            <h1>My Reports</h1>
+            <li>
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+            </li>
 
-            <p>
-                View and track the lost and found items you have reported.
-            </p>
+            <li>
+                <a href="found-items.html">
+                    Found Items
+                </a>
+            </li>
 
-        </div>
+            <li>
+                <a
+                    href="my-reports.html"
+                    class="active"
+                >
+                    My Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="my-claims.html">
+                    My Claims
+                </a>
+            </li>
+
+        </ul>
 
 
-        <!-- Filter Buttons -->
-        <div class="reports-filters">
+        <div class="nav-profile">
 
-            <button class="report-filter active">
-                All Reports
+            <a
+                href="profile.html"
+                class="profile-link"
+            >
+                👤 Profile
+            </a>
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
             </button>
 
-            <button class="report-filter">
-                Lost Items
-            </button>
-
-            <button class="report-filter">
-                Found Items
-            </button>
-
         </div>
 
+    </div>
 
-        <!-- Reports Table -->
-        <div class="reports-card">
-
-            <div class="table-wrapper">
-
-                <table class="reports-table">
-
-                    <thead>
-
-                        <tr>
-                            <th>Item</th>
-                            <th>Type</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-
-                    </thead>
+</nav>
 
 
-                    <tbody>
 
-                        <!-- Report 1 -->
-                        <tr>
+<!-- ================= PAGE ================= -->
 
-                            <td>
-                                <strong>Black Wallet</strong>
-                            </td>
+<main class="reports-page">
 
-                            <td>
-                                Lost
-                            </td>
-
-                            <td>
-                                Block A
-                            </td>
-
-                            <td>
-                                18 Sep 2026
-                            </td>
-
-                            <td>
-                                <span class="report-status matched">
-                                    MATCHED
-                                </span>
-                            </td>
-
-                            <td>
-                                <a
-                                    href="item-details.html"
-                                    class="report-view-btn">
-                                    View
-                                </a>
-                            </td>
-
-                        </tr>
+    <div class="reports-container">
 
 
-                        <!-- Report 2 -->
-                        <tr>
+        <!-- HEADER -->
 
-                            <td>
-                                <strong>Blue Water Bottle</strong>
-                            </td>
+        <div class="listing-header">
 
-                            <td>
-                                Found
-                            </td>
+            <div>
 
-                            <td>
-                                Library
-                            </td>
+                <span class="page-label">
+                    YOUR ACTIVITY
+                </span>
 
-                            <td>
-                                19 Sep 2026
-                            </td>
+                <h1>
+                    My Reports
+                </h1>
 
-                            <td>
-                                <span class="report-status found">
-                                    FOUND
-                                </span>
-                            </td>
+                <p>
+                    Track the lost and found items you have reported.
+                </p>
 
-                            <td>
-                                <a
-                                    href="item-details.html"
-                                    class="report-view-btn">
-                                    View
-                                </a>
-                            </td>
-
-                        </tr>
+            </div>
 
 
-                        <!-- Report 3 -->
-                        <tr>
+            <div class="header-action-buttons">
 
-                            <td>
-                                <strong>Scientific Calculator</strong>
-                            </td>
+                <a
+                    href="report-lost.html"
+                    class="header-primary-btn"
+                >
+                    🔍 Report Lost
+                </a>
 
-                            <td>
-                                Lost
-                            </td>
-
-                            <td>
-                                Lab 2
-                            </td>
-
-                            <td>
-                                20 Sep 2026
-                            </td>
-
-                            <td>
-                                <span class="report-status lost">
-                                    LOST
-                                </span>
-                            </td>
-
-                            <td>
-                                <a
-                                    href="item-details.html"
-                                    class="report-view-btn">
-                                    View
-                                </a>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- Report 4 -->
-                        <tr>
-
-                            <td>
-                                <strong>Black Smartphone</strong>
-                            </td>
-
-                            <td>
-                                Lost
-                            </td>
-
-                            <td>
-                                Library
-                            </td>
-
-                            <td>
-                                20 Sep 2026
-                            </td>
-
-                            <td>
-                                <span class="report-status claim-pending">
-                                    CLAIM PENDING
-                                </span>
-                            </td>
-
-                            <td>
-                                <a
-                                    href="item-details.html"
-                                    class="report-view-btn">
-                                    View
-                                </a>
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
+                <a
+                    href="report-found.html"
+                    class="header-secondary-btn"
+                >
+                    📦 Report Found
+                </a>
 
             </div>
 
         </div>
 
 
-        <!-- Status Explanation -->
-        <div class="status-info">
 
-            <h2>Report Status</h2>
+        <!-- REPORT SUMMARY -->
 
-            <div class="status-info-grid">
+        <div class="report-summary-grid">
 
-                <div class="status-info-item">
-                    <span class="report-status lost">
-                        LOST
-                    </span>
+            <div class="summary-card">
 
-                    <p>
-                        Your lost item has been reported and is waiting
-                        for a possible match.
-                    </p>
+                <div class="summary-icon lost-summary">
+                    🔍
                 </div>
 
+                <div>
 
-                <div class="status-info-item">
-                    <span class="report-status found">
-                        FOUND
+                    <span>
+                        Lost Reports
                     </span>
 
-                    <p>
-                        You reported an item that was found on campus.
-                    </p>
+                    <strong id="lostReportCount">
+                        0
+                    </strong>
+
                 </div>
 
+            </div>
 
-                <div class="status-info-item">
-                    <span class="report-status matched">
-                        MATCHED
-                    </span>
 
-                    <p>
-                        The system found a possible match. Ownership
-                        still needs to be verified.
-                    </p>
+            <div class="summary-card">
+
+                <div class="summary-icon found-summary">
+                    📦
                 </div>
 
+                <div>
 
-                <div class="status-info-item">
-                    <span class="report-status claim-pending">
-                        CLAIM PENDING
+                    <span>
+                        Found Reports
                     </span>
 
-                    <p>
-                        An ownership claim has been submitted and is
-                        waiting for verification.
-                    </p>
+                    <strong id="foundReportCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon total-summary">
+                    📋
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Reports
+                    </span>
+
+                    <strong id="totalReportCount">
+                        0
+                    </strong>
+
                 </div>
 
             </div>
 
         </div>
 
-    </main>
 
 
-    <!-- Footer -->
-    <footer class="footer">
+        <!-- LOST REPORTS -->
 
-        <p>
-            © 2026 CampusRecover. Built for safer campus lost & found.
-        </p>
+        <section class="reports-section">
 
-    </footer>
+            <div class="section-heading-row">
+
+                <div>
+
+                    <h2>
+                        🔍 Lost Items Reported
+                    </h2>
+
+                    <p>
+                        Items you reported as lost.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="myLostReports"
+                class="reports-grid"
+            >
+
+                <div class="loading-state">
+
+                    <div class="loading-spinner"></div>
+
+                    <p>
+                        Loading your lost reports...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FOUND REPORTS -->
+
+        <section class="reports-section">
+
+            <div class="section-heading-row">
+
+                <div>
+
+                    <h2>
+                        📦 Found Items Reported
+                    </h2>
+
+                    <p>
+                        Items you reported as found.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="myFoundReports"
+                class="reports-grid"
+            >
+
+                <div class="loading-state">
+
+                    <div class="loading-spinner"></div>
+
+                    <p>
+                        Loading your found reports...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        ©
+        <span class="current-year"></span>
+
+        CampusRecover.
+
+        Helping campus belongings find their owners.
+
+    </p>
+
+</footer>
+
+
+
+<script src="js/main.js"></script>
+
+
+<!-- ================= MY REPORTS SCRIPT ================= -->
+
+<script>
+
+const API_URL = "http://localhost:3000";
+
+
+async function loadMyReports() {
+
+    const lostContainer =
+        document.getElementById("myLostReports");
+
+    const foundContainer =
+        document.getElementById("myFoundReports");
+
+
+    try {
+
+        const response =
+            await fetch(`${API_URL}/items`);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to fetch reports"
+            );
+
+        }
+
+
+        const items =
+            await response.json();
+
+
+        const lostItems =
+            items.filter(
+                item =>
+                    String(item.type || item.itemType || "")
+                        .toUpperCase() === "LOST"
+                    ||
+                    item.lostDate
+            );
+
+
+        const foundItems =
+            items.filter(
+                item =>
+                    String(item.type || item.itemType || "")
+                        .toUpperCase() === "FOUND"
+                    ||
+                    item.dateFound
+            );
+
+
+        document.getElementById(
+            "lostReportCount"
+        ).textContent =
+            lostItems.length;
+
+
+        document.getElementById(
+            "foundReportCount"
+        ).textContent =
+            foundItems.length;
+
+
+        document.getElementById(
+            "totalReportCount"
+        ).textContent =
+            lostItems.length + foundItems.length;
+
+
+        displayReports(
+            lostContainer,
+            lostItems,
+            "lost"
+        );
+
+
+        displayReports(
+            foundContainer,
+            foundItems,
+            "found"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "My Reports Error:",
+            error
+        );
+
+
+        lostContainer.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">⚠️</div>
+                <h3>Unable to load reports</h3>
+                <p>
+                    Please make sure the CampusRecover backend
+                    is running on port 3000.
+                </p>
+            </div>
+        `;
+
+
+        foundContainer.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">⚠️</div>
+                <h3>Unable to load reports</h3>
+                <p>
+                    Please make sure the CampusRecover backend
+                    is running on port 3000.
+                </p>
+            </div>
+        `;
+
+    }
+
+}
+
+
+
+function displayReports(
+    container,
+    items,
+    type
+) {
+
+
+    if (!items || items.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ${
+                        type === "lost"
+                            ? "🔍"
+                            : "📦"
+                    }
+                </div>
+
+                <h3>
+                    No ${
+                        type === "lost"
+                            ? "lost"
+                            : "found"
+                    } reports yet
+                </h3>
+
+                <p>
+                    ${
+                        type === "lost"
+                            ? "If you lose something, report it here."
+                            : "If you find something, report it here."
+                    }
+                </p>
+
+                <a
+                    href="${
+                        type === "lost"
+                            ? "report-lost.html"
+                            : "report-found.html"
+                    }"
+                    class="empty-action-btn"
+                >
+                    ${
+                        type === "lost"
+                            ? "Report Lost Item"
+                            : "Report Found Item"
+                    }
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    container.innerHTML = items.map(item => {
+
+
+        const itemName =
+            item.itemName ||
+            item.name ||
+            "Unnamed Item";
+
+
+        const description =
+            item.description ||
+            "No description provided";
+
+
+        const category =
+            item.category ||
+            "Other";
+
+
+        const location =
+            item.location ||
+            "Unknown";
+
+
+        const date =
+            type === "lost"
+                ? (
+                    item.lostDate ||
+                    item.dateLost ||
+                    "Unknown"
+                )
+                : (
+                    item.dateFound ||
+                    item.foundDate ||
+                    "Unknown"
+                );
+
+
+        const id =
+            item.id ||
+            item._id;
+
+
+        const status =
+            item.status ||
+            (
+                type === "lost"
+                    ? "LOST"
+                    : "FOUND"
+            );
+
+
+        return `
+
+            <div class="my-report-card">
+
+                <div class="my-report-top">
+
+                    <div class="my-report-icon">
+
+                        ${
+                            type === "lost"
+                                ? "🔍"
+                                : "📦"
+                        }
+
+                    </div>
+
+
+                    <span
+                        class="${
+                            type === "lost"
+                                ? "lost-badge"
+                                : "found-badge"
+                        }"
+                    >
+
+                        ${
+                            type === "lost"
+                                ? "LOST"
+                                : "FOUND"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="my-report-content">
+
+                    <h3>
+                        ${escapeText(itemName)}
+                    </h3>
+
+
+                    <p class="report-description">
+
+                        ${escapeText(description)}
+
+                    </p>
+
+
+                    <div class="report-meta">
+
+                        <div>
+
+                            📂
+
+                            <strong>
+                                Category:
+                            </strong>
+
+                            ${escapeText(category)}
+
+                        </div>
+
+
+                        <div>
+
+                            📍
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            ${escapeText(location)}
+
+                        </div>
+
+
+                        <div>
+
+                            📅
+
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${escapeText(date)}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-status-row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong class="status-${String(status).toLowerCase()}">
+
+                            ${escapeText(status)}
+
+                        </strong>
+
+                    </div>
+
+
+                    <a
+                        href="item-details.html?id=${encodeURIComponent(id)}&type=${type}"
+                        class="report-view-btn"
+                    >
+                        View Details →
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+
+function escapeText(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        String(value ?? "");
+
+    return div.innerHTML;
+
+}
+
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadMyReports
+);
+
+</script>
 
 
 </body>
